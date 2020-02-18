@@ -26,6 +26,7 @@
 
 <section class='content'>
 	<h1>{post.metadata.title}</h1>
+	<span class="date">{post.metadata.pubdate}</span>
 	{@html post.html}
 </section>
 

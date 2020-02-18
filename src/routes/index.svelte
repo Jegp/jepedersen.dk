@@ -1,8 +1,12 @@
 <svelte:head>
-	<title>Sapper v3</title>
+	<title>J. E. Pedersen</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<p>
+Welcome to the private site of Jens E. Pedersen. All opinions expressed here are his.
+</p>
+
+<h2>Posts</h2>
 
 <ul>
 	{#each posts as post}
@@ -19,12 +23,14 @@
 				{/if}
 				{post.title}
 			</a>
+			<span class="date">{post.pubdate}</span>
 		</li>
 	{/each}
 </ul>
 
 <style>
 	figure img {
+		background-color: transparent;
 		max-width: 202px;
 	}
 
@@ -41,14 +47,14 @@
 		width: 202px;
 	}
 
-	h1 {
-		font-size: 2.8em;
+	h2 {
+		font-size: 1.8em;
 		text-transform: uppercase;
-		font-weight: 700;
+		font-weight: 600;
 		margin: 0.25em 0 0.0625em;
 	}
 
-	ul {
+	ul, p {
 		align-items: flex-start;
 		display: -webkit-box;
 		display: -moz-box;
@@ -74,9 +80,13 @@
 		display: block;
 	}
 
+	.date {
+		font-size:90%;
+	}
+
 	@media (min-width: 480px) {
 		h1 {
-			font-size: 4em;
+			font-size: 3em;
 		}
 	}
 </style>

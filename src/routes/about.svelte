@@ -3,22 +3,25 @@
 </svelte:head>
 
 <figure>
-	<img src="./fox.gif" alt="" height="512" width="512" />
+	<img src="./jens.png" alt="" width="300" />
 		<figcaption>
-			<a href="http://www.alessiaolivari.com/the-playing-fox/">
-				The Playing Fox
-			</a>
-			by
-			<a href="https://www.instagram.com/alessiaolivari/">
-				Alessia Olivari
-			</a>
+			Foto by <a href="https://www.linkedin.com/in/kevlee1/" title="Taken in Spain, 2019">Kevin Lee</a>.
 		</figcaption>
 </figure>
 
 
 <section class='content'>
-	<h1>About this site</h1>
-	<p>This site is part of an ongoing series of experiments with <a href="https://sapper.svelte.dev/">Sapper</a>, <a href="https://svelte.dev/">Svelte</a>, and <a href="https://daringfireball.net/projects/markdown/">Markdown</a>. To accommodate <a href="https://gitlab.com/help/user/project/pages/index.md">GitLab Pages</a>, we are making use of <a href="https://sapper.svelte.dev/docs#Base_URLs">Sapper&rsquo;s Base URL support</a> to <a href="https://gitlab.com/rdela/sapper-v3/blob/master/README.md#gitlab-pages-adjustments">alter the base path to <code>sapper-v3/</code></a>. Have a look at the <a href="https://gitlab.com/rdela/sapper-v3">source code on GitLab</a> or visit the <a href="https://kokodokai.com/">Netlify + root directory version</a>.</p>
+	<h1>About</h1>
+	<p>Jens Egholm Pedersen is a doctoral student at the
+	<a href="https://www.kth.se/profile/jeped/" title="KTH">Royal Institute of Technology (KTH)</a>.
+	
+	He is currently working on cognitive circuits, neuromorphic computing and robots.
+	</p>
+	<p>
+	Find him on <a href="https://twitter.com/jensegholm" title="Twitter">Twitter</a> 
+	or
+	<a href="https://github.com/jegp/" title="GitHub">GitHub</a>.
+	</p>
 </section>
 
 <script context="module">

@@ -34,7 +34,11 @@
 		color: rgb(170,30,30);
 	}
 
-	a {
+	.deselected {
+		color: rgb(0, 0, 0);
+	}
+
+	a, span {
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
@@ -43,6 +47,8 @@
 
 <nav>
 	<ul>
+		<li><a class='deselected' href='.'>J. E. Pedersen</a></li>
+		<li></li>
 		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>home</a></li>
 		<li><a class='{segment === "about" ? "selected" : ""}' href='about'>about</a></li>
 	</ul>
