@@ -12,7 +12,6 @@
 	}
 	footer {
 		align-items: flex-start;
-		background-color: #EEE;
 		flex-direction: column;
 		color: #444;
 		display: flex;
