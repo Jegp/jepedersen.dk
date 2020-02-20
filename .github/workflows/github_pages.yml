@@ -26,11 +26,11 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build
-      - run: echo "jepedersen.dk" > ./__sapper__/build/CNAME
+      - run: npm run export
+      - run: echo "jepedersen.dk" > ./__sapper__/export/sapper-v3/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.PERSONAL_DEPLOY_KEY }}
-          publish_dir: ./__sapper__/build/
+          publish_dir: ./__sapper__/export/sapper-v3/
