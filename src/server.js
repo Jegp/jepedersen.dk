@@ -8,7 +8,7 @@ const dev = NODE_ENV === 'development';
 
 polka() // You can also use Express
 	.use(
-		'/sapper-v3', // needed for GitLab Pages, see About + readme
+		'/', // needed for GitLab Pages, see About + readme
 		compression({ threshold: 0 }),
 		sirv('static', { dev }),
 		sapper.middleware()
