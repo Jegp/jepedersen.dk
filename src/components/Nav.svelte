@@ -43,12 +43,34 @@
 		padding: 1em 0.5em;
 		display: block;
 	}
+
+	@media (max-width: 900px) {
+		nav ul, nav li, nav a {
+			padding: 3px 0;
+		}
+		nav li.fill {
+			width: 0;
+		}
+	}
+
+	@media (max-width: 660px) {
+		nav ul, nav li, nav a {
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+
+	@media (max-width: 480px) {
+		nav ul, nav li, nav a {
+			padding: 3px 0;
+		}
+	}
 </style>
 
 <nav>
 	<ul>
 		<li><a class='deselected' href='.'>J. E. Pedersen</a></li>
-		<li></li>
+		<li class="fill"></li>
 		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>home</a></li>
 		<li><a class='{segment === "about" ? "selected" : ""}' href='about'>about</a></li>
 	</ul>

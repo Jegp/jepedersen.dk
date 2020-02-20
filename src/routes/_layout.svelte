@@ -20,6 +20,13 @@
 		padding-top: 1em;
 	}
 
+
+	@media (max-width: 900px) {
+		main, footer {
+			padding: 0 .5em;
+		}
+	}
+
 </style>
 
 <Nav {segment}/>

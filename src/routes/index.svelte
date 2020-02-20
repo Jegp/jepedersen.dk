@@ -3,9 +3,11 @@
 </svelte:head>
 
 <p>
-Welcome to the private site of Jens E. Pedersen. All opinions expressed here are his.
+Research, thoughts and notes of Jens E. Pedersen. All opinions expressed here are his.
 </p>
 
+<br>
+<br>
 
 <h2>Posts</h2>
 
