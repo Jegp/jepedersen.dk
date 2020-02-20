@@ -27,7 +27,7 @@ jobs:
       - run: npm ci
 
       - run: npm run export
-      - run: echo "jepedersen.dk" > ./__sapper__/export/sapper-v3/
+      - run: echo "jepedersen.dk" > ./__sapper__/export/sapper-v3/CNAME
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
