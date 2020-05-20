@@ -7,7 +7,7 @@ const renderXmlRssFeed = (posts) => `<?xml version="1.0" encoding="UTF-8" ?>
 <channel>
     <title><![CDATA[Jens E. Pedersen]]></title>
     <link>${siteUrl}</link>
-  <description><![CDATA[A developer's blog. Might be useful. Maybe.]]></description>
+  <description><![CDATA[Personal site of Jens E. Pedersen]]></description>
   <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <image>
         <url>${siteUrl}/jens.jpg</url>
@@ -41,7 +41,7 @@ export function get(req, res) {
         title: post.metadata.title,
         date: post.metadata.date,
         description: post.metadata.description,
-        slug: post.slug,
+        slug: post.slug
       };
     });
   const feed = renderXmlRssFeed(posts);

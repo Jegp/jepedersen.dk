@@ -3,7 +3,7 @@ import path from 'path';
 import marked from 'marked';
 import katex from 'katex';
 
-export function getPosts() {
+export function getPosts () {
 	const slugs = fs.readdirSync('posts')
 		.filter(file => path.extname(file) === '.md')
 		.map(file => file.slice(0, -3));
@@ -23,10 +23,6 @@ export function getPost(slug) {
 
 	const date = new Date(`${metadata.pubdate} EDT`); // cheeky hack
 	metadata.dateString = date.toDateString();
-
-	if (metadata.hasOwnProperty("link")) {
-		slug = metadata.link;
-	}
 
 	const html_markdown = marked(content);
 	const html = process_latex(html_markdown);

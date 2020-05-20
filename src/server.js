@@ -8,10 +8,9 @@ const dev = NODE_ENV === 'development';
 
 polka() // You can also use Express
 	.use(
-		'/', // needed for GitLab Pages, see About + readme
 		compression({ threshold: 0 }),
 		sirv('static', { dev }),
-		sapper.middleware()
+		sapper.middleware({ ignore: ['/static/slides']})
 	)
 	.listen(PORT, err => {
 		if (err) console.log('error', err);

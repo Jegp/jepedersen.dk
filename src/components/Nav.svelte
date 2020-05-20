@@ -23,6 +23,13 @@
 		width: 100%;
 	}
 
+	/* clearfix */
+	ul::after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
 	ul li {
 		list-style-type: none;
 		padding: 11px;
@@ -44,27 +51,6 @@
 		display: block;
 	}
 
-	@media (max-width: 900px) {
-		nav ul, nav li, nav a {
-			padding: 3px 0;
-		}
-		nav li.fill {
-			width: 0;
-		}
-	}
-
-	@media (max-width: 660px) {
-		nav ul, nav li, nav a {
-			flex-direction: column;
-			align-items: center;
-		}
-	}
-
-	@media (max-width: 480px) {
-		nav ul, nav li, nav a {
-			padding: 3px 0;
-		}
-	}
 </style>
 
 <nav>
