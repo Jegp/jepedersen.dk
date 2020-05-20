@@ -84,6 +84,7 @@ Research, thoughts and notes of Jens E. Pedersen. All opinions expressed here ar
 	}
 
 	.date {
+		color: rgba(0, 0, 0, 0.5);
 		font-size:90%;
 	}
 
