@@ -15,7 +15,7 @@
 	<p>Jens Egholm Pedersen is a doctoral student at the
 	<a href="https://www.kth.se/profile/jeped/" title="KTH">Royal Institute of Technology (KTH)</a>.
 	
-	He is currently working on cognitive circuits, neuromorphic computing and robots.
+	He is currently working on spiking neural networks, dynamic vision systems, neuromorphic computing, and robots.
 	</p>
 	<p>
 	Find him on <a href="https://twitter.com/jensegholm" title="Twitter">Twitter</a> 
