@@ -3,9 +3,11 @@
 </svelte:head>
 
 <p>
-Research, thoughts and notes of Jens E. Pedersen. All opinions expressed here are his.
+Research, thoughts and notes of Jens E. Pedersen.
 </p>
-
+<p>
+<iframe src="https://github.com/sponsors/Jegp/button" title="Sponsor Jegp" height="35" width="116" style="border: 0;"></iframe>
+&nbsp;</p>
 <br>
 <br>
 
@@ -30,6 +32,12 @@ Research, thoughts and notes of Jens E. Pedersen. All opinions expressed here ar
 		</li>
 	{/each}
 </ul>
+
+<h2>Social media</h2>
+
+<p>
+<a class="twitter-timeline" data-width="800" data-height="400" data-dnt="true" href="https://twitter.com/jensegholm?ref_src=twsrc%5Etfw">Tweets by jensegholm</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+</p>
 
 <style>
 	figure img {
