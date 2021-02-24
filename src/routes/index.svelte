@@ -33,12 +33,6 @@ Research, thoughts and notes of Jens E. Pedersen.
 	{/each}
 </ul>
 
-<h2>Social media</h2>
-
-<p>
-<a class="twitter-timeline" data-width="800" data-height="400" data-dnt="true" href="https://twitter.com/jensegholm?ref_src=twsrc%5Etfw">Tweets by jensegholm</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-</p>
-
 <style>
 	figure img {
 		background-color: transparent;
