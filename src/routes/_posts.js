@@ -56,7 +56,6 @@ function process_markdown(markdown) {
 
 function process_latex(html) {
 	const toLatex = (match, g1) => {
-		console.log(g1)
 		return katex.renderToString(g1)
 	}
 	const regexp = /\$+(.*[^\$])\$+/g;
