@@ -12,7 +12,7 @@ Research, thoughts and notes of Jens E. Pedersen.
 <br>
 
 <h2>Posts</h2>
-
+<br/>
 <ul>
 	{#each posts as post}
 		<!-- we're using the non-standard `rel=prefetch` attribute to
@@ -36,7 +36,8 @@ Research, thoughts and notes of Jens E. Pedersen.
 <style>
 	figure img {
 		background-color: transparent;
-		max-width: 202px;
+		max-height: 202px;
+		width: auto;
 	}
 
 	figure span {
@@ -48,8 +49,6 @@ Research, thoughts and notes of Jens E. Pedersen.
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		height: 202px;
-		width: 202px;
 	}
 
 	h2 {
@@ -78,7 +77,10 @@ Research, thoughts and notes of Jens E. Pedersen.
 		list-style-type: none;
 		padding: 11px;
 		text-align: center;
-		width: 202px;
+	}
+	ul li:hover {
+		border-bottom: 1px solid black;
+		padding-bottom: 10px;
 	}
 
 	li a {
