@@ -13,12 +13,6 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 1.2;
 }
 
-h2 {
-	font-size: 2em;
-	margin: 0.125em auto 0.375em;
-	text-align: center;
-}
-
 a {
 	color: #55f;
 }
