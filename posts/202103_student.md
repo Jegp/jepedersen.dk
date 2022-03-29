@@ -10,15 +10,16 @@ Emphasis on the word **guide**; critical thinking is your friend in *every* aspe
 
 ### Getting started
 
-No matter what type of pressure your put under to deliver a product for a company,
+No matter what type of pressure you're put under to deliver a product for a company,
 good grades for your mom, money for your family etc., what you have to produce here
 is **science**. 
 That can be interpreted to mean two things: your work needs to be **interesting**
 and **falsifiable**.
 
-1. Interesting work means that you are not solving a problem that has not already 
-been solved. This is actually not trivial. How would you know? What are interesting
-questions. Well, unfortunately, no one knows. This a large part of why science is
+1. Interesting work means that you are not solving a problem that has already 
+been solved. This is actually not trivial. How would you know what is <i>interesting</i>? 
+What, exactly, are interesting questions?
+Well, unfortunately, no one knows. This a large part of why science is
 hard. Your best bet, I think, is to go where your common sense takes you: think 
 about what you've already learned (which is a lot) and ask the necessary questions.
 
