@@ -48,8 +48,8 @@ units (GPUs) market: the bigger network, the better approximations.
 
 It still took several decades before the idea of a universal function
 approximator could be used to solve problems with any form of practical
-relevance. Theoretically, this was already solved in 1986
-[@Rumelhart_Hinton_Williams_1986], where @Rumelhart_Hinton_Williams_1986
+relevance. Theoretically, this was already solved in 1986,
+where @Rumelhart_Hinton_Williams_1986
 showed that large nets could be "trained" by *searching* for optimal
 configurations in a sea of possibilities. However, it was not until the
 early 2000's that sufficiently powerful hardware came along to build and
@@ -73,12 +73,21 @@ parts of the conundrum with two ancient ideas: symmetry
 
 It turns out that symmetry is a useful property during learning. If you
 are to, say, identify a cat in an image, it should not matter how big
-the cat is. Or where in the picture the cat is. Therefore, the fact that
-there is a cat in an image should not be influenced by the size or the
-Coming back to the t $y \in \mathbb{C}: \{\text{CAT}, \neg\text{CAT}\}$
+the cat is. Or where in the picture the cat is. In other words, we
+want to find a way to learn a way to look at cats that are *symmetric*
+under scale (size) or translation (location in picture). This symmetry
+is normally called *invariance*, because the idea that a cat is in the
+picture *does not vary* if the cat is very large and dead-center, or 
+really small in the lower left corner. We identify cats independently
+from those *distortions*, $\xi$.
+
+We can write this down more precisely by looking at some images
+$x \in \mathbb{I}$
+that we are looking to classify into a binary decision
+$y \in \mathbb{C}: \\{\text{CAT}, \neg\text{CAT}\\}$ using
 a network $f: \mathbb{I} \mapsto \mathbb{C}$, we can therefore say that
-the guess *without* a distortion $\xi$, should be the same *with* the
-distortion: $$f(x) = f(\xi (x))$$
+the guess *without* a distortion $\xi: \mathbb{I} \mapsto \mathbb{I}$,
+should be the same *with* the distortion: $$f(x) = f(\xi (x))$$
 
 We can take this one step further by generalizing the invariance, so
 that the networks can operate on distorted images, *while retaining the
@@ -89,11 +98,13 @@ distortion in the output*. Relating this to the example of the cat, we
 cannot always think that the cat is in the center of the image and
 colour its outline there. Rather, we need to correctly scale and
 translate the outline in the output image, that is, we need to *preserve
-the structure* of the distortion. Our network can now be written as
-$f: \mathbb{I} \mapsto \mathbb{I}$, and the *structure preserving*
-network should now fulfill<a href="#footnote-1" class="footnote-a">1</a>: $$\xi(f(x)) = f(\xi(x))$$
+the structure* of the distortion. 
+When we want to mask our cat (as in Figure 1), our *structure preserving*
+network should be written as $f: \mathbb{I} \mapsto \mathbb{I}$ and 
+fulfill<a href="#footnote-1" class="footnote-a">1</a>: $$\xi(f(x)) = f(\xi(x))$$
 
-Suchs maps are called <i><a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariant</a></i> and are fundamental to topology and graph theory.
+Our network is now a *structure preserving map*, also known as <i><a href="https://en.wikipedia.org/wiki/Equivariant_map">equivariant maps</a></i>.
+They are fundamental to, for instance, topology and graph theory.
 
 # Suitable problems for Deep Learning
 
@@ -104,17 +115,12 @@ structures, but also the *mapping* of symmetries and structures between
 domains such as image, 3d-space, language, audio and many others
 [@Bronstein_Bruna_Cohen_Velickovic_2021].
 
-But many also believe there is much more to it than structure
-preservation [@Saxe_Nelli_Summerfield_2021]. What about other types of
+This is obviously relevant for classifying and masking cats, but what about
+everything else "AI"? What about other types of
 intelligence like bodily intelligences, causal reasoning (what is the
 *source* of the structure), abstract thinking, and so on? Is that all a
-matter of preserving mapping?
-
-The answer to that question is outside the scope of this essay, and will
-probably cash in a Nobel prize to whoever is able to answer it. What
-*can* be said, though, is that deep networks remains unproven in tasks
-that do not directly involve symmetry or equivariance.
-
+matter of preserving mapping? 
+Maybe. We do not know [@Saxe_Nelli_Summerfield_2021]. Please find out.
 
 <figure>
 <img src="ai_pop.png" style="width: 80%;"/>
@@ -138,7 +144,8 @@ code [@Tiwang_Oladunni_Xu_2019]?
 
 By now, the reader is hopefully convinced of the usefulness of the
 approach. And plenty of evidence exists in applications for speech
-synthesis, self-driving cars, facial recognition, object detection etc.
+synthesis, self-driving cars, facial recognition, object detection, 
+[fake blob opera](https://artsandculture.google.com/experiment/blob-opera/AAHWrq360NcGbw), etc.
 This is the coincidence: pioneers of the abovementioned principles could
 not possibly have known the extend to which their findings would
 generalize.

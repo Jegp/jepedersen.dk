@@ -20,18 +20,18 @@ export function getPost(slug) {
   if (!fs.existsSync(file)) return null;
 
   const markdown = fs.readFileSync(file, "utf-8");
-
+  
   const { content, metadata } = process_markdown(markdown);
-
+  
   const date = new Date(`${metadata.pubdate} EDT`); // cheeky hack
   metadata.dateString = date.toDateString();
-
+  
   // Replace with link to HTML
   if (metadata.link) {
     slug = metadata.link;
   }
-
   const html_markdown = marked(content);
+  console.log(html_markdown)
   var html = process_latex(html_markdown);
 
   // Include bibliography and sort out citations
