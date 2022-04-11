@@ -31,7 +31,6 @@ export function getPost(slug) {
     slug = metadata.link;
   }
   const html_markdown = marked(content);
-  console.log(html_markdown)
   var html = process_latex(html_markdown);
 
   // Include bibliography and sort out citations
@@ -50,7 +49,7 @@ export function getPost(slug) {
       const index = ref_list.length - 1;
       html = html.replace(
         new RegExp(`@${ref_key}`, 'gu'),
-        `<a href="#${ref_key}">${index + 1}</a>`
+        `<a href="${slug}/#${index}">${index + 1}</a>`
       );
     }
     // Build bibliography
@@ -72,7 +71,7 @@ export function getPost(slug) {
       }
 
       // Entry li
-      entry_html = `<li id="#${key}">${entry_html}</li>`;
+      entry_html = `<li id="${key}">${entry_html}</li>`;
       html += entry_html;
     }
     html += "</ol>";

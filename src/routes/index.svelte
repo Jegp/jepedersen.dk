@@ -40,7 +40,7 @@
 				the user hovers over the link or taps it, instead of
 				waiting for the 'click' event -->
       <div>
-        <a rel="prefetch" href={post.slug}>
+        <a rel="prefetch" href="{post.slug}/">
           {#if post.image}
             <figure>
               <span><img src={post.image} alt="" /></span>
