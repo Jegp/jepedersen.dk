@@ -24,8 +24,7 @@
     Jens Egholm Pedersen is a doctoral student at the
     <a href="https://www.kth.se/profile/jeped/" title="KTH"
       >Royal Institute of Technology (KTH)</a
-    >. He is currently working with spiking neural networks, dynamic vision
-    systems, neuromorphic computing, and neurorobotics.
+    > working to model and construct <i><a href="https://en.wikipedia.org/wiki/Neuromorphic_engineering">neuromorphic</a></i> control systems.
   </p>
   <p>
     When faced with the complexity and ambiguity in the real world, contemporary
@@ -39,8 +38,7 @@
     that perform meaningful functions, including vision, motor control, and
     self-sustenance, Jens seeks to <b
       >build autonomous systems that perform meaningful work</b
-    >. Most robotic systems are staggeringly incompetent compared to even the
-    simplest members of the animal kingdom. I approach this bottom-up, tightly
+    >, tightly
     following the Feynman axiom "What I cannot create, I do not understand".
   </p>
   <p>
