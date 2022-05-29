@@ -30,7 +30,7 @@ export function getPost(slug) {
   if (metadata.link) {
     slug = metadata.link;
   } else {
-    const html_markdown = marked(content);
+    const html_markdown = marked.parse(content);
     var html = process_latex(html_markdown);
 
     // Include bibliography and sort out citations
