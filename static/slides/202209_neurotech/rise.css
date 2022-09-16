@@ -1,0 +1,23 @@
+.rise-enabled .text_cell ol li {
+    font-size: 120%;
+}
+
+.rise-enabled .text_cell ol li ol li {
+    font-size: 80%;
+}
+
+.rise-enabled .text_cell ol li ol li ol li{
+    font-size: 70%;
+}
+
+.rendered_html h1 {
+    font-size: 160%;
+}
+
+.CodeMirror-code {
+    font-size: 120%;
+    line-height: 1.1em;
+}
+.rise-enabled .output_area {
+    font-size: 110%;
+}
