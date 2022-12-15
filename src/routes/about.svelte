@@ -24,29 +24,35 @@
     Jens Egholm Pedersen is a doctoral student at the
     <a href="https://www.kth.se/profile/jeped/" title="KTH"
       >Royal Institute of Technology (KTH)</a
-    > working to model and construct <i><a href="https://en.wikipedia.org/wiki/Neuromorphic_engineering">neuromorphic</a></i> control systems.
+    >
+    working to model and construct
+    <i
+      ><a href="https://en.wikipedia.org/wiki/Neuromorphic_engineering"
+        >neuromorphic</a
+      ></i
+    > control systems.
   </p>
   <p>
     When faced with the complexity and ambiguity in the real world, contemporary
     algorithms fail spectacularly. There is a <b
-      >strong need for robust, event-driven, and massively parallel algorithms
-      to solve our everyday physical problems</b
-    >.
+      >strong need for self-correcting, closed-loop systems</b
+    >
+    to help solve our everyday physical problems.
   </p>
   <p>
-    By simulating and carefully scrutinizing and understanding neural circuits
-    that perform meaningful functions, including vision, motor control, and
-    self-sustenance, Jens seeks to <b
+    By simulating and carefully scrutinizing and understanding neural circuits,
+    including vision, motor control, and self-sustenance, Jens seeks to <b
       >build autonomous systems that perform meaningful work</b
-    >, tightly
-    following the Feynman axiom "What I cannot create, I do not understand".
+    >, tightly following the Feynman axiom "What I cannot create, I do not
+    understand".
   </p>
   <p>
-    Find Jens on <a href="https://twitter.com/jensegholm" title="Twitter"
-      >Twitter</a
+    Find Jens on <a href="https://mastodon.social/@jegp" title="Mastodon"
+      ><i class="fa-brands fa-mastodon"></i> Mastodon</a
     >
     or
-    <a href="https://github.com/jegp/" title="GitHub">GitHub</a>.
+    <a href="https://github.com/jegp/" title="GitHub">
+      <i class="fa-brands fa-github"></i> GitHub</a>.
   </p>
 </section>
 
