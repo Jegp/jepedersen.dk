@@ -1,0 +1,11 @@
+.rise-enabled .reveal .slide-number {
+  font-size: 250%;
+    right: 4.5em;
+    bottom: 1.25em;
+}
+.reveal .progress {
+  height: 7px;
+}
+.rendered_html * + ul {
+  margin-top: 0.1em;  
+}
