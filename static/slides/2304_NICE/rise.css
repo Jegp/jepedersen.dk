@@ -1,0 +1,38 @@
+/* Slides */
+section.present .jp-InputArea {
+  padding-left: 1%;
+}
+
+section.present img,
+section.present video,
+div.jp-Notebook-cell img,
+div.jp-Notebook-cell video {
+  margin: auto auto;
+  display: block;
+}
+
+/* Classes */
+section.present .credits,
+section.present .credits p {
+  font-size: 80%;
+  font-size: 2em;
+  text-align: center;
+  margin: -0.2rem auto 0;
+}
+
+.credit {
+  font-size: 80%;
+  color: gray;
+}
+
+.reveal .controls {
+  bottom: 60px
+}
+
+.reveal .slide-number {
+  border: 2px solid #666;
+  border-radius: 8px;
+  font-size: 70%;
+  right: 16px;
+  padding: 2px 5px 4px 4px;
+}
