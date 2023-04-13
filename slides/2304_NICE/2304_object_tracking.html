@@ -15,51 +15,133 @@
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
 
 	<link rel="stylesheet" href="rise.css">
-</head>
 
-<!-- Take away
-- Spatio-temporal scale spaces are the future of event-based vision
--->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+</head>
 
 <body>
 	<div class="reveal">
 		<div class="slides">
 			<section data-background-color="#fdfdfd">
-				<video src="2209_event_video.mp4" loop autoplay muted controls />
+				<video src="2209_event_video.mp4" loop autoplay muted controls></video>
+				<img src="kernels_old.png" class="fragment" style="margin: 0.5em auto; width: 60%;" />
 				<aside class="notes">
 					A bit more than a year ago, we wanted to train a spiking neural network to do simple object detection.
-					Just tracking the shapes in the video you see here.
+					Just tracking the geometries in the video you see here.
 
-					We took a simple convolutional neural net, replaced the activation units with leaky integrate-and-fire units,
+					We took a simple convolutional neural net, added LIF activations,
 					and trained with backpropagation through time with surrogate gradients.
 
 					So, a simple end-to-end neural network optimization problem.
 
-					Except, it didn't work. So, we studied the problem and tried to find out what happened. Why wouldn't it learn?
+					Except, it didn't work. And our network would learn kernels like this.
+
+					So, we studied the problem and tried to find out what happened. Why wouldn't it learn?
 				</aside>
 			</section>
 			<section>
-				<h2>Event-based object tracking</h2>
-				<h3>Translation and scale invariance in real-time with receptive fields</h3>
-				<h4>Jens Pedersen &amp; Raghav Singhal &amp; Jörg Conradt</h4>
-				<aside class="notes">
-					The result of our analysis is the topic of this talk.
-
-					I'll carry you through the insights that caused our model to fail, and discuss what we believe is the right
-					approach to real-time high-performance event-based vision models.
-
-					My name is Jens and together with Raghav and Jörg we have been working on formalizing invariance properties in
-					event-based vision.
-				</aside>
-			</section>
-			<section data-background-color="#1b2433">
 				<section>
-					<h2>What are events?</h2>
+					<h2>Event-based object tracking</h2>
+					<h3>Translation and scale invariance in real-time with receptive fields</h3>
+					<h4>Jens Pedersen &amp; Raghav Singhal &amp; Jörg Conradt</h4>
+					<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+						<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+						<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+						<span><i class="fa fa-house"></i> jepedersen.dk</span>
+					</p>
+					<p style="font-size: 80%;"><b>Thank you</b> - Juan P. Romero B., Emil Jansson, Harini Sudha</p>
+
+					<div style="display: flex; justify-content: center;">
+						<img src="kth.png" style="height: 120px; margin: 0 1em;" />
+						<img src="ncs.png" style="height: 120px; margin: 0 1em;" />
+						<img src="hbp.png" style="height: 120px; margin: 0 1em;" />
+					</div>
+					<aside class="notes">
+						The result of our analysis is the topic of this talk.
+
+						I'll carry you through the insights that caused our model to fail, and discuss what we believe is the right
+						approach to real-time high-performance event-based vision models.
+
+						My name is Jens and together with Raghav and Jörg we have been working on formalizing invariance properties
+						in
+						event-based vision.
+					</aside>
 				</section>
+			</section>
+
+			<section>
 				<section>
+					<h2>Scale-space theory</h2>
+					<img src="scales_fixed.png" class="r-stretch" />
+					<p class="credit">Lindeberg, Journal of Mathematical Imaging and Vision (2022)</p>
+					<p class="fragment">
+						A model $g$ is invariante to transformation $f$: $$ f(g(x)) = g(x) $$
+					</p>
+				</section>
+
+				<section>
+					<h4>Invariance properties of convolutions</h4>
+					<video src="conv_gaussian.mp4" loop autoplay muted controls style="width: 80%; margin: 0.3em auto;"></video>
+					<video src="conv_gaussian2.mp4" loop autoplay muted controls class="fragment" style="width: 80%;"></video>
+				</section>
+
+				<section>
+					<h4>Scale invariance with receptive fields</h4>
+					<img src="scales.png" class="r-stretch" />
+				</section>
+
+				<section data-background-color="white">
+					<h4>Capturing structure<span class="fragment">: <br />How does this work in 2 dimensions?</span>
+					</h4>
+					<div class="r-stack">
+						<div class="fragment current-visible">
+							<img src="rf_sampling.jpg" style="width: 50%;" />
+							<p class="credit">Lindeberg, Heliyon 7 (2021)</p>
+						</div>
+						<img src="fig_rf.png" class="fragment current-visible" style="width: 90%;" />
+						<div class="fragment">
+							<img src="simple_rf_biology.png" />
+							<p class="credit">Lindeberg, Journal of Mathematical Imaging and Vision (2022)</p>
+						</div>
+					</div>
+					<aside class="notes">
+						Circle where eccentricity or skew ratio increases with radius.
+						Rotation is parameterized by the angle.
+
+						But that only selects for round, gaussian blobs.
+						To find more interesting stimulus, we can create sophisticated receptive fields by taking the derivative in
+						some directions.
+					</aside>
+				</section>
+
+				<section>
+					<h4>Gaussian receptive field provides</h4>
+					<ol>
+						<li class="fragment">Linearity between n-th gaussian derivatives</li>
+						<li class="fragment">Translation invariance</li>
+						<li class="fragment">Scale invariance</li>
+					</ol>
+					<p class="fragment"><b>$\implies$Capture spatial features</b></p>
+					<aside class="notes">
+						Linearity: early layers use 0th derivative, they're not throwing away structure
+					</aside>
+				</section>
+			</section>
+
+			<section>
+				<section data-background-color="#1b2433">
+					<h2>But what about time?</h2>
+					<ol>
+						<li class="fragment">Spatial <i class="fragment highlight-red"><b>and</b></i> temporal invariances in sparse
+							signals</li>
+						<li class="fragment">Stepwise real-time predictions</li>
+					</ol>
+				</section>
+				<section data-background-color="#1b2433">
 					<div class="r-stack">
 						<div class="fragment fade-out r-stretch">
-							<video src="pendulum.mp4" loop autoplay muted controls />
+							<video src="pendulum.mp4" loop autoplay muted controls></video>
 						</div>
 						<img src="event_still.png" />
 					</div>
@@ -67,71 +149,42 @@
 						What you see here is a pendulum recorded with an event-based camera.
 						Event cameras essentially record the <i>change</i> in luminosity above or below a certain threshold.
 
-						As I'm sure you're aware, this is a fascinating technology, but models and algorithms for event-based vision
+						This is a fascinating technology, but models and algorithms for event-based vision
 						are still struggling to keep up with conventional frame-based computer vision models.
 						Unfortunately, we cannot directly transfer frame-based algorithms; if we take a single frame, we don't get
 						much information.
-					</aside>
-				</section>
-				<section>
-					# Zoom in on a single pixel (ignore polarity)
-					# A signal always have a temporal extent
-				</section>
-				<section>
-					# Zoom in on a LI integration
-				</section>
-				<section>
-					<h3>How do we build real-time event-based vision models?</h3>
-					<ol>
-						<li>Temporal integration of signals</li>
-						<li>Stepwise real-time predictions</li>
-					</ol>
 
-					<aside class="notes">
 						If we are to succeed in real-time event-based vision, I believe we need to tackle two problems
 						<br>- We need some form of spatio-temporal integration to form an understanding about what an "event" is
 						attached to
 						<br>- We need predictions with millisecond precision to exploit the time granularity of event cameras
 						We need some form of temporal integration or, recurrence, in the words of neural networks.
-
-						In this talk, how to progress towards real-time event-based vision models, rivalling those
-						from conventional computer vision.
 					</aside>
 				</section>
-			</section>
-
-			<section>
-				<section>
-					# Scale-space theory
+				<section data-background-color="white">
+					<h4>Signal processing with convolutions</h4>
+					<div class="r-stack">
+						<img src="spike.png" class="fragment current-visible" />
+						<video src="conv_gaussian.mp4" loop autoplay controls muted class="fragment" />
+					</div>
+					<aside class="notes">
+						Let's zoom in on a single row
+					</aside>
 				</section>
-
 				<section>
-					# Convolution gaussian 1 (translation invariance)
-					# Convolution gaussian 2 (scale invariance)
+					<video src="conv_li.mp4" loop autoplay muted controls style="width: 80%; margin: 0.3em auto;"></video>
+					<video src="conv_li2.mp4" loop autoplay muted controls class="fragment" style="width: 80%;"></video>
 				</section>
-
 				<section>
-					# Invariance properties
-				</section>
-
-				<section>
-					# Scale spaces
-				</section>
-
-				<section>
-					# Problem: Old networks couldn't converge on these invariance properties
-				</section>
-			</section>
-
-			<section>
-				<section>
-					Real-time coordinate prediction
-				</section>
-
-				<section>
-					<!-- TODO FIX MATH -->
-					$$\int$$
-					<img src="cr_heatmap.png" class="r-stretch" />
+					<h3><q>Temporal</q> heatmaps</h3>
+					<div style="display:flex; justify-content: center;">
+						<img src="heatmap_input.png" style="height: 350px; margin: 50px 0.5em 0;"/>
+						<img src="cr_heatmap.png" style="height: 400px;" class="fragment"/>
+					</div>
+					<ol>
+						<li class="fragment">Read out coordinates at every frame</li>
+						<li class="fragment">Differentiable</li>
+					</ol>
 				</section>
 			</section>
 
@@ -141,6 +194,7 @@
 				</section>
 				<section data-background-color="#fdfdfd">
 					<h3>1ms frames with coordinate labels</h3>
+					<p class="fragment">240'000 datapoints - Bernouilli $p=0.8$</p>
 					<video src="2209_event_video.mp4" loop autoplay muted controls />
 				</section>
 
@@ -161,12 +215,24 @@
 
 				<section>
 					<h2>Runs at 1000Hz on GPUs</h2>
-					<img src="pytorch.png" />
-					<img src="norse_logo.png" />
+					<img src="pytorch.png" style="width: 500px;" />
+					<img src="norse_logo.png" style="width: 500px;" />
 				</section>
 			</section>
 
 			<section>
+				<section data-transition="fade">
+					<h2>Event-based object tracking</h2>
+					<h3>Limitations</h3>
+					<ul>
+						<li>Only simulated data</li>
+						<li>Only on GPUs</li>
+						<li>Only for translation and scale</li>
+					</ul>
+					<aside class="notes">
+						Missing rotation, shear
+					</aside>
+				</section>
 				<section data-transition="fade">
 					<h2>Event-based object tracking</h2>
 					<h3>Summary</h3>
@@ -176,30 +242,29 @@
 						<li class="fragment"><b>Real-time vision processing with events</b></li>
 					</ul>
 				</section>
-				<section data-transition="fade">
-					<h2>Event-based object tracking</h2>
-					<h3>Limitations</h3>
-					<ul>
-						<li>Only simulated data</li>
-						<li>Only on GPUs</li>
-						<li>Only translation and scale</li>
-					</ul>
-					<aside class="notes">
-						Missing rotation, shear
-					</aside>
-				</section>
 
 				<section data-transition="fade">
 					<h2>Event-based object tracking</h2>
 					<h3>Translation and scale invariance in real-time with receptive fields</h3>
 					<h4>Jens Pedersen &amp; Raghav Singhal &amp; Jörg Conradt</h4>
+					<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+						<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+						<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+						<span><i class="fa fa-house"></i> jepedersen.dk</span>
+					</p>
+					<p style="font-size: 80%;"><b>Thank you</b> - Juan P. Romero B., Emil Jansson, Harini Sudha</p>
+
+					<div style="display: flex; justify-content: center;">
+						<img src="kth.png" style="height: 120px; margin: 0 1em;" />
+						<img src="ncs.png" style="height: 120px; margin: 0 1em;" />
+						<img src="hbp.png" style="height: 120px; margin: 0 1em;" />
+					</div>
 				</section>
-			</section>
 		</div>
 	</div>
 
 	<script src="dist/reveal.js"></script>
-	<script src="plugin/math/katex.js"></script>
+	<script src="plugin/math/math.js"></script>
 	<script src="plugin/notes/notes.js"></script>
 	<script src="plugin/markdown/markdown.js"></script>
 	<script src="plugin/highlight/highlight.js"></script>
@@ -212,7 +277,7 @@
 			slideNumber: "c/t",
 
 			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
 		});
 	</script>
 </body>
