@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Neuromorphic Computing</title>
+
+    <!-- Include reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css"
+        integrity="sha512-1vDOkqtCXgcn0zgLIrxVjSIHvXOB/Ho2k33zwIDMqStDdHWvQyVU+BGG2fK4nnOgDbg0jEzVqzTYTL65orMyWw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reset.min.css"
+        integrity="sha512-Mjxkx+r7O/OLQeKeIBCQ2yspG1P5muhAtv/J+p2/aPnSenciZWm5Wlnt+NOUNA4SHbnBIE/R2ic0ZBiCXdQNUg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Include a theme, e.g., white, black, league, etc. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/serif.min.css"
+        integrity="sha512-fFYyMckZAuBmmtizU9f2un27O0lyMH5qMhmEj1tzf/vgDsLy0W8JW0+bX9MDoST38ZAAhAypLF+Q3zz4z9OL9w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Enable Speaker Notes plugin -->
+    <style>
+        .reveal {
+            font-size: 1.2rem;
+        }
+
+        .credit {
+            font-size: 70%;
+            clear: both;
+            display: block;
+            text-align: right;
+            color: gray;
+            margin-top: -1.5em;
+        }
+
+        ul {
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section>
+                <section data-markdown>
+                    # Neuromorphic computing and engineering
+                    ## KTH Journal club
+                </section>
+
+                <section data-markdown data-background="white">
+                    ![](paper.png)
+                </section>
+                <section data-markdown style="font-size: 160%;">
+                    1. Introduction & motivation
+                    2. Analog neural networks
+                    3. Neuromorphic sensing
+                    4. Computing with events
+                    5. Journal club organization
+                    </ol>
+                </section>
+            </section>
+
+            <!-- Slide 1: Introduction -->
+            <section>
+                <section data-markdown data-background="white">
+                    <script type="text/template">
+                        ## What is "neuromorphic"
+                        <br/>
+
+                        ### Etymologically: "neuron" + "form" <!-- .element: class="fragment" -->
+                        ### Here: parallel and asynchronous computation <!-- .element: class="fragment" -->
+
+                        > we can build devices that implement the same basic operations as those the nervous system uses <br/>- Carver Mead, 1990 <!-- .element: class="fragment" -->
+
+                        ---
+                        
+                        ## Introduction & motivation
+
+                        > ... the quest to make something that "works like the brain" ... 
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Blausen_0657_MultipolarNeuron.png/1920px-Blausen_0657_MultipolarNeuron.png" style="width: 50%"/>
+                        <span class="credit">Wikipedia</span>
+                        <br/>
+
+                        1. Resources (time, money, energy) <!-- .element: class="fragment" -->
+                        2. Computation (speed, accuracy, robustness) <!-- .element: class="fragment" -->
+
+                        ---
+                        
+                        ### Resources: Time
+                        <img src="time.png" style="width: 80%"/>
+
+                        ---
+
+
+                        ### Resources: Money
+                        <img src="cost.png" style="width: 100%"/>
+
+                        ---
+
+                        ### Resources: Energy
+                        <img src="energy.png" style="width: 80%"/>
+
+                        1. Most energy spent moving things around $(10^4)$ <!-- .element: class="fragment" -->
+                        2. 1 flop $\approx 10^6$ transistors <!-- .element: class="fragment" -->
+
+                        ---
+
+                        ### Resources in biology
+                        <img src="thermo.png" style="width: 80%"/>
+                        <span class="credit">Sadas Shankar, arXiv, 2023</span>
+
+                        ---
+                        
+                        ### Resources: the Neuromorphic future
+                        <img src="computation_neuromorphic.png" style="width: 70%"/>
+                        <span class="credit">Goi et al., PhotoniX, 2020</span>
+                    </script>
+                </section>
+            </section>
+
+            <!-- Slide 2: Why -->
+            <section>
+                <section data-markdown>
+                    <script type="text/template">
+                        ## Analog neural networks
+
+                        ### Moving beyond general-purpose computing <!-- .element: class="fragment" -->
+                        > “Because digital computers and computation have been so successful, they have influenced how we think about both computers as machines and computationas a process – so much so, it is difficult today to reconstruct what analog computing was all about... <br/>- James Nyce <!-- .element: class="fragment" -->
+
+                        > The brain must be like a clockwork, then a telegraph system, then a telephone system, then a digital computer, and now like the Internet <br/>- Carver Mead <!-- .element: class="fragment" -->
+
+                        ---
+
+                        ## Neural network community from disparate sources
+
+                        1. Computer scientists moving towards neurobiology <!-- .element: class="fragment" -->
+                        2. Neurobiologists, trying to understand nervous systems <!-- .element: class="fragment" -->
+                        3. Engineers and physicists, studying different kinds of computation <!-- .element: class="fragment" -->
+                        4. Theorists, seeking understanding through mathematical analysis <!-- .element: class="fragment" -->
+
+                        ---
+
+                        ## AlexNet: the key to the future
+
+                        > Our results show that a large, deep convolutional network is capable of achieving record-breaking results on a highly-challenging dataset using purely supervised learning" <br/> - Alex Krizhevsky
+
+                        > The key to the future was scale---more data, more computing cycles <br/> Carver Mead
+
+                        ---
+
+                        ## Still open questions
+
+                        [https://arxiv.org/abs/2105.04026](https://arxiv.org/abs/2105.04026)
+                        ![](modern_maths.png)
+
+                        ---
+
+                        ## What can analog give us?
+
+                        1. Speed <!-- .element: class="fragment" -->
+                        2. Energy savings <!-- .element: class="fragment" -->
+                        
+                        ---
+
+                        ### Energy savings
+
+                        <img src="analog_component.png" style="width: 60%"/>
+                        <span class="credit">Mead, Proceedings of the IEEE, 1990</span>
+
+                        **Left**: Exponential dependence of the arrival rate of packets of the neurotransmitter.
+                        <br/>
+                        **Right**: Saturation current of a MOS transistor as a function of gate voltage.
+
+                        > The real trick is to invent a representation that takes advantage of the inherent capabilities of the medium <br/>- Carver Mead, 1990 <!-- .element: class="fragment" -->
+
+                        ---
+                    
+                        ### Speed
+
+                        > Charge currents become spin-polarized ... that lead to sustained magnetization precession at frequencies of hundreds of megahertz to several tens of gigahertz
+
+                        <img src="spintronic.png" style="width: 60%"/>
+                        <span class="credit">Groillier et al., Nature, 2017</span>
+
+                    </script>
+                </section>
+            </section>
+
+            <!-- Slide 3: How it works -->
+            <section>
+                <section data-markdown data-background="white">
+                    <script type="text/template">
+                        ## Neuromorphic sensing
+
+                        <img src="retina_circuit.png" style="width:50%;"/>
+                        <br/>
+
+                        > The output is the difference between the potential of the local receptor and that of the resistive network <br/>- Mahowald, 1992
+                    </script>
+                </section>
+                <section>
+                    <h2>Event-based vision sensors</h2>
+
+                    <img src="camera.gif" style="width: 70%;" />
+                    <span class="credit">Robot vision group Imperial College London</span>
+
+                    <p>Fantastic benefits in terms of <b>temporal resolution</b>, <b>dynamic range</b>, and <b>energy
+                            consumption</b>.</p>
+                </section>
+                <section>
+                    <h2>The sensors are evolving</h2>
+                    <img src="camera_evolution.png" style="width: 70%;" />
+                </section>
+                <section data-markdown data-background="white">
+                    <script type="text/template">
+                        ## Interchip communication
+
+                        Neuromorphic sensors with millions of signals run into bottleneck problems:
+
+                        > ... continuous time communication must be sacrificed in order to time-multiplex the outputs of many neurons onto a small number of wires <br/>- Mahowald, 1992
+
+                        ---
+
+                        ### How does the brain solve it? 
+
+                        <div style="width: 30%; float:left;">
+                                <img src="Saltatory_Conduction.gif" style="width: 300px; clip-path: inset(0 120px 0 0);"/>
+                                <span class="credit">Wikipedia</span>
+                        </div>
+                        <div style="width: 68%; float:right;" class="fragment">
+                            <img src="img_cat.png"/>
+                        </div>
+                        <br />
+
+                        <p class="fragment" style="clear:both;"><b>Address-Event Representation (AER)</b></p>
+
+                        <p class="fragment">
+                        Encode information in events: $t \times x \times y $
+                        </p> 
+
+                        ---
+
+                        ## Interchip communication
+
+                        Neuromorphic sensors with millions of signals run into bottleneck problems:
+
+                        > ... continuous time communication must be sacrificed in order to time-multiplex the outputs of many neurons onto a small number of wires <br/>- Mahowald, 1992
+
+                        > $N$ axonal fibers, with one active at a time, can be replaced by $(1 + log N)$ wires ... a representation conceptually equivalent to a train of action potentials <br/>- Carver Mead <!-- .element: class="fragment" -->
+
+                    </script>
+                </section>
+                <section>
+                    <h2>Other types of sensors</h2>
+
+                    <p><b>Note</b>: Same principles are applied to other sensory modalities, including auditory,
+                        olfactory, proprioceptive, etc.</p>
+                </section>
+            </section>
+
+            <!-- Slide 5: Challenges -->
+            <section>
+                <section data-markdown data-background="white">
+                    <script type="text/template">
+                    ## Computing with events
+                    
+                    <img src="brain_org.png" style="width: 30%; float: left;"/>
+
+                    <ul style="width: 50%; float: right;">
+                    <li style="margin: 1em;"><q>Computing directly on events has been difficult</q></li>
+                    
+                    <li style="margin: 1em;" class="fragment"> Still an open problem, but
+                      <ol><li class="fragment">The brain uses events at all levels</li>
+                      <li class="fragment">Events from a piece of music can still "be heard" farther up the diagram</li>
+                      <li class="fragment">Neural tissue uses sophisticated control mechanisms (gain-control, threshold adaptation, homestasis)</li>
+                    </ol>
+                    </li>
+
+                    </ul>
+
+                    ---
+
+                    ## Can we build a brain?
+
+                    > Making an electronic system that operates with events the way the brain does should be possible <br/>- Carver Mead
+
+                    <br/> 
+
+                    ### Simulators and hardware already exists. <!-- .element: class="fragment" -->
+
+                    ---
+
+                    ### Neuromorphic chip landscape
+
+                    <img src="hw.webp" style="width: 50%;"/>
+
+                    ---
+
+                    ### Neuromorphic chips *available now*
+
+
+                    <div style="float: left; margin: 1em;">
+                    <h3>SynSense Speck</h3>
+                    <img src="speck.png" style="width: 200px"/>
+                    </div>
+                    
+                    <div style="float: left; margin: 1em;">
+                    <h3>Innatera</h3>
+                    <img src="innatera.jpg" style="width: 200px"/>
+                    </div>
+                    <div style="float: left; margin: 1em;">
+                    <h3>Akida BrainChip</h3>
+                    <img src="akida.png" style="width: 250px"/>
+                    </div>
+
+                    <div style="float: left; margin: 1em;">
+                    <h3>Intel Loihi</h3>
+                    <img src="loihi.jpg" style="width: 200px"/>
+                    </div>
+                    <div style="float: left; margin: 1em;">
+                    <h3>SpiNNaker 2</h3>
+                    <img src="th-spinnaker.jpg" style="width: 150px"/>
+                    </div>
+                    ---
+
+                    ### Neuromorphic Simulators
+
+                    <img src="simulators.png" style="width: 50%;" />
+ 
+                    </script>
+
+                </section>
+            </section>
+            <section>
+                <section data-markdown data-background="white">
+                    <script type="text/template">
+                    ## Links and resources
+
+                    * [Nordic Neuromorphs](https://github.com/nordicneuro) 
+                    * [Event-based vision resources](https://github.com/uzh-rpg/event-based_vision_resources)
+                    * [Open-neuromorphic community](https://github.com/open-neuromorphic/)
+                    * [Neurocomputing systems](https://github.com/ncskth/)
+                    </script>
+                </section>
+                <section data-background="white">
+                    <h1>Neuromorphic computing and engineering</h1>
+
+                    <img src="paper.png" style="width: 60%;" />
+                </section>
+                <section data-markdown>
+                    ## Open questions
+
+                    * Do we have good models for computation *in time*?
+                    * Neuromorphic systems are complex, how do we optimize them?
+                    * Neuromorphic systems become even more complex when we make them *plastic*, how do we deal with
+                    that?
+
+                </section>
+            </section>
+
+            <!-- Slide 6: Conclusion -->
+            <section>
+                <h2>Journal club organization</h2>
+                <ul>
+                    <li>Topic: Neuromorphic computing and engineering</li>
+                    <li>Goal: Meet and <b>discuss</b> principles around neuromorphic and spatio-temporal computation
+                    </li>
+                    <li>Next time: 2nd of November 15:00 - 16:00</li>
+                    <li>Who's next?</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <!-- Include reveal.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"
+        integrity="sha512-TC5IA+BA/5YPBb/MJyk97ypzvXYUIlAksfuxlUXlhD7cM7y/stM4JuytDeYJlsiKxmRDV5krDyuugOoMOHwyJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/notes/notes.min.js"
+        integrity="sha512-MZ7Ehjbh2soaeCZJGaw6vBNAa7+eunl0SUmRPNESchLlboH73lHLEeUa6pZJ2Pcui4NcpDFatr6M+VlcmaH1QA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/markdown/markdown.min.js"
+        integrity="sha512-guKTp0XUnqVXjZtsa2+zQ8KVYoHjYM/MvoBlLiypVudmshBfMg0SeglTcPJGeRAqPyMp1Tcyu8+APV842XNB1Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/math/math.min.js"
+        integrity="sha512-skPZpuRwuUAnF9iEEFBXc4zJaucKcHUDgY1wDBTv0ILy82C2gn8MJsbcinzj2u8r/iZjD/78HRgw2/n//poOhQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Initialize reveal.js with your preferred options -->
+    <script>
+        Reveal.initialize({
+            hash: true,
+            // controls: true,
+            // progress: true,
+            // history: true,
+            // center: true,
+            // transition: 'slide',
+            slideNumber: "c/t",
+            plugins: [RevealMarkdown, RevealNotes, RevealMath.KaTeX]
+        });
+    </script>
+</body>
+
+</html>
