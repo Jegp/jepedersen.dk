@@ -7,6 +7,7 @@ export function get(req, res) {
 		const posts = getPosts().map(post => ({
 			title: post.metadata.title,
 			pubdate: post.metadata.pubdate,
+			context: post.metadata.context,
 			slug: post.slug,
 			image: post.metadata.image
 		}));

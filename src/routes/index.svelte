@@ -47,7 +47,7 @@
             </figure>
           {/if}
           <h3>{post.title}</h3>
-          <span class="date">{post.pubdate}</span>
+        <span class="date">{post.pubdate}</span>
         </a>
       </div>
     {/each}
@@ -102,12 +102,14 @@
 	margin-left: auto;
 	margin-right: auto;
     text-align: center;
+    flex: 1;
   }
 
   .flex-container div a {
     display: inline-block;
     align-self: flex-end;
 	text-decoration: none;
+    word-wrap: break-word;
   }
   .flex-container div a h3 {
 	text-decoration: underline;
