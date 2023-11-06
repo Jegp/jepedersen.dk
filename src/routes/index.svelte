@@ -110,9 +110,13 @@
     align-self: flex-end;
 	text-decoration: none;
     word-wrap: break-word;
+    font-size: 130%;
+    margin: 0 auto;
   }
   .flex-container div a h3 {
 	text-decoration: underline;
+  font-weight: bold;
+  color: #55C;
   }
 
   .date {
