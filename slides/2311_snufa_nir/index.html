@@ -78,7 +78,7 @@
 					<img src="nir.png" style="height: 500px;" />
 				</section>
 
-				<section data-background-color="white">
+				<section data-background-color="white" data-transition="fade">
 					<h3>Reproducible computation</h3>
 					<h5 class="fragment" data-fragment-index="0">Neuron equations are based on <b>idealized</b> continuous-time models</h5>
 
@@ -86,28 +86,28 @@
 					<img src="lif_comparison.png" class="fragment"/>
 				</section>
 
-				<section data-background-color="white">
+				<section data-background-color="white" data-transition="fade">
 					<h3>... or not</h3>
-					<span class="fragment" data-fragment-index="0">Similarity for SCNN spiking activity</span>
+					<span class="fragment" data-fragment-index="0">Similarity for spiking CNN activity</span>
 					<div style="display: flex; justify-content: center; align-items: center;">
 					<img src="conv_similarity.png" style="width:70%;" data-fragment-index="0" class="fragment"/>
-					<ul style="font-size: 80%; margin-left: 2em;">
-						<li class="fragment fade-in-then-semi-out">NIR recreates the computation</li>
-						<li class="fragment fade-in-then-semi-out">Exposes discretization discrepancies</li>
+					<ul style="font-size: 60%; margin-left: 1.6em; width: 70%;">
+						<li class="fragment fade-in-then-semi-out">NIR reproduces the computation</li>
+						<li class="fragment fade-in-then-semi-out" style="margin: 0.8em 0;">Exposes discretization mismatch</li>
 						<li class="fragment fade-in-then-semi-out">Allows platform-specific optimization</li>
 					</ul>
 					</div>
 				</section>
 				
 				<section>
-					<h4>Norse $\rightarrow$ NIR</h4>
+					<h4><img src="../2304_NICE/norse_logo.png" style="height: 45px; margin:0; vertical-align: bottom;"/> $\rightarrow$ NIR</h4>
 					<pre><code data-trim data-noescape data-line-numbers="1|3|5">import norse.torch as norse
 
 model = norse.SequentialState( ... )
 
 nir_model = norse.to_nir(model, torch.randn(1, 10))
 				</code></pre>
-					<h4 class="fragment">NIR $\rightarrow$ SynSense Sinabs</h4>
+					<h4 class="fragment">NIR $\rightarrow$ SynSense Sinabs <img src="speck.png"style="height: 60px; margin:0; vertical-align: middle;"/></h4>
 					<pre class="fragment"><code data-trim data-noescape data-line-numbers="1|3">import sinabs.from_nir
 
 sinabs_model = sinabs.from_nir(nir_model, batch_size=4)
@@ -124,14 +124,14 @@ sinabs_model = sinabs.from_nir(nir_model, batch_size=4)
 					<h4 style="font-size: 90%; clear: both;">J. Pedersen, S. Abreu, M. Jobst,
 						G. Lenz,
 						V. Fra,
-						F. Christian Bauer,
+						F. C. Bauer,
 						P. Zhou,
-						D. Richard Muir,
+						D. R. Muir,
 						B. Vogginger,
 						K. Heckel,
 						T. C. Stewart,
 						S. Shankar,
-						J. Eshragian,
+						J. Eshraghian,
 						S. Sheik </h4>
 
 					<p style="display: flex; gap: 1em; color: #555; font-size: 60%; justify-content: center;">
