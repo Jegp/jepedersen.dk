@@ -21,7 +21,14 @@
   <title>{post.metadata.title}</title>
 </svelte:head>
 
-{#if post.metadata.image}
+{#if post.metadata.video}
+<iframe height="500"
+src="{post.metadata.video}" title="YouTube video player" frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>
+{/if}
+
+{#if post.metadata.image && !post.metadata.video}
   <figure>
     <img src={post.metadata.image} alt="" />
     {#if post.metadata.caption}
@@ -86,6 +93,12 @@
     height: auto;
     max-height: 384px;
     max-width: 100%;
+  }
+
+  iframe {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
   }
 
   figcaption {
