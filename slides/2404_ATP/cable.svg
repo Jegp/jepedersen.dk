@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="576px" height="432px" viewBox="0 0 576 432" enable-background="new 0 0 576 432" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="288.0005" y1="432" x2="288.0005" y2="142.5103">
+	<stop  offset="0" style="stop-color:#F7FBF5;stop-opacity:0"/>
+	<stop  offset="0.3212" style="stop-color:#E6F2E0;stop-opacity:0.3"/>
+	<stop  offset="1" style="stop-color:#C8E4BF"/>
+</linearGradient>
+<rect y="142.51" fill="url(#SVGID_1_)" width="576" height="289.49"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="287.9995" y1="0" x2="287.9995" y2="142.5098">
+	<stop  offset="0" style="stop-color:#FCF9CE;stop-opacity:0"/>
+	<stop  offset="1" style="stop-color:#FED977"/>
+</linearGradient>
+<rect fill="url(#SVGID_2_)" width="576" height="142.51"/>
+<g>
+	<path fill="#C6DBEE" d="M575.95,118.689l0.04,58.02h-0.05c-85.96-6.63-183.95-10.39-287.94-10.39S86.02,170.08,0.06,176.7H0v-58.01
+		h0.06c85.96-6.63,183.95-10.38,287.94-10.38s201.98,3.75,287.94,10.38H575.95z"/>
+</g>
+<path fill="none" stroke="#6BADD6" stroke-miterlimit="10" d="M0.06,118.689c85.96-6.63,183.95-10.38,287.94-10.38
+	s201.98,3.75,287.94,10.38"/>
+<path fill="none" stroke="#6BADD6" stroke-miterlimit="10" d="M0.06,176.7c85.96-6.62,183.95-10.38,287.94-10.38
+	s201.98,3.76,287.94,10.39"/>
+<path fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" d="M15.03,118.779
+	c81.491-5.466,174.386-8.558,272.97-8.558c98.584,0,191.479,3.092,272.971,8.558"/>
+<path fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" d="M24.485,255.266
+	c30.61-1.963,62.765-3.595,96.171-4.857l5.551-0.248l3.332,8.255l5.798-16.838l6.67,16.511l5.796-16.838l6.67,16.512l5.795-16.838
+	l3.335,8.257l5.393-0.315c30.651-0.804,62.179-1.303,94.379-1.473l5.921-0.003l3.115,8.34l6.236-16.68l6.235,16.68l6.234-16.68
+	l6.236,16.68l6.234-16.68l3.117,8.34h5.419c31.76,0.163,62.868,0.647,93.128,1.429l7.863,0.463l2.896,8.42l6.67-16.512l5.797,16.838
+	l6.67-16.512l5.797,16.838l6.668-16.512l2.897,8.419l6.242,0.2c33.434,1.276,65.606,2.923,96.225,4.9"/>
+<polyline fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" points="19.855,378.27 30.507,378.27 
+	33.623,386.609 39.859,369.93 46.094,386.609 52.329,369.93 58.564,386.609 64.798,369.93 67.916,378.27 77.189,378.27 "/>
+<g>
+	<polyline fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" points="46.1,194.1 44.461,162.833 
+		93.544,160.261 94.364,175.914 86.199,179.462 103.183,184.816 86.852,191.917 103.835,197.269 87.505,204.369 104.487,209.722 
+		96.322,213.272 97.077,227.668 47.994,230.24 46.525,202.221 	"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="35.585" y1="194.651" x2="56.176" y2="193.572"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="36.011" y1="202.772" x2="56.602" y2="201.693"/>
+</g>
+<g>
+	<polyline fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" points="190.206,187.317 189.659,156.013 
+		238.802,155.154 239.076,170.826 230.792,174.088 247.578,180.03 231.009,186.557 247.795,192.499 231.228,199.024 
+		248.013,204.967 239.729,208.23 239.981,222.644 190.838,223.502 190.348,195.448 	"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="179.678" y1="187.501" x2="200.294" y2="187.141"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="179.82" y1="195.632" x2="200.437" y2="195.272"/>
+</g>
+<g>
+	<polyline fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" points="336.566,186.745 337.113,155.44 
+		386.258,156.296 385.983,171.969 377.59,174.94 394.16,181.464 377.372,187.408 393.939,193.933 377.156,199.876 393.723,206.401 
+		385.33,209.374 385.078,223.787 335.937,222.93 336.426,194.875 	"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="326.039" y1="186.561" x2="346.656" y2="186.92"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="325.898" y1="194.692" x2="346.514" y2="195.051"/>
+</g>
+<g>
+	<polyline fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" points="482.184,191.813 483.822,160.546 
+		532.907,163.117 532.086,178.771 523.594,181.447 539.926,188.545 522.941,193.9 539.271,200.999 522.291,206.353 538.619,213.453 
+		530.128,216.131 529.373,230.525 480.291,227.953 481.759,199.933 	"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="471.67" y1="191.262" x2="492.262" y2="192.34"/>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="471.245" y1="199.382" x2="491.835" y2="200.461"/>
+</g>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="69.652" y1="161.512" x2="67.221" y2="115.687"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="74.474" y1="252.427" x2="73.227" y2="228.918"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="214.561" y1="155.578" x2="213.739" y2="110.813"/>
+<path fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" d="M214.561,155.578"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="216.256" y1="247.881" x2="215.8" y2="223.065"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="361.461" y1="155.864" x2="362.271" y2="110.813"/>
+<path fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" d="M361.461,155.864"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="359.806" y1="247.881" x2="360.247" y2="223.354"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="507.795" y1="161.802" x2="510.108" y2="115.756"/>
+<path fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" d="M507.795,161.802"/>
+<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="503.236" y1="252.513" x2="504.407" y2="229.217"/>
+<rect x="169.252" y="78" fill="none" width="238.152" height="21"/>
+<text transform="matrix(1 0 0 1 175.8198 92.1997)" fill="#EB7124" font-family="'MyriadPro-Regular'" font-size="20">Outside (extracellular fluid)</text>
+<rect x="180.585" y="272.614" fill="none" width="214.819" height="21"/>
+<text transform="matrix(1 0 0 1 225.5054 286.8145)" fill="#40AB5D" font-family="'MyriadPro-Regular'" font-size="20">Inside (cytosol)</text>
+<g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="44.39" y1="349.076" x2="44.39" y2="328.457"/>
+		
+			<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="52.522" y1="349.075" x2="52.522" y2="328.457"/>
+	</g>
+	
+		<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="52.522" y1="338.767" x2="77.189" y2="338.767"/>
+	<line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="19.855" y1="338.767" x2="44.39" y2="338.767"/>
+</g>
+<rect x="87.522" y="332.091" fill="none" width="125.333" height="17.667"/>
+<text transform="matrix(1 0 0 1 87.5225 343.4502)" font-family="'MyriadPro-Regular'" font-size="16">Capacitance</text>
+<rect x="87.522" y="372.091" fill="none" width="125.333" height="17.667"/>
+<text transform="matrix(1 0 0 1 87.5225 383.4502)" font-family="'MyriadPro-Regular'" font-size="16">Resistance</text>
+<rect x="11.819" y="187.628" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 11.8188 201.6284)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">c</text>
+<text transform="matrix(0.583 0 0 0.583 20.6958 208.2886)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="112.485" y="182.799" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 112.4854 196.7988)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 120.2686 203.459)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="155.997" y="181.214" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 155.9971 195.2139)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">c</text>
+<text transform="matrix(0.583 0 0 0.583 164.874 201.874)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="256.663" y="180.384" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 256.6636 194.3843)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 264.4468 201.0444)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="303.152" y="179.213" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 303.1523 193.2134)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">c</text>
+<text transform="matrix(0.583 0 0 0.583 312.0293 199.8735)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="403.818" y="181.384" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 403.8184 195.3838)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 411.6016 202.0439)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="448.152" y="182.633" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 448.1523 196.6333)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">c</text>
+<text transform="matrix(0.583 0 0 0.583 457.0293 203.2935)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="548.817" y="189.804" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 548.8184 203.8037)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 556.6016 210.4639)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<rect x="272.999" y="211.954" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 282.1548 225.9541)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 289.9375 232.6143)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">l</text>
+<rect x="129.151" y="214.085" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 138.3071 228.085)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 146.0903 234.7451)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">l</text>
+<rect x="417.485" y="214.085" fill="none" width="29.332" height="23.666"/>
+<text transform="matrix(1 0 0 1 426.6406 228.085)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 434.4238 234.7451)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">l</text>
+<rect x="215.053" y="320.409" fill="none" width="224.637" height="23.666"/>
+<text transform="matrix(1 0 0 1 215.0532 334.4102)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 222.8364 341.0703)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<text transform="matrix(1 0 0 1 231.2568 334.4102)" font-family="'MyriadPro-Regular'" font-size="16">:  Membrane resistance</text>
+<rect x="215.053" y="349.758" fill="none" width="224.637" height="23.666"/>
+<text transform="matrix(1 0 0 1 215.0532 363.7578)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">r</text>
+<text transform="matrix(0.583 0 0 0.583 222.8364 370.418)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">l</text>
+<text transform="matrix(1 0 0 1 226.0762 363.7578)" font-family="'MyriadPro-Regular'" font-size="16">:  Longitudinal resistance</text>
+<rect x="215.053" y="378.925" fill="none" width="358.553" height="23.666"/>
+<text transform="matrix(1 0 0 1 215.0532 392.9258)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">c</text>
+<text transform="matrix(0.583 0 0 0.583 223.9302 399.5859)" font-family="'TimesNewRomanPS-ItalicMT'" font-size="20">m</text>
+<text transform="matrix(1 0 0 1 232.3506 392.9258)" font-family="'MyriadPro-Regular'" font-size="16">:  Capacitance due to electrostatic forces</text>
+</svg>

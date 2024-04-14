@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Presentation</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/serif.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+	<link rel="stylesheet" href="rise.css">
+
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+	<script>
+		MathJax = {
+			tex: {
+				inlineMath: [['$', '$'], ['\\(', '\\)']]
+			}
+		};
+	</script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+		<script src="https://cdn.plot.ly/plotly-2.29.1.min.js" charset="utf-8"></script>
+	</script>
+	<style>
+		.container {
+			display: flex;
+			margin: 0 auto;
+		}
+
+		.container .col {
+			flex: 1 1 auto;
+			margin: 0 1em;
+		}
+
+		.reveal .full-size {
+			max-width: none;
+			max-height: none;
+			height: 100vh;
+			margin-top: -4vh;
+		}
+
+		.credit,
+		p.credit {
+			font-size: 50%;
+			text-align: right;
+		}
+
+		.credit,
+		.credit a {
+			color: gray;
+		}
+
+		.fragment.bold {
+			-webkit-text-stroke: 0px black;
+		}
+
+		.fragment.bold.visible {
+			-webkit-text-stroke: 2px black;
+			text-stroke: 2px black;
+			/* text-shadow: 0px 0px 4px black; */
+		}
+
+		.shadow3 {
+			text-shadow: 3px 0 #000, 0 3px #000, -3px 0 #000, 0 -3px #000, 
+								  -2px 2px 0 #000, 2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000 !important;	
+		}
+	</style>
+</head>
+
+<!-- Take away
+- Spatio-temporal scale spaces are the future of event-based vision
+-->
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<section data-background-color="black">
+					<div class="container">
+						<div class="col" style="text-align: right; ">
+							<h2>Neuromorphic computing</h2>
+							<br />
+							<h3>Den næste generation af computere</h3>
+							<br />
+							<br />
+							<h4>Jens Egholm Pedersen<br /> PhD Studerende, KTH Royal Institute of Technology
+								<p style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</p>
+								<p style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</p>
+								<p style="font-size: 80%;"><i class="fa fa-house"></i> jepedersen.dk</p>
+							</h4>
+							<p class="credit">Video: Human Brain Project, 2023</p>
+						</div>
+						<div class="col">
+							<!-- <img src="https://picsum.photos/1500/1200" class="full-size" /> -->
+							<video src="2403_mouse_cortex.mp4" loop muted autoplay class="full-size" data-autoplay></video>
+							<!-- <iframe width="560" height="315" src="blue_brain.webm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+						</div>
+					</div>
+					<aside class="notes">
+						I oplægget: revolution
+						<br />
+						Københavnersmart --- Men jeg er æ fra Kjøwenhawn. Newl. Varde. Esbjerg.
+						<br />
+						Så hvis jeg siger revolution mener jeg det
+						<br />
+						Har svært ved at være i mig selv når jeg taler om det her. Når noget er godt så "ku det vær værre". Når det
+						er lidt bedre, så det "møj godt".
+						På et tidspunkt løber jeg tør for adjektiver
+						<br />
+						Kommer til at få betydning for hele samfundet - og digitaliseringsindsatsen
+					</aside>
+				</section>
+			</section>
+			<section>
+
+				<section>
+					<img src="24_data_instructions1.png" class="r-stretch"/>
+				</section>
+
+				<section>
+					<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'
+						class="full-size">
+						<iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true'
+							allowtransparency='true' frameborder='0' height='315'
+							src='https://www.mentimeter.com/app/presentation/alryoc6gwzwwa9d4jvvwx79mnauhj4fr/embed'
+							style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe>
+					</div>
+				</section>
+
+				<section>
+					<h2>Hvad er problemet?</h2>
+					<h5>Er vores computere ikke gode nok?</h5><br />
+					<h3 class="fragment">... I forhold til hvad? <span class="fragment">Hvad måler vi?</span></h3><br />
+					<h1 class="fragment">Hva koster'et?</h1>
+				</section>
+
+				<section data-background-color="#5983a0">
+					<h2>Landauers grænse</h2>
+					<div class="container" style="width: 1500px">
+						<img src="cold_hot.png" class="col" style="max-height: 90vh; max-width: 90vh;" />
+						<div class="col fragment">
+							<br /><br />
+							<h3>$E \geqslant T\ k_B$</h3>
+							<br /><br />
+							<h3 class="fragment">
+								<b>Koldt</b>: Billigt
+							</h3>
+							<h3 class="fragment">
+								<b>Varmt</b>: Dyrt
+							</h3>
+						</div>
+					</div>
+				</section>
+
+				<section data-background-color="white">
+					<h2>Computere er fysiske systemer</h2>
+					<br />
+					<div class="container">
+						<div class="col">
+							<h3>Transistorer <span class="fragment">(computere)</span></h3>
+							<img src="transistor.jpg" />
+							<p class="fragment">$10^{12}$ transistorer ved $10^9$Hz</p>
+						</div>
+						<div class="col">
+							<div class="r-stack">
+								<div class="fragment fade-in-then-out">
+									<h3>Neuroner (hjerner)</h3>
+									<img src="neuron.jpeg" style="max-height: 500px;" />
+									<p>$10^{12}$ neuroner ved $10^2$Hz</p>
+									<p class="credit">Wikipedia</p>
+								</div>
+								<div class="fragment">
+									<h3>Synapser (hjerner)</h3>
+									<img src="synapse.jpg" style="height: 500px;" />
+									<p class="fragment">$10^{14}$ synapser ved $10^5$Hz</p>
+									<p class="credit">Wikipedia</p>
+								</div>
+							</div>
+						</div>
+				</section>
+
+				<section>
+					<h2>Hvor stor er forskellen?</h2>
+					<h3>Per <q><i>operation</i></q></h3>
+					<img src="energy_comparison_question.png" class="r-stretch" />
+				</section>
+
+				<section>
+					<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'>
+						<iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true'
+							allowtransparency='true' frameborder='0' height='315'
+							src='https://www.mentimeter.com/app/presentation/alryoc6gwzwwa9d4jvvwx79mnauhj4fr/embed'
+							style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe>
+					</div>
+				</section>
+
+				<section>
+					<h2>Hvor stor er forskellen?</h2>
+					<h3 class="fragment">$1'000'000$ DKK $\approx 1$ Øre</h3>
+					<img src="energy_comparison.png" class="r-stretch" />
+					<p class="credit">Sadas Shankar, IEEE HPEC, 2023</p>
+					<aside class="notes">
+						Hvis du køber KWh for 1 mio kroner så kan jeg gøre det samme for 1 Øre
+						<br />
+						Og så glemmer vi endda alt udenom - harddisk, RAM, køling.
+						Nogle mener den ligger 27-35 OOM over!
+						<br />
+						Det er ikke bare møj godt. Det er så urimeligt at mine forfædre ikke har opfundet ord for det.
+						Det er ca. lige så mange atomer som der er i universet (1e27). Og universet er stort.
+						<br />
+						Gentager; Hvad I går for 1 mio kroner kan jeg gøre for 1 Øre
+						<br />
+						Det er så effektivt og billigt at vi ikke har råd til at lade være
+					</aside>
+				</section>
+
+			</section>
+			<section>
+
+				<section
+					data-background-image="http://upload.wikimedia.org/wikipedia/commons/9/98/Andromeda_Galaxy_(with_h-alpha).jpg"
+					data-background-color="black" data-background-opacity="0.5">
+					<div class="fragment">
+						<h1 class="r-fit-big">Hvis Neuromorphic Computing er så godt</h1>
+						<h1 class="r-fit-big">hvor bliver det af?</h1>
+					</div>
+					<br /><br />
+					<h3 class="fragment">Og hvad har det med ATP at gøre?</h3>
+				</section>
+
+				<section>
+					<h3><q>Because digital computers and computation have been so successful ... it is difficult today to
+							reconstruct what analog computing was all about...</q></h3>
+					<!-- <q class="fragment">With analog machines, there are few or no steps between natural objects and the work and
+						structure of
+						computation.</q> -->
+					<h4 class="credit">- James M. Nyce, 1996</h4>
+					<div class="fragment container" style="width: 1400px;">
+						<img class="col" src="computerandbrain.jpg" />
+						<div class="col" style="text-align: left; margin-top: 2em;">
+							<h3>John von Neumann, 1958</h3>
+							<q>The nervous system is based on two types of communication</q>:<b class="fragment"> digital and
+								analog</b>
+						</div>
+					</div>
+					<aside class="notes">Because digital computers and computation have been so successful, they have influenced
+						how we think about
+						both computers as machines and computation as a process&mdash;so much so, it is difficult today to
+						reconstruct what analog computing was all about...
+
+						Desværre er analoge computere ret upræcise</aside>
+				</section>
+
+				<section>
+					<div class="container">
+						<div class="col">
+							<img src="lobster.jpg" style="height: 80%;" />
+						</div>
+						<div class="col" style="margin:auto;">
+							<q>Eve Marder has spent forty years studying thirty neurons on the stomach of a lobster</q>
+							<br /><br />
+							<div class="fragment">
+								<img src="PDLP.png" />
+								<br />
+								<a class="credit" href="https://www.jneurosci.org/lookup/doi/10.1523/JNEUROSCI.17-14-05610.1997">Manor
+									et
+									al., 1997</a>
+								<br /><br /><br /><br />
+							</div>
+						</div>
+						<aside class="notes">
+							PD: Pyloric Dilator
+							LP: Lateral Pyloric
+						</aside>
+				</section>
+
+				<section data-background-color="white">
+					<h2>Biologisk-inspirerede kredsløb</h2>
+					<div class="container">
+						<img src="control_circuit.png" class="col" style="height: 500px; margin: 0 auto;"/>
+						<img src="neuronservo.png" class="col fragment" style="height: 300px; margin: auto auto;"/>
+					</div>
+					<a class="credit" href="https://authors.library.caltech.edu/53092/1/00080335.pdf">DeWeerth et al., 1991</a>
+				</section>
+
+				<section>
+					<h1>Neuromorfiske chips</h1>
+					<div class="r-stack">
+						<div class="fragment fade-in-then-out">
+							<h3>NVIDIA 4090<br />~500W<br />2DKK / time</h3>
+							<img src="4090.png" style="height: 600px;" />
+						</div>
+						<div class="container fragment">
+							<div class="col">
+								<h3>Intel Loihi<br />~1W<br />1kr / måned</h3>
+								<img src="intel_loihi.jpg" style="height: 400px;" />
+							</div>
+							<div class="col fragment">
+								<h3>Akida Brainchip<br />~100mW<br />1kr / år</h3>
+								<img src="akida.webp" style="height: 400px;" />
+							</div>
+							<div class="col fragment">
+								<h3>Innatera T1<br />~1mW<br />1kr / årh.</h3>
+								<img src="innatera.jpg" style="height: 400px;" />
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Neuromofisk integreret hardware</h2>
+					<div class="container">
+						<div class="col" style="flex-grow: 2;">
+							<img src="speck.png" height="500px;" />&nbsp;&nbsp;&nbsp;
+							<img src="speck_hand.png" height="500px;" />
+							<p class="credit">SynSense 2023</p>
+							<div>
+								<ul style="margin: 1em 0 0 2em; width: 70%;">
+									<li>Kamera + mini neuralt netværk</li>
+									<li>Energiforbrug: 1mW, 1kr/årh.</li>
+								</ul>
+							</div>
+						</div>
+						<div class="col fragment">
+							<img src="smartphone_camera.avif" height="500px;" />
+							<div>
+								<ul style="margin: 1em 0 0 2em; width: 100%;">
+									<li>Kamera + mini GPU</li>
+									<li>Energiforbrug: 10W, 10kr / måned</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Neuromorfiske robotter</h2>
+					<video src="../2403_OffDig/decroon.mp4" loop muted autoplay data-autoplay class="r-stretch"></video>
+					<p class="credit" style="margin: 0em 10em 0 0;">de Croon 2022</p>
+				</section>
+
+				<section data-background-image="brain_sketch.jpeg" data-background-opacity="0.3" data-background-color="#000">
+					<h1>Opsummeret:</h1>
+					<h2>Neuromorfisk hardware er kropsliggjort AI</h2>
+					<h3>Inspireret af fysikken og biologien</h3>
+				</section>
+
+				<section data-background-image="brain_sketch.jpeg" data-background-opacity="0.3" data-background-color="#000">
+					<h1>Så ...</h1>
+					<div style="font-size: 150%; line-height: 2em;">
+						<p class="fragment">Neuromorfisk hardware er <span class="fragment highlight-red">$\times$1000 så
+								effektivt</span></p>
+						<p class="fragment">Teknologien er ung <span class="fragment">... men lover godt</span></p>
+					</div>
+					<br/>
+
+					<div style="font-size: 150%; line-height: 2em;">
+						<p class="fragment">Vi får <i style="font-style: italic;">mindst</i> <span
+								class="fragment highlight-red">$\times$1000 flere sensorer</span></p>
+						<p class="fragment">Vi vil se <span class="fragment highlight-red">neuromorfiske robotter</span></p>
+					</div>
+					<br />
+					<aside class="notes">
+						Alle de ting vi gør. Kan vi gøre 1000vis af gange.
+						Det bliver så billigt at det giver økonomisk mening.
+						<br />
+						1000 kameraer der ser på os.
+						1000 sensorer der måler vores kropsfunktioner.
+						1000 data processorer der analyserer informationsstrømme.
+						1000 små robotter der gør rent efter os.
+						Kort sagt; AI bliver fysisk
+				</section>
+			</section>
+
+			<section>
+				<section data-background-image="nature.jpg" data-background-opacity="1" data-background-color="#000">
+					<h2 class="fragment shadow3">Hvad har det med ATP at gøre?</h2>
+					<!-- <p class="credit" style="background-color: black; position: absolute; bottom: 1em; right: 5em;">Photo by <a
+							href="https://unsplash.com/@tokeller?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Tobias
+							Keller</a> on <a
+							href="https://unsplash.com/photos/landscape-photography-of-lake-and-mountain-73F4pKoUkM0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+					</p> -->
+				</section>
+
+				<section>
+					<h2>Hvad kan vi bruge neumorfiske computere til?</h2>
+					<div class="r-stack r-stretch">
+						<img src="24_data_instructions1.png" class="fragment" />
+						<img src="24_data_instructions2.png" class="fragment" />
+					</div>
+				</section>
+
+				<section data-background-color="white">
+					<img src="strogatz.png"/>
+					<span class="credit">Strogatz, 1994</span>
+				</section>
+
+				<section data-background-color="white">
+					<h2>Hvordan programmerer vi dem?</h2>
+					<div class="container">
+						<div class="fragment col">
+							Det vi kender: 
+							<br/>
+							<img src="code.avif" style="width: 700px;"/>
+						</div>
+						<div class="fragment col">
+							Det vi skal bruge:
+							$$\tau \frac{dv}{dt} = - v + I$$
+							<img src="lif_nir.png" class="fragment" style="width: 900px;"/>
+							<p class="credit">Pedersen et al., 2023</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-background-color="white">
+					<h2>Neuromorphic Intermediate Representation</h2>
+					<h3>7 simulatorer og 4 hardware platforme</h3>
+					<img src="nirhero.png" />
+					<br/>
+					<p class="credit">Pedersen et al., 2023</p>
+				</section>
+
+				<section>
+					<img src="phd_speech_bubble.png" class="r-stretch">
+					<aside class="notes">
+						Lang historie kort: der er brug for mere forskning
+						<br />
+						Nu: problemer løst med neuromorfisk computing
+						<br />
+						Spreder sig: udbredes om 5 år
+					</aside>
+				</section>
+				<section>
+					<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'
+						class="full-size">
+						<iframe sandbox='allow-scripts allow-same-origin allow-presentation' allowfullscreen='true'
+							allowtransparency='true' frameborder='0' height='315'
+							src='https://www.mentimeter.com/app/presentation/alryoc6gwzwwa9d4jvvwx79mnauhj4fr/embed'
+							style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe>
+					</div>
+				</section>
+
+				<section data-background-image="brain_sketch.jpeg" data-background-opacity="0.3" data-background-color="#000">
+					<h3 class="fragment">Neuromorfisk hardware findes og kan købes i dag</h3>
+					<h3 class="fragment">Neuromorfiske computere er <span style="color:red;">$\times$1000</span> mere effektive
+					</h3>
+					<h3 class="fragment">Neuromorfisk teknologi vil <span style="color:red;">kropsliggøre AI</span></h3>
+				</section>
+
+				<section data-background-color="black">
+					<div class="container">
+						<div class="col" style="text-align: right; ">
+							<h2>Neuromorphic computing</h2>
+							<br />
+							<h3>Den næste generation af computere</h3>
+							<br />
+							<br />
+							<h4>Jens Egholm Pedersen<br /> PhD Studerende, KTH Royal Institute of Technology
+								<p style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</p>
+								<p style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</p>
+								<p style="font-size: 80%;"><i class="fa fa-house"></i> jepedersen.dk</p>
+							</h4>
+							<p class="credit">Video: Human Brain Project, 2023</p>
+						</div>
+						<div class="col">
+							<!-- <img src="https://picsum.photos/1500/1200" class="full-size" /> -->
+							<video src="../2403_OffDig/2403_mouse_cortex.mp4" loop muted autoplay class="full-size" data-autoplay></video>
+							<!-- <iframe width="560" height="315" src="blue_brain.webm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+						</div>
+					</div>
+					<aside class="notes">
+						I oplægget: revolution
+						<br />
+						Københavnersmart --- Men jeg er æ fra Kjøwenhawn. Newl. Varde. Esbjerg.
+						<br />
+						Så hvis jeg siger revolution mener jeg det
+						<br />
+						Har svært ved at være i mig selv når jeg taler om det her. Når noget er godt så "ku det vær værre". Når det
+						er lidt bedre, så det "møj godt".
+						På et tidspunkt løber jeg tør for adjektiver
+						<br />
+						Kommer til at få betydning for hele samfundet - og digitaliseringsindsatsen
+					</aside>
+				</section>
+
+				<section data-visibility="uncounted">
+					<img src="ai-and-compute-all.png" class="r-stretch" />
+				</section>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				width: 1920,
+			height: 1000,
+			margin: 0.02,
+			hash: true,
+			slideNumber: "c/t",
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+			pdfSeparateFragments: false,
+		});
+	</script>
+</body>
+
+</html>
