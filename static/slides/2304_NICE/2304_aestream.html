@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>AEStream: Accelerated event processing with coroutines</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/serif.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+
+	<link rel="stylesheet" href="rise.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<div style="height: 400px;">
+					<video src="pendulum.mp4" autoplay loop muted controls style="vertical-align: middle;" />
+				</div>
+				<div>
+					<div class="r-stack" style="height: 300px;">
+						<img src="camera.png" style="margin: auto;" class="fragment fade-in-then-out" />
+						<img src="spinn_bottleneck.png" class="fragment fade-in-then-out" data />
+						<img src="cpu_bottleneck.png" class="fragment" />
+					</div>
+				</div>
+				<aside class="notes">
+					I'll now move on with a technical talk I personally find quite important.
+					I spent a lot of time worrying about this during my PhD and I know I'm not alone.
+					Specifically, dealing with high-bandwidth event streams.
+
+					This is a event-based camera from Inivation.
+					This video of events is perfect for neuromorphic processing, because we can wire each pixel to a neuron in a
+					1:1 mapping.
+
+					However, most of the compute infrastructure available to us is not neuromorphic.
+					Most computers rely on very few cores. That is bad news for the event camera.
+					But that is what this talk is about; I will show you how we can optimize event processing on conventional
+					compute hardware
+					to save on two important aspects: money and time.
+				</aside>
+			</section>
+			<!-- <section class="notes">
+				<div>
+					<img src="gpu.png" />
+					<span class="credit">Dally et al.: Evolution of the GPU, IEEE Micro 2021</span>
+				</div>
+			</section> -->
+			<section data-background-color="white">
+				<!-- <img src="1280px-AmdahlsLaw.svg.png" class="r-stretch" /> -->
+				<h2>AEStream</h2>
+				<h3>Accelerating event-based processing with coroutines <span class="fragment">on CPUs and GPUs</span></h3>
+				<h4>Jens Pedersen &amp; Jörg Conradt</h4>
+				<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+					<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+					<span><i class="fa fa-house"></i> jepedersen.dk</span>
+				</p>
+				<div style="display: flex; justify-content: center;">
+					<img src="kth.png" style="height: 150px; margin: 0 1em;" />
+					<img src="ncs.png" style="height: 150px; margin: 0 1em;" />
+					<img src="hbp.png" style="height: 150px; margin: 0 1em;" />
+				</div>
+				<aside class="notes">
+					Before I do that, I would like to express my gratitude for the invitation to talk.
+					My name is Jens Pedersen and I'm a PhD student supervised by Jörg Conradt at KTH.
+					We work with neuromorphic computing and robotics.
+					And in this talk I would like to convince you that we can accelerate event-based processing on conventional
+					hardware.
+					So, we don't have to toss out every von Neumann machine when the neuromorphic revolution comes.
+				</aside>
+			</section>
+			<section>
+				<section>
+					<h2>Threads and buffers</h2>
+					<img src="locks.svg" class="r-stretch" />
+				</section>
+				<section>
+					<h2>Lock-free cooperation</h2>
+					<img src="threads_and_coroutines.svg" class="r-stretch" />
+
+					<ol>
+						<li class="fragment">Almost no synchronization overhead</li>
+						<li class="fragment">No complex memory abstractions</li>
+					</ol>
+				</section>
+			</section>
+			<section>
+				<section data-background-color="white">
+					<h2>CPU benchmarks</h2>
+					<p>Do coroutines improve throughput?</p>
+					<img src="cpu_bottleneck_simple.png" style="height: 300px;margin-bottom:1em;" class="fragment" />
+					<ul>
+						<li class="fragment">Generated $10^6$ to $10^9$ events</li>
+						<li class="fragment">Time storing and loading in shared memory</li>
+					</ul>
+				</section>
+				<section data-background-color="white">
+					<h3>CPU benchmarks: mutex barrier</h3>
+					<img src="threads_simple.png" class="fragment" style="height: 500px;" />
+				</section>
+				<section data-background-color="white">
+					<h3>CPU benchmarks: relative speed</h3>
+					<img src="speedup_simple.png" />
+					<aside class="notes">
+						We then compared across buffer sizes
+
+						Big deal when dealing with real-time neuromorphics. Especially on resource-constrained systems
+					</aside>
+				</section>
+				<section>
+					<h2>GPU benchmarks</h2>
+					<p>Do coroutines improve throughput on GPUs?</p>
+					<img src="gpu_bottleneck.png" class="fragment" />
+					<aside class="notes">
+						GPUs have cores in the thousands. Unfortunately, they operate best with batch operations.
+						So sending singular events into it one by one is inefficient.
+						Rather, we use the coroutines to acculumulate them in 2-d "frames" that are then passed into a 2 layer
+						spiking
+						neural network.
+						These frames are somewhere between 100us and 1ms, so in the limit, we are sending in individual events.
+					</aside>
+				</section>
+				<section data-background-color="white">
+					<img src="gpu_runtime.png" class="r-stretch" />
+					<aside class="notes">
+						Also significant in real-time settings where milliseconds really matter.
+					</aside>
+				</section>
+				<section>
+					<h2>SpiNNaker benchmark</h2>
+					<img src="spinn_bottleneck.png" class="r-stretch" />
+					<ul style="margin-top: 1em;">
+						<li class="fragment">Increases throughput from 200kev/s to 10Mev/s</li>
+						<li class="fragment">Reduces streaming latency by 30%</li>
+					</ul>
+					<aside class="notes">
+						Work ongoing
+					</aside>
+				</section>
+			</section>
+			<section>
+				<h2>Edge detection with SNN</h2>
+
+				<pre><code data-trim data-noescape data-line-numbers="1|2|4-5|6|7|">from aestream import USBInput # Import AEStream
+net = ...                     # Create SNN network
+
+with USBInput((640, 480), device="gpu) as camera:
+    while True:  # Loop forever
+        tensor = camera.read() # Read a tensor "frame"
+        out = net(tensor) # Apply
+			</code></pre>
+
+				<img src="https://github.com/aestream/aestream/raw/main/example/usb_edgedetection.gif" class="fragment" />
+				<aside class="notes">
+					Simplicity really makes a difference for a PhD student like me
+				</aside>
+			</section>
+			<section>
+				<h1>AEStream</h1>
+				<ul>
+					<li class="fragment" data-fragment-index="0"><b>Easy</b> to use and open source</li>
+					<li class="fragment" data-fragment-index="1">Supports large number of input/output pairs</li>
+					<li class="fragment" data-fragment-index="2">3x throughput for events on CPUs</li>
+					<li class="fragment" data-fragment-index="3">5x throughput for events on GPUs</li>
+				</ul>
+				<img src="aestream.svg" class="fragment" data-fragment-index="1" style="margin-top: 0.7em;" />
+				<aside class="notes">
+					First of all, AEStream is easy to use. Helpful for me, but probably also for you since we may be facing some
+					of the same challenges.
+				</aside>
+			</section>
+			<section data-background-color="white">
+				<h3>AEStream - Accelerating event-based processing with coroutines</h3>
+				<h4>Jens Pedersen &amp; Jörg Conradt</h4>
+				<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+					<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+					<span><i class="fa fa-house"></i> jepedersen.dk</span>
+				</p>
+				<p style="font-size: 80%;"><b>Thank you</b> - Juan P. Romero B., Emil Jansson, Anders Søborg, Alexander Hadjivanov, Cameron Baker,
+					Steven
+					Abreu, Harini Sudha, Christian
+					Pehle, Gregor Lenz</p>
+
+				<div style="display: flex; justify-content: center;">
+					<img src="kth.png" style="height: 150px; margin: 0 1em;" />
+					<img src="ncs.png" style="height: 150px; margin: 0 1em;" />
+					<img src="hbp.png" style="height: 150px; margin: 0 1em;" />
+				</div>
+				<h3>Join us <a href="https://github.com/aestream">github.com/aestream</a></h3>
+				<aside class="notes">
+					I would like to thank you to all our collaborators and funding agencies.
+
+					AEStream is open source. I hope you join us in creating better and faster neuromorphic infrastructure
+				</aside>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/math/math.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			slideNumber: "c/t",
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+		});
+	</script>
+</body>
+
+</html>
