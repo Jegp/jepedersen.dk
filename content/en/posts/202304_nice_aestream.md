@@ -1,8 +1,10 @@
 ---
 title: "AEStream: Accelerated event-based processing with coroutines"
 date: 2023-04-11
-featured_image: img/slides/2304_NICE/aestream.svg
+featured_image: slides/2304_NICE/aestream.svg
 ---
+
+{{< figure src="/slides/2304_NICE/aestream.svg" alt="AEStream logo" caption="AEStream sends data from input sources to output sinks." >}}
 
 We published a paper on the technologies behind the event-based processing library, [AEStream](https://github.com/aestream/aestream).
 Specifically, we used coroutines to demonstrate that we can achieve *at least* 2x speedups on conventional CPUs and GPUs, compared to parallelization approaches that does not use coroutines.

@@ -44,6 +44,7 @@ markup:
 params:
   toc: true
   math: true
+  body_classes: "avenir bg-light-gray"
   author: Jens Egholm Pedersen
   favicon: img/favicon.png
   show_reading_time: true
