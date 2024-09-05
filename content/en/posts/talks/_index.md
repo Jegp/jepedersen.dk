@@ -7,8 +7,8 @@ menu:
     weight: 1
 ---
 
-Jens is a frequent speaker at conferences, meetups, workshops, and in the general media.
-With his lively and engaging style, he is known for his ability to convey complex topics in a way that captivates the audience and gives them food for thought.
+I am a frequent speaker at conferences, meetups, workshops, and in the general media.
+My style is lively and engaging, and I am known for my ability to convey complex topics in a way that captivates the audience and gives them food for thought.
 
 **Contact**: `jens [.at.] jepedersen [.dot.] dk`
 
