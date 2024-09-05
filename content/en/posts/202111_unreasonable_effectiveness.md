@@ -57,7 +57,7 @@ search through massive deep networks now up to *hundreds of trillions*
 of parameters [@Brown2020].
 
 <figure>
-<img src="cat.png"/>
+<img src="/img/cat.png"/>
 <p class="caption">
 Figure 1. Two possible classification task based on the same cat picture: 
 object identification (top) and masking out pixels belonging to the cat (bottom).
@@ -123,7 +123,7 @@ matter of preserving mapping?
 Maybe. We do not know [@Saxe_Nelli_Summerfield_2021]. Please find out.
 
 <figure>
-<img src="ai_pop.png" style="width: 80%;"/>
+<img src="/img/ai_pop.png" style="width: 80%;"/>
 <p class="caption">
 Popularity of the search terms "deep learning" and "artificial
 intelligence" on Google Trends [@Google2021]. The Y-axis expresses
