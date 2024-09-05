@@ -10,24 +10,18 @@ menu:
 
 Jens Egholm Pedersen is a doctoral student at the Royal Institute of Technology (KTH) working to model and construct [neuromorphic control systems](https://en.wikipedia.org/wiki/Neuromorphic_engineering).
 
+    
+    
 ## Research
 
-Jens' research centers on questions around spatiotemporal computation for sparse and neuromorphic systems.
-He worked on [Neuromorphic Intermediate Representation](https://neuroir.org), developed geometric methods for [neuromorphic and spatiotemporal receptive fields](https://arxiv.org/abs/2405.00318), and has published popular open-source tools like [Norse](https://github.com/norse/norse) and [Faery](https://github.com/aestream/faery), among other things.
+At the heart of my research lies a profound curiosity: What is intelligence, really? As a PhD candidate at KTH Royal Institute of Technology, my work seeks to unravel the mysteries of neuromorphic computing, an innovative field that blends neuroscience and computer science. My research aims to mimic the brain’s extraordinary ability to process information with unparalleled efficiency and adaptability. I believe that by understanding the core principles of intelligence in biological systems, we can revolutionize how we approach computation, learning, and ultimately, how we interact with technology.
 
-A list of his publications can be found on his [Semantic Scholar profile](https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252).
+My journey began in the realms of computer science and cognition, where I delved into how learning systems can be modeled using both spiking and artificial neural networks. My early fascination with the brain's mechanisms has driven me to explore how its complex processes can be replicated in computational models. This led to my current research, where I work on developing computational frameworks for brain-inspired computing. One of my key projects, "The Neuromorphic Intermediate Representation," provides a common language that bridge the gap between neuroscience and artificial intelligence, and is used across more than 12 neuromorphic software and hardware projects.
 
-## Open source work
+## Motivation
 
-Jens is a leading contributor towards open-source library for analog and neuromorphic technologies. His contribution includes
+My motivation stems from a desire to push the boundaries of what machines can do, not just in terms of raw processing power but in their capacity to learn, adapt, and make sense of the world in real-time. This vision has led to my involvement in several groundbreaking projects, including the development of "AEStream," a high-performance library for event-based data processing, and "Norse," a deep learning library tailored for spiking neural networks. These tools are designed to empower the next generation of AI systems, making them more efficient and closer to mimicking human cognitive functions.
 
-* ![GitHub Repo stars](https://img.shields.io/github/stars/neuromorphs/nir) [NIR](https://neuroir.org) - A Neuromorphic Intermediate Representation
-* ![GitHub Repo stars](https://img.shields.io/github/stars/norse/norse) [Norse](https://github.com/norse/norse) - Spiking neural networks in PyTorch
-* ![GitHub Repo stars](https://img.shields.io/github/stars/aestream/aestream) [AEStream](https://github.com/aestream/aestream) - Efficient streaming of sparse event data
-* ![GitHub Repo stars](https://img.shields.io/github/stars/aestream/faery) [Faery](https://github.com/aestream/faery) - Event data processing and recording
+Throughout my career, I have had the privilege of collaborating with some of the brightest minds in the field, from leading neuromorphic computing experts to interdisciplinary teams at international workshops, like Telluride and CapoCaccia, and conferences, like NICE and ICONS. My contributions have been recognized with honors such as the NSF AccelNet NeuroPAC Fellowship and the Edge of Government Award. 
+By simulating, analyzing, and understanding neural circuits involved in vision, motor control, and self-sustenance, I aim to develop autonomous systems that are not only intelligent but also robust in dynamic environments. My work is deeply inspired by Richard Feynman’s axiom: *"What I cannot create, I do not understand."* To truly understand intelligence, I believe we must endeavor to create it.
 
-## Personal motivation
-
-When faced with the complexity and ambiguity in the real world, contemporary algorithms fail spectacularly. There is a **strong need for self-correcting, closed-loop systems to help solve our everyday physical problems**.
-
-By simulating and carefully scrutinizing and understanding neural circuits, including vision, motor control, and self-sustenance, Jens seeks to build autonomous systems that perform meaningful work, tightly following the Feynman axiom *"What I cannot create, I do not understand"*.
