@@ -86,7 +86,7 @@ If you find my work valuable, <a href="https://github.com/sponsors/jegp">conside
 
 ## My Public Engagement
 
-<a href="talks/" class="link black dim db w-100 pa2 br2 ba b--black-10 shadow-1">
+<a href="posts/talks/" class="link black dim db w-100 pa2 br2 ba b--black-10 shadow-1">
   <img src="/img/jens_stage.png" />
   <span class="db f6 pv2">{{<ico vendor=bootstrap name=play-btn size=1.2em >}} Watch my talks and videos here </span>
 </a>
@@ -98,7 +98,7 @@ This drives my passion for creating technologies that can autonomously adapt, le
 Simultaneously, I learned how underrepresented neuromorphic computing is in the broader AI community - and to society at large.
 My work has been featured in large journals, I am a frequent speaker at international conferences and workshops, and have been interviewed by magazines and podcasts.
 
-If you need a speaker for your event, [get in touch](talks/).
+If you need a speaker for your event, [get in touch](posts/talks/).
 
 </div>
 
