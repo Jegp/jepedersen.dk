@@ -1,5 +1,5 @@
 ---
-title: "What is intelligence, really?"
+title: "Neuromorphic computation and intelligence"
 
 description: "Research and thoughts of Jens Egholm Pedersen"
 # 1. To ensure Netlify triggers a build on our exampleSite instance, we need to change a file in the exampleSite directory.
