@@ -1,13 +1,13 @@
 ---
-title: "Talks"
-description: "Presentations and talks by Jens"
-featured_image: '/img/jens_stage.png'
+title: "Talks & media"
+description: "Presentations, talks, and media appearances"
+featured_image: '/img/ai_denmark.png'
 menu:
   main:
     weight: 1
 ---
 
-I am a frequent speaker at conferences, meetups, workshops, and in the general media.
+I am a frequent speaker at conferences, meetups, workshops and podcasts.
 My style is lively and engaging, and I am known for my ability to convey complex topics in a way that captivates the audience and gives them food for thought.
 
 **Contact**: `jens [.at.] jepedersen [.dot.] dk`
