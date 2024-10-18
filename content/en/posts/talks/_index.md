@@ -1,7 +1,7 @@
 ---
 title: "Talks & media"
 description: "Presentations, talks, and media appearances"
-featured_image: '/img/ai_denmark.png'
+featured_image: '/img/jens_stage.png'
 menu:
   main:
     weight: 1

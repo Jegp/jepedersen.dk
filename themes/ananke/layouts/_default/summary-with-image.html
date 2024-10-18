@@ -8,6 +8,11 @@
           <a href="{{.RelPermalink}}" class="db grow">
             <img src="{{ $featured_image }}" class="img" alt="image from {{ .Title }}">
           </a>
+          <div class style="color: #999; text-decoration: none; text-align: right;">
+            <span class="render-timeago" datetime="{{ .Date }}"></span> 
+            - {{ .WordCount }} words - {{ .ReadingTime }}min read 
+          </div>
+          
         </div>
       {{ end }}
       <div class="blah w-100{{ if $featured_image }} w-60-ns {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pr3-ns" "pl3-ns" }}{{ end }}">
