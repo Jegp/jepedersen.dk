@@ -9,6 +9,11 @@
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
       in {
-        devShell = pkgs.mkShell { buildInputs = [ pkgs.git pkgs.go pkgs.hugo ]; };
+        devShell = pkgs.mkShell { buildInputs = [ pkgs.git pkgs.go pkgs.hugo ];
+          shellHook = ''
+            echo "Starting Hugo development server..."
+            hugo server -D
+          '';
+        };
       });
 }

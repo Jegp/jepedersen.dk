@@ -4,7 +4,7 @@ description: "Presentations, talks, and media appearances"
 featured_image: '/img/jens_stage.png'
 menu:
   main:
-    weight: 1
+    weight: 6
 ---
 
 I am a frequent speaker at conferences, meetups, workshops and podcasts.

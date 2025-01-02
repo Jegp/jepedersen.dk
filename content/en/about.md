@@ -4,13 +4,12 @@ description: ''
 featured_image: 'img/2401_jens_robots.png'
 menu:
   main:
-    weight: 1
+    weight: 2
 ---
 {{< figure src="/img/2404_jens.jpg" title="Portrait of Jens Egholm Pedersen." >}}
 
 Jens Egholm Pedersen is a doctoral student at the Royal Institute of Technology (KTH) working to model and construct [neuromorphic control systems](https://en.wikipedia.org/wiki/Neuromorphic_engineering).
 
-    
     
 ## Research
 
@@ -24,4 +23,22 @@ My motivation stems from a desire to push the boundaries of what machines can do
 
 Throughout my career, I have had the privilege of collaborating with some of the brightest minds in the field, from leading neuromorphic computing experts to interdisciplinary teams at international workshops, like Telluride and CapoCaccia, and conferences, like NICE and ICONS. My contributions have been recognized with honors such as the NSF AccelNet NeuroPAC Fellowship and the Edge of Government Award. 
 By simulating, analyzing, and understanding neural circuits involved in vision, motor control, and self-sustenance, I aim to develop autonomous systems that are not only intelligent but also robust in dynamic environments. My work is deeply inspired by Richard Feynman’s axiom: *"What I cannot create, I do not understand."* To truly understand intelligence, I believe we must endeavor to create it.
+
+
+<div class="tc mt4">
+  <a href="/posts" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
+    Read More About My Research →
+  </a>
+  <br/>
+  <a href="https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
+    Find me on Semantic Scholar 
+    {{< ico bs mortarboard-fill >}}
+  </a>
+  <br/>
+  <a href="https://github.com/jegp" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
+    Find me on GitHub 
+    {{< ico bs github >}}
+  </a>
+</div>
+
 
