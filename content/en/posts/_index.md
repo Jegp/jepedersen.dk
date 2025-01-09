@@ -5,7 +5,6 @@ featured_image: 'img/2401_jens_robots.png'
 menu:
   main:
     weight: 2
-draft: true
 ---
 
 <a href="https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252" class="link black dim db w-100 pa2 br2 ba b--black-10 shadow-1">

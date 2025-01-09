@@ -5,7 +5,6 @@ featured_image: 'img/2401_jens_robots.png'
 menu:
   main:
     weight: 2
-draft: true
 ---
 
 # Building the Future of Neuromorphic Computing
