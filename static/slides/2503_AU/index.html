@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>From digital to neural</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"
+		integrity="sha512-sMRSj1Ns64C2OE6VNS7WrV63OHW7dLAvi96CXRoy9AEe/tKF+868fhUJpc5ZKS166lwhe2ArCYjFitLJUY+VWA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/math/math.min.js"
+		integrity="sha512-r8CLLeBm1OZX6ll1USdj99rqbY3Y9no8A1YUMy0l/kk+KFnlsQT5E/8gEs59Q7BRta0jBOZVwLqvmlWtdBzrXw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"
+		integrity="sha512-tDzEYXTFwGOO3tWp8oTV3yGeZ4lG4gUt+tJFQTsP7W4jV/MJ1Rgr6m9aICicjh/ymL5GD6jkHXDi9cHKfctFGQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/markdown/markdown.min.js"
+		integrity="sha512-4exkEeyVuaWUFKozXl6L3UCugl6ai1cKnrVFkWUstdrNB2sDxxmPEaHBzTlYm9wX78EjPzEBG0s8k37oPeUFIw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"
+		integrity="sha512-xkVKkN0o7xECTHSUZ9zdsBYRXiAKH7CZ3aICpW6aQJZsufVVRLhEBTDjTpC1tPzm+gNZiOeW174zXAB2fOLsTg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+		integrity="sha512-0AUO8B5ll9y1ERV/55xq3HeccBGnvAJQsVGitNac/iQCLyDTGLUBMPqlupIWp/rJg0hV3WWHusXchEIdqFAv1Q=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/serif.min.css"
+		integrity="sha512-oS1nbkOWsc5Ko9pLGsFZGIt0FBWp1ZmTD7LplvylADPQuxHfztC8Fd24/5CZGNDoLORrtkESGshNdgTbrXPBoQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css"
+		integrity="sha512-z8wQkuDRFwCBfoj7KOiu1MECaRVoXx6rZQWL21x0BsVVH7JkqCp1Otf39qve6CrCycOOL5o9vgfII5Smds23rg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<link rel="stylesheet" href="rise.css">
+
+	<script type="text/javascript" src="https://livejs.com/live.js"></script>
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+	<script>
+		MathJax = {
+			tex: {
+				inlineMath: [['$', '$'], ['\\(', '\\)']]
+			}
+		};
+	</script>
+	<style>
+		.fragment.stroke {
+			text-decoration: none;
+		}
+
+		.fragment.stroke.visible {
+			text-decoration: line-through;
+		}
+
+		.credit,
+		p.credit {
+			font-size: 50%;
+			text-align: right;
+		}
+
+		.credit,
+		.credit a {
+			color: gray;
+		}
+	</style>
+	<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+		<script src="https://cdn.plot.ly/plotly-2.29.1.min.js" charset="utf-8"></script>
+	</script> -->
+	<!-- <style>
+		.container {
+			display: flex;
+			margin: 0 auto;
+		}
+
+		.container .col {
+			flex: 1 1 auto;
+			margin: 0 1em;
+		}
+
+		.reveal .full-size {
+			max-width: none;
+			max-height: none;
+			height: 100vh;
+			margin-top: -4vh;
+		}
+
+		.fragment.bold {
+			-webkit-text-stroke: 0px black;
+		}
+
+		.fragment.bold.visible {
+			-webkit-text-stroke: 2px black;
+			text-stroke: 2px black;
+			/* text-shadow: 0px 0px 4px black; */
+		}
+
+		.shadow3 {
+			text-shadow: 3px 0 #000, 0 3px #000, -3px 0 #000, 0 -3px #000,
+				-2px 2px 0 #000, 2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000 !important;
+		}
+	</style> -->
+</head>
+
+<!-- Take away
+- Spatio-temporal scale spaces are the future of event-based vision
+-->
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section>
+
+				<section data-background-color="white">
+					<h1>From digital to neural</h1>
+					<h3>Building with first principles</h3>
+					<img src="nir_logo.png" style="width: 300px;" />
+					<h3>Jens Egholm Pedersen</h3>
+					<h4>KTH Royal Institute of Technology, Innatera</h4>
+
+					<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+						<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+						<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+						<span><i class="fa fa-house"></i> github.com/neuromorphs/nir</span>
+					</p>
+
+				</section>
+
+				<section>
+					<h2>Who am I?</h2>
+					<ul>
+						<li class="fragment">Jens Egholm Pedersen</li>
+						<li class="fragment">MSc in computer science</li>
+						<li class="fragment">PhD student at KTH Royal Institute of Technology</li>
+						<li class="fragment">Researching neuromorphic computation</li>
+						<li class="fragment">Researching geometric learning for event-based vision</li>
+						<li class="fragment">Maintainer of several neuromorphic open-source efforts
+							<br />
+							<ul style="list-style-type: none;">
+								<li><a href=https://neuroir.org><img alt="GitHub Repo stars"
+											src="https://img.shields.io/github/stars/neuromorphs/nir?style=flat-square"
+											style=vertical-align:middle>
+										<img alt="Pepy Total Downloads"
+											src="https://img.shields.io/pepy/dt/nir?style=flat-square"
+											style=vertical-align:middle>
+										<b>NIR</b></a>: A standard for bio-inspired computing</li>
+								<li><a href=https://neuroir.org><img alt="GitHub Repo stars"
+											src="https://img.shields.io/github/stars/neuromorphs/nirtorch?style=flat-square"
+											style=vertical-align:middle>
+										<img alt="Pepy Total Downloads"
+											src="https://img.shields.io/pepy/dt/nirtorch?style=flat-square"
+											style=vertical-align:middle>
+										<b>NIRTorch</b></a>: PyTorch integration for NIR</li>
+								<li><a href=https://norse.github.io/norse><img alt="GitHub Repo stars"
+											src="https://img.shields.io/github/stars/norse/norse?style=flat-square"
+											style=vertical-align:middle>
+										<img alt="Pepy Total Downloads"
+											src="https://img.shields.io/pepy/dt/norse?style=flat-square"
+											style=vertical-align:middle>
+										<b>Norse</b></a>: A spiking neural network library</li>
+								<li><a href=https://aestream.github.io/aestream><img alt="GitHub Repo stars"
+											src="https://img.shields.io/github/stars/aestream/aestream?style=flat-square"
+											style=vertical-align:middle>
+										<img alt="Pepy Total Downloads"
+											src="https://img.shields.io/pepy/dt/faery?style=flat-square"
+											style=vertical-align:middle>
+										<b>Faery</b></a>: Process event camera data</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+
+
+				<section>
+					<h2>Agenda</h2>
+					<ol>
+						<li class="fragment fade-in-then-semi-out">What is digital and what is neural?</li>
+						<li class="fragment fade-in-then-semi-out">What is NIR?</li>
+						<li class="fragment fade-in-then-semi-out">Where can we go now?</li>
+					</ol>
+				</section>
+
+			</section>
+
+			<section>
+
+				<section>
+					<h2>What is digital and what is neural?</h2>
+
+					<ol>
+						<li class="fragment fade-in-then-semi-out">Defining computation</li>
+						<li class="fragment fade-in-then-semi-out">What are digital computers doing?</li>
+						<li class="fragment fade-in-then-semi-out">What are physical systems doing?</li>
+						<li class="fragment fade-in-then-semi-out">What are neural systems doing?</li>
+					</ol>
+
+				</section>
+
+				<section>
+
+					<h3>Defining computation</h3>
+
+					<div class="fragment">
+						<blockquote class="fragment strike">
+							A computation is any type of arithmetic or non-arithmetic calculation that is well-defined
+						</blockquote>
+						<p class="credit">Wikipedia</p>
+					</div>
+
+					<div class="fragment">
+						<blockquote class="fragment strike">
+							Every finitely realizable physical system can be perfectly simulated by a universal model
+							computing machine by finite means
+						</blockquote>
+						<p class="credit">David Deutsch 1985</p>
+					</div>
+
+					<div class="fragment">
+					<blockquote>
+						A computation is a set of operations that implement a mathematical function
+					</blockquote>
+				 		<p class="credit">Copeland 1996</p>
+					</div>
+
+					<div class="fragment" style="text-align: center;">
+						"Mathematical function" (model): $f: X \to Y$
+						<br />
+						"Set of operations" (system): $f': X' \to Y'$
+					</div>
+				</section>
+
+				<section>
+					<h3>Implementing computations</h3>
+					<img src="when_compute.png" />
+					<p class="credit">"When does a physical system compute?", Horsman et al. 2014</p>
+				</section>
+
+				<section>
+					<h3>What are digital computers doing?</h3>
+					$$
+					f': \mathbb{B}^n \to \mathbb{B}^m
+					$$
+					<p class="fragment">
+						<b>First principles</b>: Boolean algebra, Turing machines
+					</p>
+					<div class="fragment">
+						<img src="when_compute.png" />
+					</div>
+				</section>
+
+				<section>
+					<h3>What are physical systems doing?</h3>
+					<div class="fragment">
+						$$
+						f': \mathbb{R}^n \to \mathbb{R}^m
+						$$
+						<p class="fragment">
+							<b>First principles</b>: Physics, calculus
+						</p>
+					</div>
+					<img src="transistor_current.png" class="r-stretch"/>
+					<p>Curve C illustrates the exponential dependence of the arrival rate of packets of the
+						neurotransmitter at the postsynaptic membrane on the presynaptic membrane potential.
+						Curve D shows the saturation current of a MOS transistor as a function of gate voltage.</p>
+					<p class="credit">Mead 1990</p>
+				</section>
+
+				<section>
+					<h3>What are digital computers doing?</h3>
+					$$
+					f': \mathbb{B}^n \to \mathbb{B}^m
+					$$
+					<b>First principles</b>: Boolean algebra, Turing machines
+					<br/>
+					<img src="energy.png" class="fragment" style="width: 40%;"/>
+					<p class="credit">Shankar, 2023</p>
+				</section>
+
+				<section>
+					<h3>What are neural systems doing?</h3>
+					<blockquote>
+						... the nervous system is based on two types of communications: 
+						...
+						communications of orders (logical ones) and communications of numbers (arithmetical ones).
+						The former may be  described as language proper, the latter as mathematics.
+					</blockquote>
+					<p class="credit">"The Computer and the Brain", von Neumann 1958</p>
+					<aside class="notes">
+						Also talks about specialized accelerators (c f. Fabio's introduction)
+					</aside>
+				</section>
+
+				<section>
+					<h3>What are neural systems doing?</h3>
+					<img src="neuromorphic_prog.png" class="r-stretch"/>
+					<p class="credit">Abreu & Pedersen, 2024</p>
+				</section>
+
+			</section>
+
+			<section>
+
+				<section>
+					<h3>What is the difference between a compiler and linker?</h3>
+
+					<div class="fragment">
+						<h4>Compiler</h4>
+						<p>Translates high-level code to machine code</p>
+					</div>
+					<div class="fragment">
+						<h4>Linker</h4>
+						<p>Resolves references and produces executable</p>
+					</div>
+
+					<div class="fragment">
+					<img src="next_700.png"/ class="r-stretch">
+					<p class="credit">Morris, 1973; Patterson and Adhmed, 2019</p>
+					</div>
+
+					<ul>
+						<li class="fragment">Extensive work on digital architectures and computations</li>
+						<li class="fragment">Little work on continuous-value or continuous-time computations</li>
+						<li class="fragment">Almost zero work on compilers and linkers outside digital systems</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Why care about compiler correctness?</h3>
+					<img src="next_700.png"/ class="r-stretch">
+					<p class="credit">Morris, 1973; Patterson and Adhmed, 2019</p>
+					<div class="fragment">
+						<img src="when_compute.png" />
+						<p class="credit">"When does a physical system compute?", Horsman et al. 2014</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>What does it mean to "build with first principles"?</h3>
+
+					<ol>
+						<li class="fragment">Provide <b>complete</b> mathematical definitions that <b>works with the hardware</b> <span class="fragment">(compiling and linking)</span></li>
+						<li class="fragment">Scale</li>
+					</ol>
+				</section>
+
+				<section>
+					<img src="how_to_scale.png" style="height: 20%;"/>
+					<img src="missing_pieces.png" style="width: 100%;" class="fragment"/>
+					<p class="credit">Kudithipudi et al., 2025</p>
+				</section>
+
+			</section>
+			<section>
+
+
+				<section data-background-color="#fff">
+					<h3>The Neuromorphic Intermediate Representation</h3>
+					<img src="nir.png" style="height: 500px;" />
+				</section>
+
+				<section data-background-color="white" data-transition="fade">
+					<h3>Reproducible computation</h3>
+					<h5 class="fragment" data-fragment-index="0">Neuron equations are based on <b>idealized</b>
+						continuous-time models</h5>
+
+					<p class="fragment" data-fragment-index="0">Leaky-integrator: &nbsp; $\dot{v} = (v_{leak} - v) + R
+						I$</p>
+					<img src="lif_comparison.png" class="fragment" />
+				</section>
+
+				<section data-background-color="white" data-transition="fade">
+					<h3>... or not</h3>
+					<span class="fragment" data-fragment-index="0">Similarity for spiking CNN activity</span>
+					<div style="display: flex; justify-content: center; align-items: center;">
+						<img src="conv_similarity.png" style="width:70%;" data-fragment-index="0" class="fragment" />
+						<ul style="font-size: 90%; margin-left: 1.6em; width: 70%;">
+							<li class="fragment fade-in-then-semi-out">NIR reproduces ideal model</li>
+							<li class="fragment fade-in-then-semi-out" style="margin: 0.8em 0;">Exposes discretization
+								mismatch</li>
+							<li class="fragment fade-in-then-semi-out">Allows platform-specific optimization</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<img src="../2304_NICE/norse_logo.png" style="height: 60px; margin:0; vertical-align: bottom;" />
+					$\to$ SynSense Speck <img src="speck.png" style="height: 60px; margin:0; vertical-align: middle;" />
+					<br />
+					<br />
+					<h4 class="fragment" data-fragment-index="0">Norse $\rightarrow$ NIR</h4>
+					<pre class="fragment" data-fragment-index="0"><code data-trim data-noescape data-line-numbers="1|3|5">import norse.torch as norse
+
+model = norse.SequentialState( ... )
+
+nir_model = norse.to_nir(model, torch.randn(1, 10))
+				</code></pre>
+					<h4 class="fragment">NIR $\rightarrow$ SynSense Sinabs</h4>
+					<pre class="fragment"><code data-trim data-noescape data-line-numbers="1|3">import sinabs.from_nir
+
+sinabs_model = sinabs.from_nir(nir_model, batch_size=4)
+				</code></pre>
+
+					<br />
+					<h4 class="fragment">NIR <b>decouples</b> hardware and algorithms</h4>
+				</section>
+
+			</section>
+
+			<section>
+				<section>
+					<h2>Where can we go now?</h2>
+					<img src="how_to_scale.png" style="height: 20%;"/>
+					<p class="credit">Kudithipudi et al., 2025</p>
+				</section>
+
+				<section>
+					<blockquote>
+						This essay introduces the term hardware lottery to describe when a research idea wins because it is suited to the available software and hardware and not because the idea is superior to alternative research directions.
+					</blockquote>
+					<p class="credit">Sara Hooker, 2020</p>
+				</section>
+
+				<section>
+					<h3>Re-introduce analog accelerators</h3>
+					<img src="energy.png" style="width: 40%";/>
+					<p class="credit">Shankar, 2023</p>
+				</section>
+
+				<section>
+					<h3>Leverage analog-digital interplay</h3>
+					<img src="neuromorphic_prog.png" class="r-stretch"/>
+					<p class="credit">Abreu & Pedersen, 2024</p>
+				</section>
+
+				<section>
+					<h3>Build the missing pieces - together</h3>
+					<img src="missing_pieces.png" style="width: 100%;"/>
+				</section>
+
+				<section>
+					<h3>Open source efforts</h3>
+
+					<ul>
+						<li class="fragment"><b>Continuous-valued</b> representations</li>
+						<li class="fragment"><b>Easy and open source</b> software</li>
+						<li class="fragment"><b>Common</b> yard sticks and benchmarks</li>
+					</ul>
+
+					<p class="fragment">Visit <a href="https://open-neuromorphic.org">Open-Neuromorphic.org</a></p>
+				</section>
+
+			</section>
+
+			<section data-background-color="white">
+				<h1>From digital to neural</h1>
+				<h3>Building with first principles</h3>
+				<img src="nir_logo.png" style="width: 300px;" />
+				<h3>Jens Egholm Pedersen</h3>
+				<h4>KTH Royal Institute of Technology, Innatera</h4>
+
+				<p style="display: flex; gap: 1em; color: #555; font-size: 80%; justify-content: center;">
+					<span><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					<span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span>
+					<span><i class="fa fa-house"></i> github.com/neuromorphs/nir</span>
+				</p>
+
+			</section>
+
+		</div>
+	</div>
+
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			width: 1920,
+			height: 1000,
+			margin: 0.02,
+			hash: true,
+			slideNumber: "c/t",
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+			pdfSeparateFragments: false,
+		});
+	</script>
+</body>
+
+</html>
