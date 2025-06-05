@@ -1,40 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Random arXiv Paper Picker</title>
-        <style>
-            body {
-                font-family:
-                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    sans-serif;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                min-height: 100vh;
-                color: #333;
-            }
-
-            .container {
-                background: white;
-                border-radius: 20px;
-                padding: 40px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                backdrop-filter: blur(10px);
-            }
-
-            h1 {
-                text-align: center;
-                color: #2c3e50;
-                margin-bottom: 30px;
-                font-size: 2.5em;
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random arXiv Paper Picker</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
             footer {
                 margin: 1em auto;
@@ -49,466 +47,322 @@
             footer a:visited {
                 color: #ddd;
             }
-
-            .button-container {
-                text-align: center;
-                margin: 40px 0;
-            }
-
-            #findPaperBtn {
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                color: white;
-                border: none;
-                padding: 15px 30px;
-                font-size: 18px;
-                border-radius: 50px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            #findPaperBtn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-            }
-
-            #findPaperBtn:active {
-                transform: translateY(0);
-            }
-
-            #findPaperBtn:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-                transform: none;
-            }
-
-            .loading {
-                text-align: center;
-                color: #666;
-                font-style: italic;
-                margin: 20px 0;
-            }
-
-            .paper-result {
-                background: #f8f9ff;
-                border: 2px solid #e1e8ff;
-                border-radius: 15px;
-                padding: 25px;
-                margin: 20px 0;
-                animation: fadeIn 0.5s ease-in;
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .paper-title {
-                font-size: 20px;
-                font-weight: bold;
-                color: #2c3e50;
-                margin-bottom: 10px;
-                line-height: 1.4;
-            }
-
-            .paper-authors {
-                color: #7f8c8d;
-                margin-bottom: 10px;
-                font-weight: 500;
-            }
-
-            .paper-meta {
-                display: flex;
-                gap: 20px;
-                margin-bottom: 15px;
-                flex-wrap: wrap;
-            }
-
-            .paper-category,
-            .paper-date {
-                background: #667eea;
-                color: white;
-                padding: 5px 12px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-                text-transform: uppercase;
-            }
-
-            .paper-summary {
-                color: #34495e;
-                line-height: 1.6;
-                margin-bottom: 15px;
-                text-align: justify;
-            }
-
-            .paper-link {
-                display: inline-block;
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                color: white;
-                text-decoration: none;
-                padding: 10px 20px;
-                border-radius: 25px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-            }
-
-            .paper-link:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            }
-
-            .error {
-                background: #fff5f5;
-                border: 2px solid #fed7d7;
-                color: #c53030;
-                border-radius: 10px;
-                padding: 15px;
-                margin: 20px 0;
-            }
-
-            .spinner {
-                border: 3px solid #f3f3f3;
-                border-top: 3px solid #667eea;
-                border-radius: 50%;
-                width: 30px;
-                height: 30px;
-                animation: spin 1s linear infinite;
-                margin: 0 auto;
-            }
-
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🎲 Random arXiv Paper Picker</h1>
-            <p style="text-align: center; color: #666; margin-bottom: 30px">
-                Discover fascinating research papers from arXiv's vast
-                collection!
-            </p>
-
-            <div class="button-container">
-                <button id="findPaperBtn" onclick="findRandomPaper()">
-                    Find Random Paper
-                </button>
-            </div>
-
-            <div id="result"></div>
+        
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        #findPaperBtn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        #findPaperBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        #findPaperBtn:active {
+            transform: translateY(0);
+        }
+        
+        #findPaperBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        
+        .paper-result {
+            background: #f8f9ff;
+            border: 2px solid #e1e8ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .paper-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .paper-authors {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .paper-category, .paper-date {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .paper-summary {
+            color: #34495e;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .paper-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .error {
+            background: #fff5f5;
+            border: 2px solid #fed7d7;
+            color: #c53030;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Random arXiv Paper Picker</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Discover fascinating research papers from arXiv's vast collection!
+        </p>
+        
+        <div class="button-container">
+            <button id="findPaperBtn" onclick="findRandomPaper()">
+                Find Random Paper
+            </button>
         </div>
+        
+        <div id="result"></div>
+    </div>
 
-        <script>
-            // All arXiv categories extracted from the taxonomy
-            const categories = [
-                "cs.AI",
-                "cs.AR",
-                "cs.CC",
-                "cs.CE",
-                "cs.CG",
-                "cs.CL",
-                "cs.CR",
-                "cs.CV",
-                "cs.CY",
-                "cs.DB",
-                "cs.DC",
-                "cs.DL",
-                "cs.DM",
-                "cs.DS",
-                "cs.ET",
-                "cs.FL",
-                "cs.GL",
-                "cs.GR",
-                "cs.GT",
-                "cs.HC",
-                "cs.IR",
-                "cs.IT",
-                "cs.LG",
-                "cs.LO",
-                "cs.MA",
-                "cs.MM",
-                "cs.MS",
-                "cs.NA",
-                "cs.NE",
-                "cs.NI",
-                "cs.OH",
-                "cs.OS",
-                "cs.PF",
-                "cs.PL",
-                "cs.RO",
-                "cs.SC",
-                "cs.SD",
-                "cs.SE",
-                "cs.SI",
-                "cs.SY",
-                "econ.EM",
-                "econ.GN",
-                "econ.TH",
-                "eess.AS",
-                "eess.IV",
-                "eess.SP",
-                "eess.SY",
-                "math.AC",
-                "math.AG",
-                "math.AP",
-                "math.AT",
-                "math.CA",
-                "math.CO",
-                "math.CT",
-                "math.CV",
-                "math.DG",
-                "math.DS",
-                "math.FA",
-                "math.GM",
-                "math.GN",
-                "math.GR",
-                "math.GT",
-                "math.HO",
-                "math.IT",
-                "math.KT",
-                "math.LO",
-                "math.MG",
-                "math.MP",
-                "math.NA",
-                "math.NT",
-                "math.OA",
-                "math.OC",
-                "math.PR",
-                "math.QA",
-                "math.RA",
-                "math.RT",
-                "math.SG",
-                "math.SP",
-                "math.ST",
-                "astro-ph.CO",
-                "astro-ph.EP",
-                "astro-ph.GA",
-                "astro-ph.HE",
-                "astro-ph.IM",
-                "astro-ph.SR",
-                "cond-mat.dis-nn",
-                "cond-mat.mes-hall",
-                "cond-mat.mtrl-sci",
-                "cond-mat.other",
-                "cond-mat.quant-gas",
-                "cond-mat.soft",
-                "cond-mat.stat-mech",
-                "cond-mat.str-el",
-                "cond-mat.supr-con",
-                "gr-qc",
-                "hep-ex",
-                "hep-lat",
-                "hep-ph",
-                "hep-th",
-                "math-ph",
-                "nlin.AO",
-                "nlin.CD",
-                "nlin.CG",
-                "nlin.PS",
-                "nlin.SI",
-                "nucl-ex",
-                "nucl-th",
-                "physics.acc-ph",
-                "physics.ao-ph",
-                "physics.app-ph",
-                "physics.atm-clus",
-                "physics.atom-ph",
-                "physics.bio-ph",
-                "physics.chem-ph",
-                "physics.class-ph",
-                "physics.comp-ph",
-                "physics.data-an",
-                "physics.ed-ph",
-                "physics.flu-dyn",
-                "physics.gen-ph",
-                "physics.geo-ph",
-                "physics.hist-ph",
-                "physics.ins-det",
-                "physics.med-ph",
-                "physics.optics",
-                "physics.plasm-ph",
-                "physics.pop-ph",
-                "physics.soc-ph",
-                "physics.space-ph",
-                "quant-ph",
-                "q-bio.BM",
-                "q-bio.CB",
-                "q-bio.GN",
-                "q-bio.MN",
-                "q-bio.NC",
-                "q-bio.OT",
-                "q-bio.PE",
-                "q-bio.QM",
-                "q-bio.SC",
-                "q-bio.TO",
-                "q-fin.CP",
-                "q-fin.EC",
-                "q-fin.GN",
-                "q-fin.MF",
-                "q-fin.PM",
-                "q-fin.PR",
-                "q-fin.RM",
-                "q-fin.ST",
-                "q-fin.TR",
-                "stat.AP",
-                "stat.CO",
-                "stat.ME",
-                "stat.ML",
-                "stat.OT",
-                "stat.TH",
-            ];
+    <script>
+        // All arXiv categories extracted from the taxonomy
+        const categories = [
+            'cs.AI', 'cs.AR', 'cs.CC', 'cs.CE', 'cs.CG', 'cs.CL', 'cs.CR', 'cs.CV', 'cs.CY', 'cs.DB',
+            'cs.DC', 'cs.DL', 'cs.DM', 'cs.DS', 'cs.ET', 'cs.FL', 'cs.GL', 'cs.GR', 'cs.GT', 'cs.HC',
+            'cs.IR', 'cs.IT', 'cs.LG', 'cs.LO', 'cs.MA', 'cs.MM', 'cs.MS', 'cs.NA', 'cs.NE', 'cs.NI',
+            'cs.OH', 'cs.OS', 'cs.PF', 'cs.PL', 'cs.RO', 'cs.SC', 'cs.SD', 'cs.SE', 'cs.SI', 'cs.SY',
+            'econ.EM', 'econ.GN', 'econ.TH',
+            'eess.AS', 'eess.IV', 'eess.SP', 'eess.SY',
+            'math.AC', 'math.AG', 'math.AP', 'math.AT', 'math.CA', 'math.CO', 'math.CT', 'math.CV',
+            'math.DG', 'math.DS', 'math.FA', 'math.GM', 'math.GN', 'math.GR', 'math.GT', 'math.HO',
+            'math.IT', 'math.KT', 'math.LO', 'math.MG', 'math.MP', 'math.NA', 'math.NT', 'math.OA',
+            'math.OC', 'math.PR', 'math.QA', 'math.RA', 'math.RT', 'math.SG', 'math.SP', 'math.ST',
+            'astro-ph.CO', 'astro-ph.EP', 'astro-ph.GA', 'astro-ph.HE', 'astro-ph.IM', 'astro-ph.SR',
+            'cond-mat.dis-nn', 'cond-mat.mes-hall', 'cond-mat.mtrl-sci', 'cond-mat.other', 
+            'cond-mat.quant-gas', 'cond-mat.soft', 'cond-mat.stat-mech', 'cond-mat.str-el', 'cond-mat.supr-con',
+            'gr-qc', 'hep-ex', 'hep-lat', 'hep-ph', 'hep-th', 'math-ph',
+            'nlin.AO', 'nlin.CD', 'nlin.CG', 'nlin.PS', 'nlin.SI',
+            'nucl-ex', 'nucl-th',
+            'physics.acc-ph', 'physics.ao-ph', 'physics.app-ph', 'physics.atm-clus', 'physics.atom-ph',
+            'physics.bio-ph', 'physics.chem-ph', 'physics.class-ph', 'physics.comp-ph', 'physics.data-an',
+            'physics.ed-ph', 'physics.flu-dyn', 'physics.gen-ph', 'physics.geo-ph', 'physics.hist-ph',
+            'physics.ins-det', 'physics.med-ph', 'physics.optics', 'physics.plasm-ph', 'physics.pop-ph',
+            'physics.soc-ph', 'physics.space-ph',
+            'quant-ph',
+            'q-bio.BM', 'q-bio.CB', 'q-bio.GN', 'q-bio.MN', 'q-bio.NC', 'q-bio.OT', 'q-bio.PE', 'q-bio.QM', 'q-bio.SC', 'q-bio.TO',
+            'q-fin.CP', 'q-fin.EC', 'q-fin.GN', 'q-fin.MF', 'q-fin.PM', 'q-fin.PR', 'q-fin.RM', 'q-fin.ST', 'q-fin.TR',
+            'stat.AP', 'stat.CO', 'stat.ME', 'stat.ML', 'stat.OT', 'stat.TH'
+        ];
 
-            async function findRandomPaper() {
-                const button = document.getElementById("findPaperBtn");
-                const resultDiv = document.getElementById("result");
-
-                // Disable button and show loading
-                button.disabled = true;
-                button.textContent = "Searching...";
-                resultDiv.innerHTML =
-                    '<div class="loading"><div class="spinner"></div><p>Searching for a random paper...</p></div>';
-
-                try {
-                    // Step 1: Choose random category
-                    const randomCategory =
-                        categories[
-                            Math.floor(Math.random() * categories.length)
-                        ];
-                    console.log("Selected category:", randomCategory);
-
-                    // Step 2: Try to find a paper with random start values
-                    const paper =
-                        await findPaperWithRandomStart(randomCategory);
-
-                    if (paper) {
-                        displayPaper(paper, randomCategory);
-                    } else {
-                        throw new Error(
-                            "No papers found after multiple attempts",
-                        );
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                    resultDiv.innerHTML = `<div class="error">
-                    <strong>Oops!</strong> Something went wrong while fetching a random paper.
+        async function findRandomPaper() {
+            const button = document.getElementById('findPaperBtn');
+            const resultDiv = document.getElementById('result');
+            
+            // Disable button and show loading
+            button.disabled = true;
+            button.textContent = 'Searching...';
+            resultDiv.innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching for a random paper...</p></div>';
+            
+            try {
+                // Step 1: Choose random category
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                console.log('Selected category:', randomCategory);
+                
+                // Step 2: Try to find a paper with random start values
+                const paper = await findPaperWithRandomStart(randomCategory);
+                
+                if (paper) {
+                    displayPaper(paper, randomCategory);
+                } else {
+                    throw new Error('No papers found after multiple attempts');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<div class="error">
+                    <strong>Oops!</strong> Something went wrong while fetching a random paper. 
                     Please try again. (${error.message})
                 </div>`;
-                } finally {
-                    // Re-enable button
-                    button.disabled = false;
-                    button.textContent = "Find Random Paper";
+            } finally {
+                // Re-enable button
+                button.disabled = false;
+                button.textContent = 'Find Random Paper';
+            }
+        }
+
+        async function getTotalPapersInCategory(category) {
+            try {
+                console.log(`Getting total count for category: ${category}`);
+                const countUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&start=0&max_results=1`;
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(countUrl)}`;
+                const response = await fetch(proxyUrl);
+                const text = await response.text();
+                
+                // Parse XML response to get total results
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                const totalResults = xmlDoc.getElementsByTagName('opensearch:totalResults')[0]?.textContent;
+                
+                if (totalResults) {
+                    const count = parseInt(totalResults, 10);
+                    console.log(`Found ${count} total papers in ${category}`);
+                    return count;
+                }
+            } catch (error) {
+                console.error('Error getting total count:', error);
+            }
+            
+            // Fallback: assume a reasonable number if we can't get the count
+            return 1000;
+        }
+
+        async function findPaperWithRandomStart(category) {
+            // First, get the total number of papers in this category
+            const totalPapers = await getTotalPapersInCategory(category);
+            
+            const maxAttempts = 10;
+            let startValue = Math.floor(Math.random() * Math.max(1, totalPapers - 1)); // Random within actual range
+            
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                console.log(`Attempt ${attempt + 1}: trying start=${startValue} for category ${category} (total: ${totalPapers})`);
+                
+                try {
+                    const url = `https://export.arxiv.org/api/query?search_query=cat:${category}&start=${startValue}&max_results=1&sortBy=submittedDate&sortOrder=descending`;
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                    const response = await fetch(proxyUrl);
+                    const text = await response.text();
+                    
+                    // Parse XML response
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(text, 'text/xml');
+                    
+                    // Check for entries
+                    const entries = xmlDoc.getElementsByTagName('entry');
+                    
+                    if (entries.length > 0) {
+                        const entry = entries[0];
+                        return {
+                            title: entry.getElementsByTagName('title')[0]?.textContent?.trim(),
+                            authors: Array.from(entry.getElementsByTagName('author')).map(author => 
+                                author.getElementsByTagName('name')[0]?.textContent?.trim()
+                            ).filter(name => name),
+                            summary: entry.getElementsByTagName('summary')[0]?.textContent?.trim(),
+                            link: entry.getElementsByTagName('id')[0]?.textContent?.trim(),
+                            published: entry.getElementsByTagName('published')[0]?.textContent?.trim(),
+                            updated: entry.getElementsByTagName('updated')[0]?.textContent?.trim()
+                        };
+                    }
+                } catch (error) {
+                    console.error(`Error in attempt ${attempt + 1}:`, error);
+                }
+                
+                // For subsequent attempts, try different random positions within the valid range
+                startValue = Math.floor(Math.random() * Math.max(1, totalPapers - 1));
+                
+                // If we're getting close to max attempts, try some smaller values too
+                if (attempt >= maxAttempts - 3) {
+                    startValue = Math.floor(Math.random() * Math.min(100, totalPapers));
                 }
             }
+            
+            return null;
+        }
 
-            async function findPaperWithRandomStart(category) {
-                const maxAttempts = 10;
-                let startValue = Math.floor(Math.random() * 10000); // Start with random value up to 10000
-
-                for (let attempt = 0; attempt < maxAttempts; attempt++) {
-                    console.log(
-                        `Attempt ${attempt + 1}: trying start=${startValue} for category ${category}`,
-                    );
-
-                    try {
-                        const url = `https://export.arxiv.org/api/query?search_query=cat:${category}&start=${startValue}&max_results=1&sortBy=submittedDate&sortOrder=descending`;
-                        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-                        const response = await fetch(proxyUrl);
-                        const text = await response.text();
-
-                        // Parse XML response
-                        const parser = new DOMParser();
-                        const xmlDoc = parser.parseFromString(text, "text/xml");
-
-                        // Check for entries
-                        const entries = xmlDoc.getElementsByTagName("entry");
-
-                        if (entries.length > 0) {
-                            const entry = entries[0];
-                            return {
-                                title: entry
-                                    .getElementsByTagName("title")[0]
-                                    ?.textContent?.trim(),
-                                authors: Array.from(
-                                    entry.getElementsByTagName("author"),
-                                )
-                                    .map((author) =>
-                                        author
-                                            .getElementsByTagName("name")[0]
-                                            ?.textContent?.trim(),
-                                    )
-                                    .filter((name) => name),
-                                summary: entry
-                                    .getElementsByTagName("summary")[0]
-                                    ?.textContent?.trim(),
-                                link: entry
-                                    .getElementsByTagName("id")[0]
-                                    ?.textContent?.trim(),
-                                published: entry
-                                    .getElementsByTagName("published")[0]
-                                    ?.textContent?.trim(),
-                                updated: entry
-                                    .getElementsByTagName("updated")[0]
-                                    ?.textContent?.trim(),
-                            };
-                        }
-                    } catch (error) {
-                        console.error(
-                            `Error in attempt ${attempt + 1}:`,
-                            error,
-                        );
-                    }
-
-                    // Reduce start value for next attempt
-                    startValue = Math.max(0, Math.floor(startValue * 0.1));
-
-                    // If startValue becomes 0, try a few more random small values
-                    if (startValue === 0 && attempt < maxAttempts - 3) {
-                        startValue = Math.floor(Math.random() * 50);
-                    }
-                }
-
-                return null;
+        function displayPaper(paper, category) {
+            const resultDiv = document.getElementById('result');
+            
+            // Format date
+            const publishedDate = paper.published ? new Date(paper.published).toLocaleDateString() : 'Unknown';
+            
+            // Truncate summary if too long
+            let summary = paper.summary || 'No summary available.';
+            if (summary.length > 500) {
+                summary = summary.substring(0, 500) + '...';
             }
-
-            function displayPaper(paper, category) {
-                const resultDiv = document.getElementById("result");
-
-                // Format date
-                const publishedDate = paper.published
-                    ? new Date(paper.published).toLocaleDateString()
-                    : "Unknown";
-
-                // Truncate summary if too long
-                let summary = paper.summary || "No summary available.";
-                if (summary.length > 500) {
-                    summary = summary.substring(0, 500) + "...";
-                }
-
-                // Format authors
-                const authorsText =
-                    paper.authors && paper.authors.length > 0
-                        ? paper.authors.slice(0, 5).join(", ") +
-                          (paper.authors.length > 5 ? " et al." : "")
-                        : "Unknown authors";
-
-                resultDiv.innerHTML = `
+            
+            // Format authors
+            const authorsText = paper.authors && paper.authors.length > 0 
+                ? paper.authors.slice(0, 5).join(', ') + (paper.authors.length > 5 ? ' et al.' : '')
+                : 'Unknown authors';
+            
+            resultDiv.innerHTML = `
                 <div class="paper-result">
-                    <div class="paper-title">${paper.title || "Untitled Paper"}</div>
+                    <div class="paper-title">${paper.title || 'Untitled Paper'}</div>
                     <div class="paper-authors">👤 ${authorsText}</div>
                     <div class="paper-meta">
                         <span class="paper-category">📚 ${category}</span>
@@ -520,27 +374,25 @@
                     </a>
                 </div>
             `;
+        }
+
+        // Add some fun easter eggs
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' && !e.target.matches('input, textarea')) {
+                e.preventDefault();
+                findRandomPaper();
             }
-
-            // Add some fun easter eggs
-            document.addEventListener("keydown", function (e) {
-                if (e.key === " " && !e.target.matches("input, textarea")) {
-                    e.preventDefault();
-                    findRandomPaper();
-                }
-            });
-
-            // Show tip about spacebar
-            setTimeout(() => {
-                const container = document.querySelector(".container");
-                const tip = document.createElement("p");
-                tip.style.cssText =
-                    "text-align: center; color: #999; font-size: 14px; margin-top: 20px; font-style: italic;";
-                tip.textContent =
-                    "💡 Pro tip: Press spacebar to find another random paper!";
-                container.appendChild(tip);
-            }, 2000);
-        </script>
+        });
+        
+        // Show tip about spacebar
+        setTimeout(() => {
+            const container = document.querySelector('.container');
+            const tip = document.createElement('p');
+            tip.style.cssText = 'text-align: center; color: #999; font-size: 14px; margin-top: 20px; font-style: italic;';
+            tip.textContent = '💡 Pro tip: Press spacebar to find another random paper!';
+            container.appendChild(tip);
+        }, 2000);
+    </script>
         <footer>
             Made by <a href="https://jepedersen.dk">Jens E. Pedersen</a> with
             help from <a href="https://claude.ai">Claude</a>.
@@ -572,5 +424,5 @@
                 </a>
             </div>
         </footer>
-    </body>
+</body>
 </html>
