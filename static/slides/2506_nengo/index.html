@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neuromorphic Intermediate Representation</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/serif.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/github.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/math/math.min.js"
+		integrity="sha512-r8CLLeBm1OZX6ll1USdj99rqbY3Y9no8A1YUMy0l/kk+KFnlsQT5E/8gEs59Q7BRta0jBOZVwLqvmlWtdBzrXw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        .reveal {
+            /* font-family: "Source Sans Pro", Helvetica, sans-serif; */
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .reveal .slides section {
+            text-align: left;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+        }
+        
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .platform-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .pain-point {
+            background: #ffebee;
+            border-left: 4px solid #e53e3e;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .solution-highlight {
+            background: #e8f5e8;
+            border-left: 4px solid #38a169;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .code-demo {
+            /* background: #1a1a1a; */
+            color: #f8f8f2;
+            padding: 1.5rem 0;
+            /* border-radius: 8px; */
+            /* margin: 1rem 0; */
+            font-size: 0.9em;
+        }
+        
+        .math-box {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-card {
+            background: #f8f9ff;
+            border: 1px solid #e6e9ff;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+        }
+        
+        .timeline-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .timeline-arrow {
+            font-size: 2rem;
+            color: #667eea;
+        }
+        
+        .fragment.highlight-current-red {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .fragment.highlight-current-red.current-fragment {
+            background: #ffe6e6;
+            padding: 0.2rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title Slide -->
+            <section class="title-slide" data-background-color="white">
+                <h2>Neuromorphic Intermediate Representation</h2>
+                <h3>Reproducible and Interoperable Neuromorphic Computing</h3>
+                <p><small>Nengo Summer School 2025</small></p>
+                <div style="margin: 2rem auto; text-align: center; width: 400px;">
+                    <img src="../2503_AU/nir_logo.png" alt="NIR Logo">
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-items: center; margin-top: 2rem;">
+                    <div>
+                <h3>Jens Egholm Pedersen</h3>
+                <h4>KTH Royal Institute of Technology</h4>
+</div>
+<div>
+                <p style="color: #555; font-size: 80%; justify-content: center; margin: 0.6em 5em 0;">
+                    <span><i class="fa fa-envelope"></i> jeped@kth.se</span><br/>
+                    <span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span><br/>
+                    <span><i class="fa fa-house"></i> github.com/neuromorphs/nir</span>
+                </p>
+                </div>
+                </div>
+            </section>
+
+            <!-- Section 1: The Problem -->
+            <section>
+                <section>
+                    <h2>The Babel Tower of Neuromorphics</h2>
+                    <div class="ecosystem-grid">
+                        <div class="platform-box">
+                            <h3 style="color: white;">Simulators</h3>
+                            <p>BindsNet, Nengo, Norse, snnTorch, Sinabs, Rockpool, Spyx, Lava-dl, ...</p>
+                        </div>
+                        <div class="platform-box">
+                            <h3 style="color: white;">Hardware</h3>
+                            <p>CPUs, GPUs, Intel Loihi, SpiNNaker2, SynSense Speck & Xylo, ...</p>
+                        </div>
+                    </div>
+                    <div class="pain-point">
+                        <strong>Problem:</strong> "Despite a well-established mathematical foundation for neural dynamics, there exists numerous software and hardware solutions whose variability makes it difficult to reproduce findings."
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Real-World Pain Points</h2>
+                    <div class="fragment">
+                        <h4>🔬 Research Scenario</h4>
+                        <p>Researcher trains promising SNN in snnTorch → Can't deploy on Intel Loihi</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>🏭 Industry Scenario</h4>
+                        <p>Company needs multi-platform deployment → Requires reimplementation for each target</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>🤝 Collaboration Scenario</h4>
+                        <p>Lab develops breakthrough in Nengo → Collaborator can't reproduce in Norse</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>The Cost of Fragmentation</h2>
+                    <div class="benefit-grid">
+                        <div class="benefit-card fragment">
+                            <h4>⏱️ Research Velocity</h4>
+                            <p>Months spent on platform-specific adaptations</p>
+                        </div>
+                        <div class="benefit-card fragment">
+                            <h4>🔄 Reproducibility Crisis</h4>
+                            <p>Studies can't be validated across platforms</p>
+                        </div>
+                        <div class="benefit-card fragment">
+                            <h4>🚧 Innovation Barriers</h4>
+                            <p>Hardware-software co-design slowed by incompatibility</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Section 2: The Solution -->
+            <section>
+                <section>
+                    <h2>Learning from Deep Learning's Success</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>2010s</h4>
+                            <p>ML Fragmentation</p>
+                            <small>TensorFlow, PyTorch, Caffe, Theano...</small>
+                        </div>
+                        <div class="timeline-arrow">→</div>
+                        <div class="timeline-item">
+                            <h4>ONNX Era</h4>
+                            <p>Standardization</p>
+                            <small>Intermediate representations</small>
+                        </div>
+                        <div class="timeline-arrow">→</div>
+                        <div class="timeline-item">
+                            <h4>Today</h4>
+                            <p>Seamless Deployment</p>
+                            <small>Train anywhere, deploy everywhere</small>
+                        </div>
+                    </div>
+                    <div class="solution-highlight">
+                        <strong>NIR's Vision:</strong> "Build once, run anywhere" for neuromorphic computing
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Core Motivation: Decoupling Development</h2>
+                    <div class="benefit-grid">
+                        <div class="benefit-card">
+                            <h4>🔬 For Researchers</h4>
+                            <p>Focus on algorithms, not platform quirks</p>
+                        </div>
+                        <div class="benefit-card">
+                            <h4>⚡ For Hardware Developers</h4>
+                            <p>Innovate without breaking software compatibility</p>
+                        </div>
+                        <div class="benefit-card">
+                            <h4>🏢 For Industry</h4>
+                            <p>Reduce time-to-market and deployment risks</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>NIR's Design Philosophy</h2>
+                    <ul>
+                        <li class="fragment"><strong>Continuous-time foundation:</strong> Hybrid systems combining continuous-time dynamics and discrete events</li>
+                        <li class="fragment"><strong>Platform agnostic:</strong> Abstracts hardware constraints while preserving computational essence</li>
+                        <li class="fragment"><strong>Future-proof:</strong> Compatible with today's tools, ready for tomorrow's hardware</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Demo 1: Build Once, Run Anywhere</h2>
+                    <div class="code-demo">
+<pre><code class="python"># Train in snnTorch
+import norse
+import snntorch
+import sinabs
+
+# Create and train model
+model = snntorch.Leaky(beta=0.9, init_hidden=True)
+# ... training code ...
+
+# Export to NIR (1 line!)
+nir_model = snntorch.export_to_nir(model)
+
+# Deploy to Norse (1 line!)
+norse_model = norse.torch.from_nir(nir_model)
+
+# Deploy to hardware (1 line!)
+sinabs_model = sinabs.from_nir(nir_model)
+</code></pre>
+                    </div>
+                    <p class="fragment"><strong>Result:</strong> Same model, multiple platforms, minimal effort!</p>
+                </section>
+
+                <section data-background-color="white">
+                    <h2>The disclaimer 1/2: LIF dynamics<h2>
+                    <img src="../2502_STANCE/lif_comparison.png" />
+                </section>
+
+                <section data-background-color="white">
+                    <h2>The disclaimer 2/2: Network dynamics</h2>
+                    <center>
+                    <img src="../2502_STANCE/conv_similarity.png" style="height:900px;"/>
+                    </center>
+                    <p class="fragment"><strong>Note:</strong> NIR is not a silver bullet. It provides a standardized foundation, but implementation details still matter.</p>
+                </section>
+            </section>
+
+            <!-- Section 3: Reproducibility -->
+            <section>
+                <section>
+                    <h2>The Reproducibility Crisis in Neuromorphics</h2>
+                    <div class="pain-point">
+                        <ul>
+                            <li><strong>Platform-specific implementations</strong> create validation bottlenecks</li>
+                            <li><strong>Hidden assumptions</strong> in discretization and hardware constraints</li>
+                            <li><strong>Version dependencies</strong> make long-term reproducibility challenging</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>NIR as a Reproducibility Tool</h2>
+                    <div class="solution-highlight">
+                        <ul>
+                            <li><strong>Canonical representation:</strong> Mathematical ground truth independent of implementation</li>
+                            <li><strong>Version control for models:</strong> NIR graphs as portable scientific artifacts</li>
+                            <li><strong>Cross-platform validation:</strong> Same model, multiple implementations, verifiable results</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Demo 2: Cross-Platform Validation</h2>
+                    <div class="code-demo">
+<pre><code class="python"># Load the same NIR model
+import nir
+import norse
+import nengo
+from spinnaker2 import s2_nir
+
+nir_graph = nir.load("my_research_model.nir")
+
+# Run on multiple platforms
+results_nengo = run_nengo_experiment(nengo.from_nir(nir_graph)) # Coming soon!
+results_norse = run_norse_experiment(norse.torch.from_nir(nir_graph))
+results_spinnaker = run_spinnaker_experiment(s2_nir.from_nir(nir_graph))
+
+# Validate consistency
+assert_behavioral_equivalence(
+    results_nengo, results_norse, results_spinnaker
+)
+</code></pre>
+                    </div>
+                </section>
+
+            </section>
+
+            <!-- Section 4: Computational Definitions -->
+            <section>
+                <section>
+                    <h2>Why Computational Definitions Matter</h2>
+                    <div class="fragment">
+                        <h4>🎯 Precision vs. Ambiguity</h4>
+                        <p>"Leaky integrate-and-fire" means different things to different implementers</p>
+                        <p>Can you define a "computation" in spiking neural networks?</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>⚙️ Hardware Independence</h4>
+                        <p>Hardware constraints shouldn't dictate the mathematical model</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>🔧 Composability</h4>
+                        <p>Well-defined interfaces between components enable complex systems</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>NIR's Mathematical Rigor</h2>
+                    <div class="math-box">
+                        <h4>Hybrid Dynamical Systems</h4>
+                        <p>Continuous-time dynamics + Discrete events</p>
+                        $$τ \frac{dv}{dt} = -v + R\ I(t) \newline
+                        v = \begin{cases} 
+                        v(t) = v_\text{reset} & \text{if } v(t) \geq v_\text{threshold} \\
+                        v(t) = v(t) & \text{otherwise}
+                        \end{cases}$$
+                    </div>
+                    <ul>
+                        <li class="fragment"><strong>Differential equation foundations:</strong> Every primitive has precise mathematical definition</li>
+                        <li class="fragment"><strong>Parameter preservation:</strong> All relevant parameters explicitly captured</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Demo 3: NIR Primitives Under the Hood</h2>
+                    <div class="code-demo">
+<pre><code class="python"># Create a LIF neuron primitive
+import nir
+import numpy
+
+lif = nir.LIF(
+    tau=numpy.array([20.0]),         # Time constant (ms)
+    v_threshold=numpy.array([1.0]),  # Spike threshold
+    v_reset=numpy.array([0.0]),      # Reset potential
+    r=numpy.array([1.0])             # Resistance
+)
+synapse = nir.Linear(weight=numpy.array([0.5]))
+graph = nir.NIRGraph(
+    nodes={"lif": lif, "synapse": synapse},
+    edges=[("lif", "synapse")],
+)
+</code></pre>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Benefits of Mathematical Precision</h2>
+                    <div class="solution-highlight">
+                        <ul>
+                            <li><strong>Unambiguous communication</strong> between researchers</li>
+                            <li><strong>Automatic verification</strong> of implementation correctness</li>
+                            <li><strong>Optimization opportunities</strong> through mathematical analysis</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Section 5: Practical Demonstrations -->
+            <section>
+                <section>
+                    <h2>Demo 4: Complete Workflow</h2>
+                    <div class="code-demo">
+<pre style="height: 500px;"><code class="python"># 1. Design in your favorite framework
+import nengo
+import nirviz
+
+model = nengo.Network()
+with model:
+    input_node = nengo.Node([0])
+    ensemble = nengo.Ensemble(100, 1)
+    nengo.Connection(input_node, ensemble)
+
+# 2. Export to NIR
+nir_graph = nengo.export_nir(model)
+
+# 3. Visualize the computational graph
+nirviz.visualize(nir_graph)  # Shows graphical structure
+
+# 4. Deploy everywhere
+deploy_to_loihi(nir_graph)
+deploy_to_spinnaker(nir_graph)
+deploy_to_xylo(nir_graph)
+</code></pre>
+                    </div>
+                </section>
+
+            </section>
+
+            <!-- Section 6: Ecosystem -->
+            <section>
+                <section>
+                    <h2>The Growing NIR Ecosystem</h2>
+                    <div class="ecosystem-grid">
+                        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 1rem; border-radius: 8px;">
+                            <h4>7 Simulators</h4>
+                            <p>Lava-dl, Nengo, Norse, Rockpool, Sinabs, snnTorch, Spyx</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 1rem; border-radius: 8px;">
+                            <h4>4 Hardware Platforms</h4>
+                            <p>Intel Loihi, SpiNNaker2, SynSense Xylo, SynSense Speck</p>
+                        </div>
+                    </div>
+                    <p class="fragment" style="text-align: center; font-size: 1.2em; margin-top: 2rem;">
+                        <strong>12+ platforms and growing!</strong>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Future Directions</h2>
+                    <ul>
+                        <li class="fragment"><strong>Extended primitive library:</strong> Plasticity rules, complex neuron models</li>
+                        <li class="fragment"><strong>Advanced optimization:</strong> Automated compilation and hardware-specific optimizations</li>
+                        <li class="fragment"><strong>ML integration:</strong> Seamless integration with traditional ML workflows</li>
+                        <li class="fragment"><strong>Community growth:</strong> More platforms, more researchers, more applications</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Section 7: Call to Action -->
+            <section>
+                <section>
+                    <h2>Getting Started Today</h2>
+                    <div class="benefit-grid">
+                        <div class="benefit-card">
+                            <h4>🔬 For Researchers</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Use NIR for cross-platform validation</li>
+                                <li>Contribute models to community benchmarks</li>
+                                <li>Report compatibility issues</li>
+                            </ul>
+                        </div>
+                        <div class="benefit-card">
+                            <h4>👩‍💻 For Developers</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Add NIR support to your framework</li>
+                                <li>Contribute new primitives</li>
+                                <li>Join the community</li>
+                            </ul>
+                        </div>
+                        <div class="benefit-card">
+                            <h4>🏢 For Industry</h4>
+                            <ul style="font-size: 0.8em;">
+                                <li>Prototype with multiple platforms</li>
+                                <li>Reduce deployment risks</li>
+                                <li>Future-proof your investments</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Resources & Community</h2>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                        <div>
+                            <h4>📚 Documentation & Code</h4>
+                            <ul>
+                                <li><a href="https://github.com/neuromorphs/NIR">github.com/neuromorphs/NIR</a></li>
+                                <li><a href="https://neuroir.org">neuroir.org</a></li>
+                                <li><a href="https://www.nature.com/articles/s41467-024-52259-9">Nature Communications paper</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>🤝 Community</h4>
+                            <ul>
+                                <li><a href="https://discord.gg/JRMRGP9h3c">NIR Discord server for support</a></li>
+                                <li>GitHub discussions</li>
+                                <li>Workshops and tutorials</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="solution-highlight" style="text-align: center; margin-top: 2rem;">
+                        <strong>Stay tuned for a Neuromorphic Huggingface 🤗</code></strong>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section>
+                <h2>Key Takeaways</h2>
+                <ol>
+                    <li class="fragment"><strong>NIR solves fragmentation</strong> in neuromorphic computing through standardization</li>
+                    <li class="fragment"><strong>Reproducibility becomes achievable</strong> with platform-independent representations</li>
+                    <li class="fragment"><strong>Mathematical precision</strong> enables unambiguous communication and verification</li>
+                    <li class="fragment"><strong>The ecosystem is ready</strong> with 11+ supported platforms and growing</li>
+                    <li class="fragment"><strong>You can start today</strong> with simple exports from existing models</li>
+                </ol>
+                <div class="fragment" style="text-align: center; margin-top: 2rem; font-size: 1.2em;">
+                    <strong>Build once, run anywhere. 🚀</strong>
+                </div>
+            </section>
+
+            <!-- Thank You -->
+            <section class="title-slide" data-background-color="white">
+                <h2>Neuromorphic Intermediate Representation</h2>
+                <h3>Reproducible and Interoperable Neuromorphic Computing</h3>
+                <p><small>Nengo Summer School 2025</small></p>
+                <div style="margin: 2rem auto; text-align: center; width: 400px;">
+                    <img src="../2503_AU/nir_logo.png" alt="NIR Logo">
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-items: center; margin-top: 2rem;">
+                    <div>
+                <h3>Jens Egholm Pedersen</h3>
+                <h4>KTH Royal Institute of Technology</h4>
+</div>
+<div>
+                <p style="color: #555; font-size: 80%; justify-content: center; margin: 0.6em 5em 0;">
+                    <span><i class="fa fa-envelope"></i> jeped@kth.se</span><br/>
+                    <span><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</span><br/>
+                    <span><i class="fa fa-house"></i> github.com/neuromorphs/nir</span>
+                </p>
+                </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+
+    <script>
+        Reveal.initialize({
+			width: 1900,
+			height: 1000,
+			margin: 0.02,
+            hash: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            center: true,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            shuffle: false,
+            fragments: true,
+            fragmentInURL: false,
+            embedded: false,
+            help: true,
+            pause: true,
+            showNotes: false,
+            autoPlayMedia: true,
+            preloadIframes: null,
+            autoAnimateEasing: 'ease',
+            autoAnimateDuration: 1.0,
+            autoAnimateUnmatched: true,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+        });
+        
+        // Custom navigation for demo slides
+        Reveal.addEventListener('slidechanged', function(event) {
+            // Add any slide-specific JavaScript here
+            if (event.currentSlide.querySelector('.code-demo')) {
+                // Highlight code blocks when they appear
+                hljs.highlightAll();
+            }
+        });
+    </script>
+</body>
+</html>
