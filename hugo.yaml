@@ -49,7 +49,6 @@ params:
   favicon: img/favicon.png
   show_reading_time: true
   read_more_copy: Read the full entry here
-  github: "https://github.com/piever"
   ananke_socials:
     - name: twitter
       url: https://twitter.com/jensegholm
