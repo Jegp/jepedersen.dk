@@ -14,7 +14,7 @@ menu:
   </video>
 </a>
 
-  A kajak paddler from the <a href="https://www.crcv.ucf.edu/data/UCF101.php">UCF-101</a> viewed under different spatial receptive fields (top) and compared to different temporal receptive fields (bottom).
+  A kayak paddler from the <a href="https://www.crcv.ucf.edu/data/UCF101.php">UCF-101</a> viewed under different spatial receptive fields (top) and compared to different temporal receptive fields (bottom).
   The spatial and temporal receptive fields provide fascinating geometric insights and can be fully implemented with neurons, providing a cheap and efficient way to process [event-based camera data](https://en.wikipedia.org/wiki/Event_camera).
   Read more about spatio-temporal receptive fields on [our website](https://jegp.github.io/nrf/).
   
@@ -24,7 +24,7 @@ menu:
   ## Research agenda
 
   My goal is to understand and apply biologically-inspired intelligence.
-  I work both theoretically to understand the fundamental principles of physical computing, and practical, to build and solve problems with present-day neuromorphic platforms.
+  I work both theoretically to understand the fundamental principles of physical computing, and practical to build and solve problems with present-day neuromorphic platforms.
 
 <a href="/about" class="link black dim db w-100 pa2 br2 ba bg-grey b--black-10 shadow-1 mt4">
   <span class="db f4 pv2" style="text-align: center;">Read more about me →</span>
@@ -32,21 +32,31 @@ menu:
 
 ## Selected publications
 
+### 2025
+
+* **[GERD: Geometric event response data generation](http://arxiv.org/abs/2412.03259)**
+  Jens Egholm Pedersen, Dimitrios Korakovounis, Jörg Conradt  
+  *arXiv preprint, in review, 2025*
+
+* **[Low-latency neuromorphic air hockey player](https://iopscience.iop.org/article/10.1088/2634-4386/addc15)**
+  Juan P. Romero B., Dimitrios Korakovounis, Jens E Pedersen, and Jorg Conradt
+  *Journal of Neuromorphic Computing and Engineering, 2025*
+
 ### 2024
 
-* **[Neuromorphic Programming: Emerging Directions for Brain-Inspired Hardware](https://ieeexplore.ieee.org/document/10123456)**  
+* **[Neuromorphic Programming: Emerging Directions for Brain-Inspired Hardware](https://ieeexplore.ieee.org/abstract/document/10766507)**  
   Steven Abreu, Jens Egholm Pedersen  
   *International Conference on Neuromorphic Systems, 2024*
 
-* **[Covariant spatio-temporal receptive fields for neuromorphic computing](https://arxiv.org/abs/2405.12345)**  
+* **[Covariant spatio-temporal receptive fields for neuromorphic computing](https://arxiv.org/abs/2405.00318)**
   Jens Egholm Pedersen, Jörg Conradt, Tony Lindeberg  
   *arXiv preprint, in review, 2024*
 
-* **[Q-S5: Towards Quantized State Space Models](https://arxiv.org/abs/2406.12345)**  
+* **[Q-S5: Towards Quantized State Space Models](https://arxiv.org/abs/2406.09477)**  
   Steven Abreu, Jens Egholm Pedersen, Kade Heckel, Alessandro Pierro  
   *Next Generation of Sequence Modeling Architectures, ICML, 2024*
 
-* **[Neuromorphic intermediate representation: A unified instruction set for interoperable brain-inspired computing](https://www.nature.com/articles/s41467-023-42840-z)**  
+* **[Neuromorphic intermediate representation: A unified instruction set for interoperable brain-inspired computing](https://www.nature.com/articles/s41467-024-52259-9)**  
   Jens Egholm Pedersen, Steven Abreu, Jason Eshraghian, et al.  
   *Nature Communications, November 2023*
 
