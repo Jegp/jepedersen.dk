@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Dynamical Systems for Control</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reset.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/serif.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/monokai.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+
+	<style>
+		.reveal .slides section .fragment.fade-in-then-semi-out {
+			opacity: 1;
+			visibility: inherit;
+		}
+		.reveal .slides section .fragment.fade-in-then-semi-out.visible {
+			opacity: 0.5;
+			visibility: inherit;
+		}
+		.equation {
+			font-size: 1.2em;
+			margin: 20px 0;
+		}
+		.bio-example {
+			background: #f0f8ff;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+		}
+	</style>
+</head>
+
+<!-- TODO
+Dynamics modelling
+Basic intro (\dot{x} = f(x,u))
+Modelling dynamics
+Target dynamics: F10th? (get previous material from Tobi)
+Autoregressive vs Multi-horizon prediction
+With MLP (collecting data and predicting the model)
+Predictions with SSMs
+Learning dynamics
+Quantization
+Demo in control context (borrow from ETH F10th entry if possible?)
+
+
+Pontryagin's principle 
+-->
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<h1>Dynamical Systems for Control</h1>
+				<h3>From Biology to Modern State Space Models</h3>
+				<p>
+					<small>Telluride Neuromorphic Cognition Workshop 2025</small>
+				</p>
+				<aside class="notes">
+					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
+					to modern computational approaches, building mathematical tools along the way.
+				</aside>
+			</section>
+
+			<!-- Section 1: Biological Motivation -->
+			<section>
+				<section>
+					<h2>1. Biological Motivation</h2>
+					<h3>Why Nature Uses Dynamical Systems</h3>
+				</section>
+
+				<section>
+					<h3>Central Pattern Generators (CPGs)</h3>
+					<div class="bio-example">
+						<p><strong>Locomotion:</strong> Rhythmic leg movements in walking</p>
+						<p><strong>Breathing:</strong> Automatic respiratory rhythm</p>
+						<p><strong>Swimming:</strong> Coordinated body undulation</p>
+					</div>
+					<p class="fragment">Key insight: <em>Autonomous rhythm generation without external timing</em></p>
+					<aside class="notes">
+						CPGs are neural circuits that produce rhythmic outputs without rhythmic inputs. 
+						They're found throughout the nervous system and are fundamental to understanding 
+						how biological systems generate coordinated behavior.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Neural Oscillators</h3>
+					<p>Individual neurons can act as oscillators:</p>
+					<ul>
+						<li class="fragment">Intrinsic membrane properties</li>
+						<li class="fragment">Synaptic feedback loops</li>
+						<li class="fragment">Network interactions</li>
+					</ul>
+					<p class="fragment"><strong>Coupled oscillator networks</strong> → Complex spatiotemporal patterns</p>
+				</section>
+
+				<section>
+					<h3>The Mathematical Challenge</h3>
+					<p>How do we understand and control these systems?</p>
+					<div class="fragment">
+						<p>We need mathematical tools to:</p>
+						<ul>
+							<li>Model the dynamics</li>
+							<li>Predict behavior</li>
+							<li>Design control strategies</li>
+							<li>Understand stability</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+			<!-- Section 2: State Space Foundations -->
+			<section>
+				<section>
+					<h2>2. State Space Foundations</h2>
+					<h3>From Biology to Mathematics</h3>
+				</section>
+
+				<section>
+					<h3>State Space Representation</h3>
+					<div class="equation">
+						$$\dot{x} = f(x, u)$$
+						$$y = h(x, u)$$
+					</div>
+					<p>Where:</p>
+					<ul>
+						<li><strong>x</strong>: state vector (internal variables)</li>
+						<li><strong>u</strong>: input/control vector</li>
+						<li><strong>y</strong>: output/observation vector</li>
+					</ul>
+					<aside class="notes">
+						This is the fundamental mathematical abstraction. The state captures all the information 
+						needed to predict future behavior given current inputs.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Biological Example: Motor Control</h3>
+					<div class="bio-example">
+						<p><strong>State (x):</strong> Joint angles, velocities, muscle activations</p>
+						<p><strong>Input (u):</strong> Motor commands from brain</p>
+						<p><strong>Output (y):</strong> Limb position, sensory feedback</p>
+					</div>
+					<p class="fragment">The state space captures the full "configuration" of the motor system</p>
+				</section>
+
+				<section>
+					<h3>Observability</h3>
+					<p><em>Can we determine the internal state from observations?</em></p>
+					<div class="equation fragment">
+						$$\mathcal{O} = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \end{bmatrix}$$
+					</div>
+					<p class="fragment">System is observable if rank($\mathcal{O}$) = n</p>
+					<div class="fragment bio-example">
+						<strong>Biological significance:</strong> What can we infer about neural state from recordings?
+					</div>
+				</section>
+
+				<section>
+					<h3>Controllability</h3>
+					<p><em>Can we steer the system to any desired state?</em></p>
+					<div class="equation fragment">
+						$$\mathcal{C} = \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}$$
+					</div>
+					<p class="fragment">System is controllable if rank($\mathcal{C}$) = n</p>
+					<div class="fragment bio-example">
+						<strong>Biological significance:</strong> Can we influence neural dynamics through stimulation?
+					</div>
+				</section>
+
+				<section>
+					<h3>Sensorimotor Integration</h3>
+					<p>Observability + Controllability = Closed-loop control</p>
+					<div class="equation fragment">
+						$$u = -K(x - x_{\text{desired}}) + u_{\text{feedforward}}$$
+					</div>
+					<p class="fragment">This is the foundation of biological motor control!</p>
+				</section>
+			</section>
+
+			<!-- Section 3: Optimization & Stability -->
+			<section>
+				<section>
+					<h2>3. Optimization & Stability</h2>
+					<h3>Energy Landscapes and Control</h3>
+				</section>
+
+				<section>
+					<h3>Energy-Based Optimization</h3>
+					<p>Many biological systems minimize energy functions:</p>
+					<div class="equation">
+						$$V(x) = \text{potential energy function}$$
+						$$\dot{x} = -\nabla V(x) + \text{noise}$$
+					</div>
+					<div class="fragment bio-example">
+						<strong>Examples:</strong> Neural network dynamics, protein folding, developmental patterns
+					</div>
+				</section>
+
+				<section>
+					<h3>Lyapunov Stability</h3>
+					<p>How do we prove a system is stable?</p>
+					<div class="equation fragment">
+						$$V(x) > 0 \text{ for } x \neq 0$$
+						$$\dot{V}(x) \leq 0$$
+					</div>
+					<p class="fragment">If such a function V exists → system is stable</p>
+					<div class="fragment bio-example">
+						<strong>Biological significance:</strong> Homeostasis, robust neural computation
+					</div>
+				</section>
+
+				<section>
+					<h3>Pontryagin's Maximum Principle</h3>
+					<p>Optimal control: minimize cost subject to dynamics</p>
+					<div class="equation">
+						$$\min \int_0^T L(x, u, t) dt + \phi(x(T))$$
+					</div>
+					<div class="equation fragment">
+						$$H = L(x, u, t) + \lambda^T f(x, u, t)$$
+						$$\frac{\partial H}{\partial u} = 0$$
+					</div>
+					<p class="fragment">Gives us necessary conditions for optimal control</p>
+				</section>
+
+				<section>
+					<h3>Combining Stability & Optimality</h3>
+					<p>Pontryagin + Lyapunov → Robust optimal control</p>
+					<div class="fragment">
+						<p>Design controllers that are:</p>
+						<ul>
+							<li>Optimal (minimize cost)</li>
+							<li>Stable (bounded behavior)</li>
+							<li>Robust (handle uncertainty)</li>
+						</ul>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Biological example:</strong> Motor control with energy constraints and stability requirements
+					</div>
+				</section>
+
+				<section>
+					<h3>Attractors in Neural Systems</h3>
+					<p>Different types of attractors → different computations:</p>
+					<ul>
+						<li class="fragment"><strong>Fixed points:</strong> Memory storage, decision states</li>
+						<li class="fragment"><strong>Limit cycles:</strong> Oscillatory behavior, CPGs</li>
+						<li class="fragment"><strong>Strange attractors:</strong> Chaotic dynamics, rich computation</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Attractor networks:</strong> Hopfield networks, decision-making circuits
+					</div>
+				</section>
+			</section>
+
+			<!-- Section 4: Neural Network Dynamics -->
+			<section>
+				<section>
+					<h2>4. Neural Network Dynamics</h2>
+					<h3>From Biology to Modern AI</h3>
+				</section>
+
+				<section>
+					<h3>Continuous-Time RNNs</h3>
+					<div class="equation">
+						$$\tau \dot{h} = -h + W \sigma(h) + W_{\text{in}} u$$
+						$$y = W_{\text{out}} h$$
+					</div>
+					<p>Key insight: <em>Neural dynamics as dynamical systems</em></p>
+					<div class="fragment bio-example">
+						<strong>Biological correspondence:</strong> τ = membrane time constant, σ = activation function
+					</div>
+				</section>
+
+				<section>
+					<h3>Reservoir Computing</h3>
+					<p>Fixed random recurrent network + trainable readout</p>
+					<div class="equation">
+						$$\dot{x} = -x + W_{\text{res}} \tanh(x) + W_{\text{in}} u$$
+						$$y = W_{\text{out}} x$$
+					</div>
+					<p class="fragment">Only train $W_{\text{out}}$ → computationally efficient</p>
+					<div class="fragment bio-example">
+						<strong>Biological inspiration:</strong> Cortical microcircuits as computational reservoirs
+					</div>
+				</section>
+
+				<section>
+					<h3>Modern State Space Models</h3>
+					<p>Recent breakthrough: Structured State Space Models (S4, Mamba)</p>
+					<div class="equation">
+						$$\dot{x} = Ax + Bu$$
+						$$y = Cx + Du$$
+					</div>
+					<p class="fragment">Key innovations:</p>
+					<ul class="fragment">
+						<li>Structured matrices (A) for efficiency</li>
+						<li>Selective mechanisms (attention-like)</li>
+						<li>Long-range dependencies</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>SSM vs Traditional RNNs</h3>
+					<table class="fragment">
+						<tr>
+							<th></th>
+							<th>RNNs</th>
+							<th>SSMs</th>
+						</tr>
+						<tr>
+							<td>Training</td>
+							<td>Sequential</td>
+							<td>Parallel</td>
+						</tr>
+						<tr>
+							<td>Long-range</td>
+							<td>Limited</td>
+							<td>Excellent</td>
+						</tr>
+						<tr>
+							<td>Efficiency</td>
+							<td>Moderate</td>
+							<td>High</td>
+						</tr>
+					</table>
+					<p class="fragment">SSMs bring dynamical systems thinking to modern AI</p>
+				</section>
+
+				<section>
+					<h3>Bridging Biology and AI</h3>
+					<p>Common principles:</p>
+					<ul>
+						<li class="fragment">State-based computation</li>
+						<li class="fragment">Temporal dynamics</li>
+						<li class="fragment">Hierarchical processing</li>
+						<li class="fragment">Adaptive behavior</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Future direction:</strong> Neuromorphic hardware implementing SSM-like dynamics
+					</div>
+				</section>
+
+				<section>
+					<h3>Controllability in Neural Networks</h3>
+					<p>Can we control neural network dynamics?</p>
+					<div class="fragment">
+						<p>Applications:</p>
+						<ul>
+							<li>Neural stimulation protocols</li>
+							<li>Adversarial robustness</li>
+							<li>Network architecture design</li>
+						</ul>
+					</div>
+					<p class="fragment">Controllability analysis guides intervention strategies</p>
+				</section>
+			</section>
+
+			<!-- Section 5: Integration & Applications -->
+			<section>
+				<section>
+					<h2>5. Integration & Applications</h2>
+					<h3>Bringing It All Together</h3>
+				</section>
+
+				<section>
+					<h3>Neuromorphic Control Systems</h3>
+					<p>Combining biological principles with engineering:</p>
+					<ul>
+						<li class="fragment">Event-driven computation</li>
+						<li class="fragment">Distributed processing</li>
+						<li class="fragment">Adaptive learning</li>
+						<li class="fragment">Energy efficiency</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Example:</strong> Neuromorphic motor control using spiking neural networks
+					</div>
+				</section>
+
+				<section>
+					<h3>Design Principles</h3>
+					<div class="equation">
+						\begin{align}
+						\text{Observability} &\rightarrow \text{State estimation} \\
+						\text{Controllability} &\rightarrow \text{Control design} \\
+						\text{Stability} &\rightarrow \text{Robust operation} \\
+						\text{Optimality} &\rightarrow \text{Efficient control}
+						\end{align}
+					</div>
+				</section>
+
+				<section>
+					<h3>Future Directions</h3>
+					<ul>
+						<li class="fragment"><strong>Hybrid systems:</strong> Continuous dynamics + discrete events</li>
+						<li class="fragment"><strong>Distributed control:</strong> Multi-agent coordination</li>
+						<li class="fragment"><strong>Learning dynamics:</strong> Adaptive control laws</li>
+						<li class="fragment"><strong>Quantum control:</strong> Next frontier in control theory</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Modern SSMs Meet Biology</h3>
+					<p>Exciting convergence:</p>
+					<ul>
+						<li class="fragment">SSMs capture long-range dependencies</li>
+						<li class="fragment">Biological systems show similar properties</li>
+						<li class="fragment">Neuromorphic hardware can implement both</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Research opportunity:</strong> Bio-inspired SSM architectures for neuromorphic control
+					</div>
+				</section>
+
+				<section>
+					<h2>Summary</h2>
+					<p>We've connected:</p>
+					<ul>
+						<li class="fragment">Biological rhythms → Mathematical dynamics</li>
+						<li class="fragment">State space theory → Control design</li>
+						<li class="fragment">Stability analysis → Robust systems</li>
+						<li class="fragment">Neural networks → Modern AI</li>
+						<li class="fragment">Theory → Neuromorphic applications</li>
+					</ul>
+					<p class="fragment"><strong>The future of control is neuromorphic!</strong></p>
+				</section>
+
+				<section>
+					<h2>Questions?</h2>
+					<p>Thank you for your attention!</p>
+					<br>
+					<p><small>Telluride Neuromorphic Cognition Workshop 2025</small></p>
+				</section>
+			</section>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/markdown/markdown.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/highlight.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
+
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			transition: 'slide',
+			transitionSpeed: 'fast',
+			backgroundTransition: 'fade',
+			
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+		});
+	</script>
+
+</body>
+</html>
