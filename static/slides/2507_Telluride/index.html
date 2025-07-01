@@ -35,6 +35,9 @@
 			border-radius: 10px;
 			margin: 20px 0;
 		}
+		.reveal blockquote {
+			width: 100%;
+		}
 	</style>
 </head>
 
@@ -59,11 +62,24 @@ Pontryagin's principle
 		<div class="slides">
 			<!-- Title Slide -->
 			<section>
-				<h1>Dynamical Systems for Control</h1>
-				<h3>From Biology to Modern State Space Models</h3>
+				<h1 style="font-size: 250%;">Dynamical Systems for Control</h1>
+				<br/>
+				<h5>Telluride Neuromorphic Cognition Workshop 2025</h5>
+				<br/>
 				<p>
-					<small>Telluride Neuromorphic Cognition Workshop 2025</small>
+					<strong>Jens Egholm Pedersen</strong>
+					<br/>
+					<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
 				</p>
+				<div style="display: flex; justify-content: center; align-items: center; gap: 60px; font-size: 70%;">
+					<img src="../2304_NICE/kth.png" 
+						 alt="KTH Logo" 
+						 style="height: 70px;"> KTH Royal Institute of Technology
+				</div>
 				<aside class="notes">
 					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
 					to modern computational approaches, building mathematical tools along the way.
@@ -79,16 +95,25 @@ Pontryagin's principle
 
 				<section>
 					<h3>Central Pattern Generators (CPGs)</h3>
-					<div class="bio-example">
-						<p><strong>Locomotion:</strong> Rhythmic leg movements in walking</p>
-						<p><strong>Breathing:</strong> Automatic respiratory rhythm</p>
-						<p><strong>Swimming:</strong> Coordinated body undulation</p>
+					<div style="display: flex; gap: 30px; align-items: center;">
+						<div style="flex: 1 c;">
+							<div class="bio-example">
+								<p><strong>Locomotion:</strong> Rhythmic leg movements in walking</p>
+								<p><strong>Breathing:</strong> Automatic respiratory rhythm</p>
+								<p><strong>Swimming:</strong> Coordinated body undulation</p>
+							</div>
+							<p class="fragment">Key insight: <em>Autonomous rhythm generation without external timing</em></p>
+						</div>
+						<div style="flex: 0 0 200px;" class="fragment">
+							<img src="https://mediacdn.nhbs.com/jackets/jackets_resizer_xlarge/23/239893.jpg" 
+								 alt="Lessons from the Lobster book cover" 
+								 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
 					</div>
-					<p class="fragment">Key insight: <em>Autonomous rhythm generation without external timing</em></p>
 					<aside class="notes">
 						CPGs are neural circuits that produce rhythmic outputs without rhythmic inputs. 
-						They're found throughout the nervous system and are fundamental to understanding 
-						how biological systems generate coordinated behavior.
+						Eve Marder's "Lessons from the Lobster" details her groundbreaking work on the stomatogastric ganglion,
+						revealing fundamental principles of neural circuit flexibility and robustness in biological control systems.
 					</aside>
 				</section>
 
@@ -96,11 +121,15 @@ Pontryagin's principle
 					<h3>Neural Oscillators</h3>
 					<p>Individual neurons can act as oscillators:</p>
 					<ul>
-						<li class="fragment">Intrinsic membrane properties</li>
 						<li class="fragment">Synaptic feedback loops</li>
 						<li class="fragment">Network interactions</li>
 					</ul>
 					<p class="fragment"><strong>Coupled oscillator networks</strong> → Complex spatiotemporal patterns</p>
+					<div style="flex: 0 0 200px;" class="fragment">
+							<img src="https://github.com/akandykeller/NeuralWaveMachines/raw/master/figures/rotating_mnist_full.gif" alt="Neural wave machines gif" 
+								 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						<small>Andy Keller & Max Welling, Neural Wave Machines, 2023</small>
+						</div>
 				</section>
 
 				<section>
@@ -115,6 +144,17 @@ Pontryagin's principle
 							<li>Understand stability</li>
 						</ul>
 					</div>
+				</section>
+
+				<section>
+					<blockquote>
+						An organism [...] is observed in different states.
+						This <i>observed system</i> is the target of the modeling activity.
+						Its states cannot really be described by only a few observable parameters, but we pretend they can
+						<br/>[...]<br/>
+						The relationship between the actual states of the real organism and the points of the geometric model is a fiction 
+					</blockquote>
+					<p><strong>— Abraham and Shaw 1991</strong></p>
 				</section>
 			</section>
 
@@ -259,6 +299,20 @@ Pontryagin's principle
 					<div class="fragment bio-example">
 						<strong>Attractor networks:</strong> Hopfield networks, decision-making circuits
 					</div>
+				</section>
+
+				<section>
+					<h3>Interactive Demonstration</h3>
+					<p>Explore exponential decay dynamics with live simulation!</p>
+					<div id="sim-container" style="height: 500px; margin: 20px 0;"></div>
+					<p><small>Adjust the decay rate (λ) and input (u) to see how they affect the system.<br>
+					Use "Restart" to replay with current settings, "Reset" to restore defaults.</small></p>
+					<aside class="notes">
+						This shows a simple exponential decay system where students can adjust parameters.
+						Demonstrate how λ controls the decay rate and u provides a constant input.
+						When u=0, pure exponential decay. When u>0, equilibrium at u/λ.
+						This is a fundamental building block for more complex systems.
+					</aside>
 				</section>
 			</section>
 
@@ -434,6 +488,35 @@ Pontryagin's principle
 					<p class="fragment"><strong>The future of control is neuromorphic!</strong></p>
 				</section>
 
+				<section style="font-size:50%;">
+					<h2>Resources</h2>
+					<div style="text-align: left; margin: 40px auto; max-width: 800px;">
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #007bff;">
+							<h4 style="margin-top: 0; color: #007bff;">📚 Textbooks & Theory</h4>
+							<p><a href="http://www.aerialpress.com/DYN/" target="_blank" style="color: #007bff; text-decoration: none; font-weight: bold;">
+								Dynamics: The Geometry of Behavior (Abraham & Shaw)
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Classic text on dynamical systems theory and geometric approaches</p>
+						</div>
+						
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #28a745;">
+							<h4 style="margin-top: 0; color: #28a745;">🧠 Neural Dynamics</h4>
+							<p><a href="https://neuronaldynamics.epfl.ch/" target="_blank" style="color: #28a745; text-decoration: none; font-weight: bold;">
+								Neuronal Dynamics (Gerstner, Kistler, Naud & Paninski)
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Comprehensive online textbook on spiking neuron models and neural coding</p>
+						</div>
+						
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #dc3545;">
+							<h4 style="margin-top: 0; color: #dc3545;">⚙️ Simulation Tools</h4>
+							<p><a href="https://www.nengo.ai/" target="_blank" style="color: #dc3545; text-decoration: none; font-weight: bold;">
+								Nengo: Neural Engineering Framework
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Python library for building large-scale neural models and neuromorphic applications</p>
+						</div>
+					</div>
+				</section>
+
 				<section>
 					<h2>Questions?</h2>
 					<p>Thank you for your attention!</p>
@@ -449,6 +532,11 @@ Pontryagin's principle
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/markdown/markdown.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/highlight.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
+	
+	<!-- Plotly for interactive simulations -->
+	<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+	<!-- Dynamical Systems Simulator -->
+	<script src="dynamical_systems.js"></script>
 
 	<script>
 		// More info about initialization & config:
@@ -462,6 +550,59 @@ Pontryagin's principle
 			
 			// Learn about plugins: https://revealjs.com/plugins/
 			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+		});
+
+		// Initialize dynamical systems simulator when reveal.js is ready
+		Reveal.addEventListener('ready', function() {
+			// Check if sim container exists and initialize simulator
+			const simContainer = document.getElementById('sim-container');
+			if (simContainer) {
+				window.dynamicalSimulator = createDynamicalSystemsSimulator('sim-container', {
+					height: 400,
+					maxPoints: 100,
+					system: {
+						name: 'Exponential Decay',
+						equation: 'ẋ = -λx + u',
+						parameters: [
+							{ id: 'lambda', label: 'Decay Rate (λ)', min: 0.1, max: 2, step: 0.1, value: 0.5 },
+							{ id: 'input', label: 'Input (u)', min: -1, max: 1, step: 0.1, value: 0 }
+						],
+						initialState: { x: 1, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [lambda, u] = params;
+							const dx = -lambda * state.x + u;
+							return {
+								x: state.x + dt * dx,
+								y: dx,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Exponential Decay: ẋ = -λx + u',
+							xaxis: { title: 'Time', range: [0, 20] },
+							yaxis: { title: 'x(t)', range: [-3, 3] }
+						}
+					}
+				});
+			}
+		});
+
+		// Handle slide changes to manage simulator
+		Reveal.addEventListener('slidechanged', function(event) {
+			const currentSlide = event.currentSlide;
+			const hasSimulator = currentSlide.querySelector('#sim-container');
+			
+			if (window.dynamicalSimulator) {
+				if (hasSimulator) {
+					// Resume animation when on simulator slide
+					window.dynamicalSimulator.startAnimation();
+				} else {
+					// Pause animation when not on simulator slide for performance
+					window.dynamicalSimulator.stopAnimation();
+				}
+			}
 		});
 	</script>
 
