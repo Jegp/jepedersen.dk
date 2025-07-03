@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Beyond the von Neumann Wall: Building Open, Reproducible Neuromorphic Computing</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reset.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/white.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/monokai.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+
+	<style>
+		.reveal .slides section .fragment.fade-in-then-semi-out {
+			opacity: 1;
+			visibility: inherit;
+		}
+		.reveal .slides section .fragment.fade-in-then-semi-out.visible {
+			opacity: 0.5;
+			visibility: inherit;
+		}
+		.highlight-box {
+			background: #e8f4fd;
+			border-left: 5px solid #2196f3;
+			padding: 20px;
+			margin: 20px 0;
+			border-radius: 5px;
+		}
+		.energy-stat {
+			background: #e8f5e8;
+			border: 2px solid #4caf50;
+			padding: 15px;
+			margin: 10px;
+			border-radius: 10px;
+			text-align: center;
+			font-weight: bold;
+		}
+		.problem-box {
+			background: #fff3e0;
+			border-left: 5px solid #ff9800;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 5px;
+		}
+		.solution-box {
+			background: #e8f5e8;
+			border-left: 5px solid #4caf50;
+			padding: 15px;
+			margin: 15px 0;
+			border-radius: 5px;
+		}
+		.reveal h1, .reveal h2, .reveal h3 {
+			color: #1565c0;
+		}
+		.logo-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 40px;
+			margin: 30px 0;
+		}
+		.reveal blockquote {
+			width: 100%;
+			font-style: italic;
+			background: #f5f5f5;
+			border-left: 4px solid #2196f3;
+			padding: 20px;
+			margin-bottom: 40px;
+		}
+		.reveal .source {
+			font-size: 0.65em;
+			color: #666;
+			text-align: right;
+			margin: -40px 0 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<h1 style="font-size: 200%;">Beyond the von Neumann Wall</h1>
+				<h3 style="color: #666;">Building Open, Reproducible Neuromorphic Computing</h3>
+				<p style="font-size: 90%;">
+					<strong>Jens Egholm Pedersen</strong>
+					<br/>
+					<span style="font-size: 80%;">Chair, Open Neuromorphic Executive Committee</span>
+					<br/>
+					<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
+				</p>
+				<div class="logo-container" style="margin-top: -0.7em;">
+					<img src="../2304_NICE/kth.png" alt="KTH Logo" style="height: 60px;">
+					<span style="font-size: 70%;">KTH Royal Institute of Technology</span>
+					<img src="https://raw.githubusercontent.com/open-neuromorphic/open-neuromorphic.github.io/main/static/ONM-logo.png" alt="Open Neuromorphic Logo" style="height: 60px;">
+					<span style="font-size: 70%;">Open Neuromorphic</span>
+				</div>
+					<p style="font-size: 70%; color: #666; margin-top: -20px;">Edge AI Milan 2025</p>
+			</section>
+
+			<!-- The Problem: von Neumann Bottleneck -->
+			<section>
+				<section>
+					<h2>The von Neumann Wall</h2>
+					<div class="problem-box">
+						<h4>The Fundamental Problem</h4>
+						<p>Separation of memory and computation creates an insurmountable energy bottleneck</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Energy Crisis in Computing</h3>
+					<div class="r-stack">
+					<img src="https://mlsysbook.ai/contents/core/efficient_ai/images/png/compute-trends.png" alt="Energy trends in computing" style="width: 60%;"/>
+					<img src="limits_to_growth.png" alt="Limits to Growth book cover" style="width: 30%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" class="fragment">
+					</div>
+					<p class="source"><em>Source: <a href="https://mlsysbook.ai/contents/core/efficient_ai/efficient_ai.html">mlsysbook.ai</a>
+						</em></p>
+				</section>
+
+				<section>
+					<h3>The "AI memory wall"</h3>
+					<img src="https://mlsysbook.ai/contents/core/hw_acceleration/hw_acceleration_files/figure-html/fig-memory-wall-1.png" alt="AI memory wall" style="width: 60%;">
+					<p class="fragment source"><em>Source: <a href="https://mlsysbook.ai/contents/core/hw_acceleration/hw_acceleration.html">mlsysbook.ai</a></em></p>
+					<div class="fragment">
+						<p><strong>Result:</strong> Computational bottleneck</p>
+					</div>
+				</section>
+
+			</section>
+
+			<!-- The Solution: Neuromorphic Computing -->
+			<section>
+				<section>
+					<h2>Neuromorphic Computing</h2>
+					<div class="solution-box">
+						<h4>Physics-Based Computation</h4>
+						<p>Harness the natural dynamics of analog circuits to perform computation</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>The promise of biology</h3>
+					<img src="../2403_OffDig/energy_comparison.png" alt="Energy comparison" style="width: 50%;">
+					<p class="source"><em>Source: <a href="https://ieeexplore.ieee.org/document/9926296/">Shankar   2022</a></em></p>
+				</section>
+
+				<section>
+					<h3>The Promise of neuromorphics</h3>
+					<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 30px 0;">
+						<div class="energy-stat">
+							<h4>Energy</h4>
+							<p style="font-size: 1.8em; color: #4caf50;">1000×</p>
+							<p>improvement</p>
+						</div>
+						<div class="energy-stat">
+							<h4>Speed</h4>
+							<p style="font-size: 1.8em; color: #4caf50;">100×</p>
+							<p>faster inference</p>
+						</div>
+						<div class="energy-stat">
+							<h4>Real-time</h4>
+							<p style="font-size: 1.8em; color: #4caf50;">μs</p>
+							<p>response time</p>
+						</div>
+					</div>
+					<p class="fragment"><em>Not just incremental - transformational improvements</em></p>
+					<p class="fragment" style="margin-top: 30px;"><em>But there's a critical challenge...</em></p>
+				</section>
+			</section>
+
+			<!-- The Challenge: Fragmentation -->
+			<section>
+				<section>
+					<h2>The Fragmentation Problem</h2>
+					<div class="fragment problem-box">
+						<h4>Model incompatibilities</h4>
+						<p>New findings are platform-specific and <u>do not generalize</u></p>
+					</div>
+					<div class="fragment problem-box">
+						<h4>Platform incompatibilities</h4>
+						<p>Each neuromorphic chip has its own software stack</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Today's Reality</h3>
+					<ul>
+						<li class="fragment">🔒 <strong>Incompatible ecosystems:</strong> Intel, BrainChip, SynSense, BrainScaleS, Innatera, ...</li>
+						<li class="fragment">🔄 <strong>No portability:</strong> Rewrite code for each platform</li>
+						<li class="fragment">📊 <strong>No benchmarks:</strong> Can't compare performance</li>
+						<li class="fragment">🚫 <strong>Limited research:</strong> Can't reproduce or build upon work</li>
+					</ul>
+					<div class="fragment" style="margin-top: 30px;">
+						<p><strong>This kills innovation and adoption</strong></p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Learning from History</h3>
+					<blockquote>
+						"Mainstream deep learning success can also be attributed to the availability of powerful and relatively easy-to-use open software tools"
+					</blockquote>
+					<p class="source"><em>Source: <a href="https://www.nature.com/articles/s41586-024-08253-8">Kudithipudi et al. 2025, Nature</a></em></p>
+				</section>
+				<section>
+					<h3>Learning from History</h3>
+					<img src="case_studies.png" alt="Case studies of fragmentation" style="width: 100%;">
+					<p class="source"><em>Source: <a href="https://www.nature.com/articles/s41586-024-08253-8">Kudithipudi et al. 2025</a></em></p>
+					<div class="fragment">
+						<p><strong>We need similarly efficient pipelines</strong></p>
+					</div>
+				</section>
+			</section>
+
+			<!-- The Solution: Open Standards -->
+			<section>
+				<section>
+					<h2>Open Neuromorphic Initiative</h2>
+					<div class="solution-box">
+						<h4>Strategic Vision: Accelerate Open Science</h4>
+					</div>
+
+					<div class="fragment">
+						<blockquote>
+							... "the community should consolidate their efforts around the current crop of open-source tools to avoid further fragmentation"
+						</blockquote>
+						<p class="source"><em>Source: <a href="https://www.nature.com/articles/s41467-025-57352-1">Muir & Sheik 2025, Nature Communications</a></em></p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Thriving Open Source Ecosystem</h3>
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: -20px 10px;">
+						<div class="highlight-box">
+							<h4>⚡ impact</h4>
+							<p><strong>Strong platforms</strong></p>
+							<p>Millions of downloads</p>
+						</div>
+						<div class="highlight-box">
+							<h4>🌐 Community</h4>
+							<p><strong>2100+ members</strong></p>
+							<p>Experts in the field</p>
+						</div>
+						<div class="highlight-box">
+							<h4>🧠 Strong Content</h4>
+							<p><strong>Top search rankings</strong></p>
+							<p>Popular SW/HW lists</p>
+						</div>
+						<div class="highlight-box">
+							<h4>🎯 Focus</h4>
+							<p><strong>Fixing <i>real</i> problems</strong></p>
+							<p>Mutually beneficial</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Filling in the gaps</h2>
+					<img src="case_studies.png" alt="Case studies of fragmentation" style="width: 100%;">
+					<p class="source"><em>Source: <a href="https://www.nature.com/articles/s41586-024-08253-8">Kudithipudi et al. 2025</a></em></p>
+				</section>
+
+				<section>
+					<h3>Example: Neuromorphic Intermediate Representation (NIR)</h3>
+					<img src="nir_flow.png" alt="NIR workflow" style="width: 60%;">
+					<div style="flex: 1;">
+						<ul>
+							<li class="fragment">🔗 <strong>Universal format</strong></li>
+							<li class="fragment">🔄 <strong>Write once, run anywhere</strong></li>
+							<li class="fragment">📊 <strong>Benchmark</strong> across platforms</li>
+							<li class="fragment">🔬 <strong>Reproducible research</strong></li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<h3>Practical Results</h3>
+					<div class="highlight-box">
+						<h4>Real Performance Gains (preliminary)</h4>
+						<ul>
+							<li><strong>3 orders of magnitude</strong> energy improvement demonstrated</li>
+							<li><strong>Microsecond</strong> inference times on edge devices</li>
+							<li><strong>Same model</strong> running on 14+ different platforms</li>
+							<li><strong>Reproducible benchmarks</strong> across hardware</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<h3>The Open Advantage</h3>
+					<div style="display: flex; gap: 30px; align-items: center;">
+						<div style="flex: 1;">
+							<ul>
+								<li class="fragment"><strong>Faster Innovation:</strong> Build on existing work rather than reinventing</li>
+								<li class="fragment"><strong>Quality Assurance:</strong> Community review catches bugs early</li>
+								<li class="fragment"><strong>Talent Pipeline:</strong> Open tools attract and create skilled developers</li>
+								<li class="fragment"><strong>Risk Mitigation:</strong> No single point of failure or vendor control</li>
+							</ul>
+						</div>
+						<div style="flex: 0 0 200px; text-align: center;">
+							<div style="font-size: 3em;">🚀</div>
+							<p><strong>Open = Accelerated</strong></p>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!-- Future Vision -->
+			<section>
+				<section>
+					<h2>The Path Forward</h2>
+					<h3>Strategic Vision for Open Neuromorphic</h3>
+				</section>
+
+				<section>
+					<h3>Future Plans & Goals</h3>
+					<ul>
+						<li class="fragment">🔬 <strong>Transparent Science:</strong> Make neuromorphic engineering shareable, testable, modifiable</li>
+						<li class="fragment">🌐 <strong>Open Standards:</strong> Establish interoperability before commercial fragmentation</li>
+						<li class="fragment">📚 <strong>Education & Accessibility:</strong> Lower barriers for newcomers to the field and stay attractive</li>
+						<li class="fragment">🤝 <strong>Collaborative Development:</strong> Scientific software that evolves through community contribution</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Timeline</h3>
+					<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0;">
+						<div class="highlight-box">
+							<h4>2025</h4>
+							<p>New strategic vision
+								<br/>
+								-
+								<br/>
+								Mature toolchains
+							</p>
+						</div>
+						<div class="highlight-box">
+							<h4>2026</h4>
+							<p>Broader adoption<br/>
+								-<br/>Commercial deployments</p>
+						</div>
+						<div class="highlight-box">
+							<h4>2027+</h4>
+							<p>Widespread ecosystem<br/>-<br/>Next-gen applications</p>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!-- Industry Impact -->
+			<section>
+
+				<section>
+					<h1>Industry impact</h1>
+				</section>
+				<section>
+					<h2>Current shortcoming</h2>
+					<div class="problem-box">
+						<ul style="text-align: left;">
+							<li class="fragment">💸 <strong>R&D costs spiraling</strong> - each platform needs custom development</li>
+							<li class="fragment">⏰ <strong>Time-to-market delays</strong> - rebuilding from scratch for each chip</li>
+							<li class="fragment">🎯 <strong>Talent shortage</strong> - scarcity of engineers who know neuromorphic</li>
+							<li class="fragment">🔒 <strong>Immature hardware</strong> - early and unstable ecosystems</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<h3>How ONM Solves Your Problems</h3>
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;">
+						<div class="solution-box">
+							<h4>📊 Reduce Development Costs</h4>
+							<p><strong>Write once, deploy everywhere</strong></p>
+						</div>
+						<div class="solution-box">
+							<h4>🚀 Accelerate Time-to-Market</h4>
+							<p><strong>Instant platform switching</strong></p>
+						</div>
+						<div class="solution-box">
+							<h4>👥 Build Talent Pipeline</h4>
+							<p><strong>Skilled pool of workers</strong></p>
+						</div>
+						<div class="solution-box">
+							<h4>🛡️ Mature ecosystem</h4>
+							<p><strong>Interoperability = safety</strong></p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Real Industry Impact Today</h3>
+					<div class="highlight-box" style="margin: 20px 0;">
+						<h4>🎯 Companies Already Benefiting</h4>
+						<ul style="text-align: left;">
+							<li><strong>Telecompanies:</strong> Routing and switching</li>
+							<li><strong>Defense:</strong> Robust and reliable calculations at the edge</li>
+							<li><strong>Healthcare:</strong> Fall detection, body sensing, cochlear implants</li>
+							<li><strong>Supply chain:</strong> Optimization problems and planning</li>
+						</ul>
+					</div>
+				</section>
+
+
+				<section>
+					<h3>Partnership Opportunities</h3>
+					<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+						<div class="highlight-box">
+							<h4>🏢 <br/>Strategic Partnership</h4>
+							<p>Shape focus and strategic vision</p>
+						</div>
+						<div class="highlight-box">
+							<h4>💼 <br/>Technical Collaboration</h4>
+							<p>Co-develop tools and industry benchmarks</p>
+						</div>
+						<div class="highlight-box">
+							<h4>📚 <br/>Talent Development</h4>
+							<p>University and research partnerships</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Join the Movement</h3>
+					<div style="text-align: center; margin: 40px 0;">
+						<div style="background: #e3f2fd; padding: 30px; border-radius: 10px; border: 2px solid #2196f3;">
+							<h4>🌐 Open Neuromorphic</h4>
+							<p style="font-size: 0.9em; color: #666;">Be part of the open future of neuromorphic computing</p>
+							<p style="margin: 15px 0;"><i class="fa fa-home"></i> <a href="https://open-neuromorphic.org" target="_blank">open-neuromorphic.org</a></p>
+							<p><i class="fa fa-envelope"></i> contact@open-neuromorphic.org</p>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<!-- Conclusion -->
+			<section>
+				<section>
+					<h2>Key Takeaways</h2>
+					<ul>
+						<li class="fragment">🚧 <strong>von Neumann bottleneck</strong> limits traditional AI at the edge</li>
+						<li class="fragment">⚡ <strong>Neuromorphic computing</strong> offers 1000× energy improvements</li>
+						<li class="fragment">🔓 <strong>Open standards</strong> prevent vendor lock-in and accelerate innovation</li>
+						<li class="fragment">🚀 <strong>The future is open</strong> - join the movement</li>
+					</ul>
+				</section>
+				<section>
+					<h1 style="font-size: 200%;">Beyond the von Neumann Wall</h1>
+					<h3 style="color: #666;">Building Open, Reproducible Neuromorphic Computing</h3>
+					<p style="font-size: 90%;">
+						<strong>Jens Egholm Pedersen</strong>
+						<br/>
+						<span style="font-size: 80%;">Chair, Open Neuromorphic Executive Committee</span>
+						<br/>
+						<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+						&nbsp;
+						<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+						&nbsp;
+						<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
+					</p>
+					<div class="logo-container" style="margin-top: -0.7em;">
+						<img src="../2304_NICE/kth.png" alt="KTH Logo" style="height: 60px;">
+						<span style="font-size: 70%;">KTH Royal Institute of Technology</span>
+						<img src="https://raw.githubusercontent.com/open-neuromorphic/open-neuromorphic.github.io/main/static/ONM-logo.png" alt="Open Neuromorphic Logo" style="height: 60px;">
+						<span style="font-size: 70%;">Open Neuromorphic</span>
+					</div>
+					<p style="font-size: 70%; color: #666; margin-top: -20px;">Edge AI Milan 2025</p>
+				</section>
+			</section>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/markdown/markdown.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/highlight.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			transition: 'slide',
+			transitionSpeed: 'fast',
+			backgroundTransition: 'fade',
+			
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+		});
+	</script>
+
+</body>
+</html>
