@@ -62,6 +62,7 @@ Pontryagin's principle
 		<div class="slides">
 			<!-- Title Slide -->
 			<section>
+				<section>
 				<h1 style="font-size: 250%;">Dynamical Systems for Control</h1>
 				<br/>
 				<h5>Telluride Neuromorphic Cognition Workshop 2025</h5>
@@ -83,14 +84,26 @@ Pontryagin's principle
 				<aside class="notes">
 					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
 					to modern computational approaches, building mathematical tools along the way.
-				</aside>
+				</aside></section>
+
+				<section>
+					<h1>Caveat emptor</h1>
+					<ul>
+						<li class="fragment">Huge topic to a broad audience</li>
+						<li class="fragment">Focus on mathematical abstractions</li>
+						<li class="fragment">Biological motivation <span class="fragment">- neural focus</span></li>
+						<li class="fragment">Emphasis on practice and code</li>
+						<li class="fragment">Slides at jepedersen.dk <span class="fragment">- but take notes!</span></li>
+						</li>
+					</ul>
+				</section>
 			</section>
 
 			<!-- Section 1: Biological Motivation -->
 			<section>
 				<section>
-					<h2>1. Biological Motivation</h2>
-					<h3>Why Nature Uses Dynamical Systems</h3>
+					<h2>1. Biological motivation</h2>
+					<h3>Dynamical systems in nature</h3>
 				</section>
 
 				<section>
@@ -118,7 +131,7 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Neural Oscillators</h3>
+					<h3>Neural oscillators</h3>
 					<p>Individual neurons can act as oscillators:</p>
 					<ul>
 						<li class="fragment">Synaptic feedback loops</li>
@@ -141,7 +154,7 @@ Pontryagin's principle
 							<li>Model the dynamics</li>
 							<li>Predict behavior</li>
 							<li>Design control strategies</li>
-							<li>Understand stability</li>
+							<li>Establish guarantees</li>
 						</ul>
 					</div>
 				</section>
@@ -167,10 +180,8 @@ Pontryagin's principle
 
 				<section>
 					<h3>State Space Representation</h3>
-					<div class="equation">
 						$$\dot{x} = f(x, u)$$
 						$$y = h(x, u)$$
-					</div>
 					<p>Where:</p>
 					<ul>
 						<li><strong>x</strong>: state vector (internal variables)</li>
@@ -184,24 +195,60 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Biological Example: Motor Control</h3>
+					<h3>Constant System (No State)</h3>
+					<p>Simplest case: no internal dynamics, just input-output mapping</p>
+					$$y = u$$
+					<div id="constant-sim-container" style="height: 300px; margin: 20px 0;"></div>
+				</section>
+
+				<section>
+					<h3>Simple 1-State System</h3>
+					<p>One-dimensional exponential decay with input
+						$$\dot{x} = -\lambda x + u$$
+					</p>
+					<div id="decay-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<p><small>This system has memory - its state x evolves over time based on decay rate λ and input u.</small></p>
+				</section>
+
+				<section>
+					<h3>Example: Motor Control</h3>
 					<div class="bio-example">
 						<p><strong>State (x):</strong> Joint angles, velocities, muscle activations</p>
 						<p><strong>Input (u):</strong> Motor commands from brain</p>
 						<p><strong>Output (y):</strong> Limb position, sensory feedback</p>
 					</div>
-					<p class="fragment">The state space captures the full "configuration" of the motor system</p>
+					<p class="fragment">The state space captures the full "configuration" of the system</p>
+				</section>
+
+				<section>
+					<h3>Linear Time-Invariant (LTI) Systems</h3>
+					<p>A special class of systems with nice properties</p>
+					$$y(t) = (x \star h)(t)$$
+					<p>Where $x$ is input, $t$ is time, $h$ is the <i>impulse response</i> </p>
+					<ul class="fragment">
+						<li><strong>Linear:</strong> Superposition principle applies</li>
+						<li><strong>Time-invariant:</strong> System parameters don't change</li>
+						<li><strong>Analytical solutions:</strong> The convolution integral</li>
+					</ul>
 				</section>
 
 				<section>
 					<h3>Observability</h3>
-					<p><em>Can we determine the internal state from observations?</em></p>
-					<div class="equation fragment">
-						$$\mathcal{O} = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \end{bmatrix}$$
+					<p><em>Can we determine the internal state from observations?</em> <small>(in LTI systems)</small></p>
+					<div style="display: flex; gap: 30px; align-items: center; flex-direction: row;">
+					<div class="equation fragment" style="flex: 1;">
+						$$\begin{align*}
+						\dot{x} &= Ax + Bu \\
+						\mathcal{O} &= \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \end{bmatrix}
+						\end{align*}$$
 					</div>
-					<p class="fragment">System is observable if rank($\mathcal{O}$) = n</p>
+					<div class="fragment" style="flex: 1;">System is observable if rank($\mathcal{O}$) = n
+						<br/>
+						<small>($n$ columns are linearly independent)</small>
 					<div class="fragment bio-example">
-						<strong>Biological significance:</strong> What can we infer about neural state from recordings?
+						What can we infer about neural state from recordings?
+					</div>
+				</div>
 					</div>
 				</section>
 
@@ -209,41 +256,106 @@ Pontryagin's principle
 					<h3>Controllability</h3>
 					<p><em>Can we steer the system to any desired state?</em></p>
 					<div class="equation fragment">
-						$$\mathcal{C} = \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}$$
+						$$\begin{align*}
+						\dot{x} &= Ax + Bu \\
+						\mathcal{C} &= \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}
+						\end{align*}$$
 					</div>
-					<p class="fragment">System is controllable if rank($\mathcal{C}$) = n</p>
+					<p class="fragment">System is controllable if rank($\mathcal{C}$) = n<br/>
+					<small>(Dual to observability)</small>
+					</p>
 					<div class="fragment bio-example">
-						<strong>Biological significance:</strong> Can we influence neural dynamics through stimulation?
+						Can we influence dynamics through stimulation?
 					</div>
 				</section>
 
 				<section>
-					<h3>Sensorimotor Integration</h3>
-					<p>Observability + Controllability = Closed-loop control</p>
+					<h3>Sensorimotor integration</h3>
+					<p>Observability + controllability = closed-loop control</p>
 					<div class="equation fragment">
 						$$u = -K(x - x_{\text{desired}}) + u_{\text{feedforward}}$$
 					</div>
+					<div class="fragment">
+						<p>Where:</p>
+						<ul>
+							<li><strong>K</strong>: feedback gain matrix (strength of correction)</li>
+							<li><strong>x</strong>: current state (observed through sensors)</li>
+							<li><strong>x<sub>desired</sub></strong>: target state (motor goal)</li>
+							<li><strong>u<sub>feedforward</sub></strong>: anticipated control (motor program)</li>
+						</ul>
+					</div>
 					<p class="fragment">This is the foundation of biological motor control!</p>
+				</section>
+
+				<section>
+					<h3>Demonstration: leaky integrator</h3>
+					$$\tau \dot{x} = -x + I(t)$$
+					<div id="sim-container" style="height: 300px; margin: 0 0 20px;"></div>
+					<aside class="notes">
+						The leaky integrator is fundamental in neuroscience - it models how neurons integrate synaptic inputs.
+						τ controls integration time scale, I is synaptic input, η is noise.
+						When τ is large: slow integration, good memory. When τ is small: fast response, poor memory.
+						This demonstrates the fundamental trade-off between integration and responsiveness.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Example: Leaky integrator</h3>
+					<p>Let's analyze observability and controllability</p>
+						$$\begin{align*}
+						\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \quad \text{(dynamics)} \\
+						y &= x \quad \text{(output)}
+						\end{align*}$$
+					<div class="fragment">
+						<p><strong>State-space matrices:</strong></p>
+						<ul>
+							<li>$A = -\frac{1}{\tau}$ (how state evolves)</li>
+							<li>$B = \frac{1}{\tau}$ (how input affects state)</li>
+							<li>$C = 1$ (how we observe the state: $y = 1 \cdot x$)</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h3>Example: Leaky integrator</h3>
+					<p>Let's analyze observability and controllability</p>
+						$$\begin{align*}
+						\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \quad \text{(dynamics)} \\
+						y &= x \quad \text{(output)}
+						\end{align*}$$
+					<div class="fragment">
+						<ul>
+							<li><strong>Observability:</strong> $\mathcal{O} = [C] = [1]$ → rank = 1 ✓</li>
+							<li><strong>Controllability:</strong> $\mathcal{C} = [B] = [\frac{1}{\tau}]$ → rank = 1 ✓</li>
+						</ul>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Interpretation:</strong> We can observe the neuron's state and control it with input current
+					</div>
 				</section>
 			</section>
 
 			<!-- Section 3: Optimization & Stability -->
 			<section>
 				<section>
-					<h2>3. Optimization & Stability</h2>
-					<h3>Energy Landscapes and Control</h3>
+					<h2>3. Optimization & stability</h2>
+					<h3>Energy landscapes and optimality</h3>
 				</section>
 
 				<section>
-					<h3>Energy-Based Optimization</h3>
-					<p>Many biological systems minimize energy functions:</p>
+					<h3>Energy-based optimization</h3>
+					<p>Many physical systems minimize energy functions:</p>
 					<div class="equation">
 						$$V(x) = \text{potential energy function}$$
 						$$\dot{x} = -\nabla V(x) + \text{noise}$$
 					</div>
 					<div class="fragment bio-example">
-						<strong>Examples:</strong> Neural network dynamics, protein folding, developmental patterns
+						<strong>Examples:</strong> Neural network dynamics, protein folding, gradient-based learning, ...
 					</div>
+					<aside class="notes">
+						This is a powerful abstraction. Many biological systems can be viewed as minimizing some energy landscape.
+						For example, neural networks can be seen as optimizing synaptic weights to minimize error.
+						Lagrange dynamics is a common framework for modeling these systems.
+					</aside>
 				</section>
 
 				<section>
@@ -255,7 +367,7 @@ Pontryagin's principle
 					</div>
 					<p class="fragment">If such a function V exists → system is stable</p>
 					<div class="fragment bio-example">
-						<strong>Biological significance:</strong> Homeostasis, robust neural computation
+						<strong>Examples:</strong> Homeostasis, robust neural computation, safety in control systems
 					</div>
 				</section>
 
@@ -287,39 +399,110 @@ Pontryagin's principle
 						<strong>Biological example:</strong> Motor control with energy constraints and stability requirements
 					</div>
 				</section>
+			</section>
+
+			<!-- Section 4: Phase Space and Attractors -->
+			<section>
+				<section>
+					<h2>4. Phase space and attractors</h2>
+					<h3>Visualizing System Behavior</h3>
+				</section>
 
 				<section>
-					<h3>Attractors in Neural Systems</h3>
-					<p>Different types of attractors → different computations:</p>
-					<ul>
-						<li class="fragment"><strong>Fixed points:</strong> Memory storage, decision states</li>
-						<li class="fragment"><strong>Limit cycles:</strong> Oscillatory behavior, CPGs</li>
-						<li class="fragment"><strong>Strange attractors:</strong> Chaotic dynamics, rich computation</li>
+					<h3>Phase Space</h3>
+					<p>The space of all possible states of a dynamical system</p>
+					<div class="equation">
+						$$\text{Phase space} = \{(x_1, x_2, \ldots, x_n) : x_i \in \mathbb{R}\}$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Each point</strong> represents a complete system state</li>
+						<li><strong>Trajectories</strong> show how states evolve over time</li>
+						<li><strong>Dimension</strong> equals number of state variables</li>
 					</ul>
 					<div class="fragment bio-example">
-						<strong>Attractor networks:</strong> Hopfield networks, decision-making circuits
+						<strong>Example:</strong> Neuron membrane potential and its derivative form 2D phase space
 					</div>
 				</section>
 
 				<section>
-					<h3>Interactive Demonstration</h3>
-					<p>Explore exponential decay dynamics with live simulation!</p>
-					<div id="sim-container" style="height: 500px; margin: 20px 0;"></div>
-					<p><small>Adjust the decay rate (λ) and input (u) to see how they affect the system.<br>
-					Use "Restart" to replay with current settings, "Reset" to restore defaults.</small></p>
-					<aside class="notes">
-						This shows a simple exponential decay system where students can adjust parameters.
-						Demonstrate how λ controls the decay rate and u provides a constant input.
-						When u=0, pure exponential decay. When u>0, equilibrium at u/λ.
-						This is a fundamental building block for more complex systems.
-					</aside>
+					<h3>Phase Portraits</h3>
+					<p>Visual representation of system dynamics in phase space</p>
+					<ul class="fragment">
+						<li><strong>Vector field:</strong> Shows direction of flow at each point</li>
+						<li><strong>Trajectories:</strong> Solution curves starting from different initial conditions</li>
+						<li><strong>Nullclines:</strong> Where $\dot{x}_i = 0$</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Insight:</strong> Phase portraits reveal global behavior patterns
+					</div>
+				</section>
+
+				<section>
+					<h3>Attractors</h3>
+					<p>Regions in phase space that "attract" nearby trajectories</p>
+					<ul>
+						<li class="fragment"><strong>Fixed points:</strong> $\dot{x} = 0$ (equilibrium states)</li>
+						<li class="fragment"><strong>Limit cycles:</strong> Closed periodic orbits</li>
+						<li class="fragment"><strong>Strange attractors:</strong> Chaotic, fractal structures</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Biology:</strong> Fixed points → memory states, Limit cycles → rhythmic behaviors
+					</div>
+				</section>
+
+				<section>
+					<h3>Basins of Attraction</h3>
+					<p>Set of initial conditions that lead to the same attractor</p>
+					<div class="equation fragment">
+						$$B(A) = \{x_0 : \lim_{t \to \infty} x(t, x_0) \in A\}$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Separatrices:</strong> Boundaries between basins</li>
+						<li><strong>Multistability:</strong> Multiple attractors coexist</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Neural computation:</strong> Different basins → different memories or decisions
+					</div>
+				</section>
+
+				<section>
+					<h3>Example: Pendulum Dynamics</h3>
+					<p>Classic example showing rich phase space structure</p>
+					<div class="equation">
+						$$\ddot{\theta} + \frac{g}{l}\sin\theta = 0$$
+						$$\text{or } \begin{cases} \dot{\theta} = \omega \\ \dot{\omega} = -\frac{g}{l}\sin\theta \end{cases}$$
+					</div>
+					<div class="fragment">
+						<ul>
+							<li><strong>Fixed points:</strong> $(\theta, \omega) = (0, 0), (\pi, 0)$</li>
+							<li><strong>Separatrices:</strong> Divide oscillation from rotation</li>
+							<li><strong>Conservation:</strong> Energy is conserved (Hamiltonian system)</li>
+						</ul>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Bio-analogy:</strong> Neural oscillators, motor pattern generators
+					</div>
+				</section>
+
+				<section>
+					<h3>Attractor Networks in Biology</h3>
+					<p>How biological systems use attractors for computation</p>
+					<ul>
+						<li class="fragment"><strong>Hopfield networks:</strong> Fixed-point attractors for memory</li>
+						<li class="fragment"><strong>Central pattern generators:</strong> Limit cycles for rhythmic motion</li>
+						<li class="fragment"><strong>Decision circuits:</strong> Winner-take-all dynamics</li>
+						<li class="fragment"><strong>Neural avalanches:</strong> Critical dynamics near bifurcations</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Attractors provide robust computation despite noise
+					</div>
 				</section>
 			</section>
 
-			<!-- Section 4: Neural Network Dynamics -->
+			<!-- Section 5: Neural Network Dynamics -->
 			<section>
 				<section>
-					<h2>4. Neural Network Dynamics</h2>
+					<h2>5. Neural Network Dynamics</h2>
 					<h3>From Biology to Modern AI</h3>
 				</section>
 
@@ -419,10 +602,10 @@ Pontryagin's principle
 				</section>
 			</section>
 
-			<!-- Section 5: Integration & Applications -->
+			<!-- Section 6: Integration & Applications -->
 			<section>
 				<section>
-					<h2>5. Integration & Applications</h2>
+					<h2>6. Integration & Applications</h2>
 					<h3>Bringing It All Together</h3>
 				</section>
 
@@ -559,6 +742,72 @@ Pontryagin's principle
 			if (simContainer) {
 				window.dynamicalSimulator = createDynamicalSystemsSimulator('sim-container', {
 					height: 400,
+					maxPoints: 200,
+					system: {
+						name: 'Leaky Integrator',
+						equation: 'τẋ = -x + I',
+						parameters: [
+							{ id: 'tau', label: 'Time Constant (τ)', min: 0.5, max: 5, step: 0.1, value: 1.5 },
+							{ id: 'input', label: 'Input Current (I)', min: -2, max: 2, step: 0.1, value: 0.5 },
+							],
+						initialState: { x: 0, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [tau, input] = params;
+							const dx = (-state.x + input) / tau;
+							return {
+								x: state.x + dt * dx,
+								y: dx,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Leaky Integrator: τẋ = -x + I',
+							xaxis: { title: 'Time', range: [0, 25] },
+							yaxis: { title: 'x(t)', range: [-3, 3] }
+						}
+					}
+				});
+			}
+
+			// Initialize constant system simulator
+			const constantSimContainer = document.getElementById('constant-sim-container');
+			if (constantSimContainer) {
+				window.constantSimulator = createDynamicalSystemsSimulator('constant-sim-container', {
+					height: 300,
+					maxPoints: 100,
+					system: {
+						name: 'Constant System',
+						equation: 'y = u',
+						parameters: [
+							{ id: 'input', label: 'Input (u)', min: -2, max: 2, step: 0.1, value: 1 }
+						],
+						initialState: { x: 0, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [u] = params;
+							return {
+								x: u,
+								y: u,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Constant System: y = u',
+							xaxis: { title: 'Time', range: [0, 10] },
+							yaxis: { title: 'y(t)', range: [-2.5, 2.5] }
+						}
+					}
+				});
+			}
+
+			// Initialize decay system simulator
+			const decaySimContainer = document.getElementById('decay-sim-container');
+			if (decaySimContainer) {
+				window.decaySimulator = createDynamicalSystemsSimulator('decay-sim-container', {
+					height: 300,
 					maxPoints: 100,
 					system: {
 						name: 'Exponential Decay',
@@ -582,7 +831,7 @@ Pontryagin's principle
 						plotConfig: {
 							title: 'Exponential Decay: ẋ = -λx + u',
 							xaxis: { title: 'Time', range: [0, 20] },
-							yaxis: { title: 'x(t)', range: [-3, 3] }
+							yaxis: { title: 'x(t)', range: [-8, 8] }
 						}
 					}
 				});
@@ -593,14 +842,33 @@ Pontryagin's principle
 		Reveal.addEventListener('slidechanged', function(event) {
 			const currentSlide = event.currentSlide;
 			const hasSimulator = currentSlide.querySelector('#sim-container');
+			const hasConstantSimulator = currentSlide.querySelector('#constant-sim-container');
+			const hasDecaySimulator = currentSlide.querySelector('#decay-sim-container');
 			
+			// Manage original simulator
 			if (window.dynamicalSimulator) {
 				if (hasSimulator) {
-					// Resume animation when on simulator slide
 					window.dynamicalSimulator.startAnimation();
 				} else {
-					// Pause animation when not on simulator slide for performance
 					window.dynamicalSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage constant system simulator
+			if (window.constantSimulator) {
+				if (hasConstantSimulator) {
+					window.constantSimulator.startAnimation();
+				} else {
+					window.constantSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage decay system simulator
+			if (window.decaySimulator) {
+				if (hasDecaySimulator) {
+					window.decaySimulator.startAnimation();
+				} else {
+					window.decaySimulator.stopAnimation();
 				}
 			}
 		});

@@ -179,19 +179,19 @@ class DynamicalSystemsSimulator {
         ` : '';
 
         this.container.innerHTML = `
-            <div class="dynsim-container" style="display: flex; gap: 15px; font-family: Arial, sans-serif; font-size: 0.8em;">
-                <div class="dynsim-controls" style="width: 200px; background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #ddd;">
+            <div class="dynsim-container" style="display: flex; gap: 10px; font-family: Arial, sans-serif; font-size: 0.8em;">
+                <div class="dynsim-controls" style="width: 180px; background: #f8f9fa; padding: 8px; border-radius: 6px; border: 1px solid #ddd;">
                     ${systemSelectorHTML}
                     
-                    <div class="dynsim-equation" style="background: #e3f2fd; padding: 8px; margin: 10px 0; border-radius: 4px; font-family: 'Times New Roman', serif; font-size: 0.85em; border-left: 3px solid #2196f3;"></div>
+                    <div class="dynsim-equation" style="background: #e3f2fd; padding: 6px 8px; margin: 8px 0; border-radius: 4px; font-family: 'Times New Roman', serif; font-size: 0.8em; border-left: 3px solid #2196f3;"></div>
                     
                     <div class="dynsim-params"></div>
                     
-                    <div style="display: flex; gap: 5px; margin-top: 12px;">
-                        <button class="dynsim-restart" style="flex: 1; padding: 6px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75em;">
+                    <div style="display: flex; gap: 4px; margin-top: 8px;">
+                        <button class="dynsim-restart" style="flex: 1; padding: 4px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.7em;">
                             Restart
                         </button>
-                        <button class="dynsim-reset" style="flex: 1; padding: 6px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75em;">
+                        <button class="dynsim-reset" style="flex: 1; padding: 4px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.7em;">
                             Reset
                         </button>
                     </div>
@@ -229,8 +229,11 @@ class DynamicalSystemsSimulator {
         // Update parameter controls
         const paramsDiv = this.container.querySelector('.dynsim-params');
         paramsDiv.innerHTML = system.parameters.map(param => `
-            <div style="margin-bottom: 12px;">
-                <label style="display: block; font-weight: bold; margin-bottom: 4px; font-size: 0.9em;">${param.label}:</label>
+            <div style="margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <label style="font-weight: bold; font-size: 0.7em;">${param.label}:&nbsp;<span class="dynsim-param-value" style="background: #e9ecef; padding: 1px 4px; border-radius: 2px; font-size: 0.8em; min-width: 30px; text-align: center;">${param.value.toFixed(2)}</span></label>
+                    
+                </div>
                 <input type="range" 
                        class="dynsim-param" 
                        data-param="${param.id}"
@@ -238,15 +241,14 @@ class DynamicalSystemsSimulator {
                        max="${param.max}" 
                        step="${param.step}" 
                        value="${param.value}"
-                       style="width: 100%; margin-bottom: 4px; height: 18px;">
-                <span class="dynsim-param-value" style="background: #e9ecef; padding: 2px 5px; border-radius: 3px; font-size: 0.75em; display: inline-block; min-width: 35px; text-align: center;">${param.value.toFixed(2)}</span>
+                       style="width: 100%; height: 14px;">
             </div>
         `).join('');
         
         // Add slider event listeners
         paramsDiv.querySelectorAll('.dynsim-param').forEach(slider => {
             slider.addEventListener('input', (e) => {
-                const valueSpan = e.target.nextElementSibling;
+                const valueSpan = e.target.parentElement.querySelector('.dynsim-param-value');
                 valueSpan.textContent = parseFloat(e.target.value).toFixed(2);
             });
         });
