@@ -541,7 +541,7 @@ Pontryagin's principle
 			<section>
 				<section>
 					<h2>4. Phase space and attractors</h2>
-					<h3>Visualizing system behavior</h3>
+					<h3>Using geometry to extract information</h3>
 				</section>
 
 				<section>
@@ -581,9 +581,9 @@ Pontryagin's principle
 					</div>
 					<div class="r-stack" style="" >
 					<div id="vanderpol-sim-container" style="height: 300px; margin: 20px 0;"></div>
-					<img src="van_der_pol_phase.png" 
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Van_der_pols_equation_phase_portrait.svg/1920px-Van_der_pols_equation_phase_portrait.svg.png" 
 						 alt="Van der Pol oscillator limit cycle" 
-						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+						 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
 					</div>
 					<aside class="notes">
 						The Van der Pol oscillator is a classic example of a nonlinear system with a stable limit cycle.
@@ -685,8 +685,40 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Attractor networks in biology</h3>
-					<p>How biological systems use attractors for computation</p>
+					<h3>The importance of geometry</h3>
+					<div style="display: flex; gap: 20px;">
+						<img src="strogatz.jpg"
+						alt="Strogatz: Nonlinear dynamics and chaos"
+						 style="width: 300px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" class="fragment">
+						<div>
+							<h3>Strogatz: Nonlinear dynamics and chaos</h3>
+							<blockquote>
+								There aught to be an easier way [than analytical solutions] ... given the system, we want to draw the trajectories and thereby extract information about the solutions
+							</blockquote>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<img src="strogatz_variables.png" 
+						 alt="Strogatz variables" 
+						 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+				</section>
+
+				<section>
+					<h3>Some extra keywords</h3>
+					<ul style="font-size: 1.1em; line-height: 1.6; width: 95vw; margin-left: -60px;">
+						<li><strong>Laplace transform & s-space:</strong> Frequency domain analysis</li>
+						<li><strong>Bifurcation theory:</strong> Qualitative changes in dynamics</li>
+						<li><strong>Poincaré maps:</strong> Geometric analysis</li>
+						<li><strong>Stochastic dynamics:</strong> Noisy systems</li>
+						<li><strong>Statistical physics:</strong> Energy-based models</li>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Attractor networks in neural networks and biology</h3>
 					<ul>
 						<li class="fragment"><strong>Hopfield networks:</strong> Fixed-point attractor memory</li>
 						<li class="fragment"><strong>Central pattern generators:</strong> Limit cycles for rhythmic motion</li>
@@ -697,38 +729,22 @@ Pontryagin's principle
 						<strong>Key insight:</strong> Attractors are robust despite noise
 					</div>
 				</section>
+
+				<section>
+					<h2>Example: Neuron servo</h2>
+					<p><small><a href="https://authors.library.caltech.edu/53092/1/00080335.pdf">DeWeerth, Nielsen, Mead, & Åström 1991, A simple neuron servo</a></small></p>
+					<img src="neuron_servo.png" 
+						 alt="Neuron servo control" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">	
+				</section>
+
 			</section>
 
 			<!-- Section 5: Neural Network Dynamics -->
 			<section>
 				<section>
 					<h2>5. Neural Network Dynamics</h2>
-					<h3>From Biology to Modern AI</h3>
-				</section>
-
-				<section>
-					<h3>Continuous-Time RNNs</h3>
-					<div class="equation">
-						$$\tau \dot{h} = -h + W \sigma(h) + W_{\text{in}} u$$
-						$$y = W_{\text{out}} h$$
-					</div>
-					<p>Key insight: <em>Neural dynamics as dynamical systems</em></p>
-					<div class="fragment bio-example">
-						<strong>Biological correspondence:</strong> τ = membrane time constant, σ = activation function
-					</div>
-				</section>
-
-				<section>
-					<h3>Reservoir Computing</h3>
-					<p>Fixed random recurrent network + trainable readout</p>
-					<div class="equation">
-						$$\dot{x} = -x + W_{\text{res}} \tanh(x) + W_{\text{in}} u$$
-						$$y = W_{\text{out}} x$$
-					</div>
-					<p class="fragment">Only train $W_{\text{out}}$ → computationally efficient</p>
-					<div class="fragment bio-example">
-						<strong>Biological inspiration:</strong> Cortical microcircuits as computational reservoirs
-					</div>
+					<h3>Dynamics in modern AI</h3>
 				</section>
 
 				<section>
@@ -737,11 +753,11 @@ Pontryagin's principle
 						<div>
 							<p>How to compute gradients through ODE solvers efficiently</p>
 							<div class="equation fragment">
-								$$\frac{dL}{d\theta} = -\int_{t_1}^{t_0} a(t)^T \frac{\partial f}{\partial \theta}(z(t), t, \theta) dt$$
+								$$\frac{dL}{d\theta} = -\int_{t_1}^{t_0} a(t)^T \frac{\partial f}{\partial \theta}(x, t, \theta) dt$$
 							</div>
 							<ul class="fragment">
 								<li><strong>Problem:</strong> Standard BP through ODE solver is costly</li>
-								<li><strong>Adjoint state a(t):</strong> variable flowing "backward"</li>
+								<li><strong>Adjoint state $a(t)$:</strong> variable flowing "backward"</li>
 								<li><strong>Memory trade-off:</strong> O(1) memory</li>
 							</ul>
 						</div>
@@ -758,21 +774,25 @@ Pontryagin's principle
 
 				<section>
 					<h3>Neural ODEs</h3>
-					Parameterize the derivative directly with neurons
-					<small>
-						<a href="http://arxiv.org/abs/1806.07366">Chen et al. 2019, Neuronal Ordinary Equations</a>
-					</small>
-					<div class="equation">
-						$$\frac{dh}{dt} = f_\theta(h(t), t)$$
-					</div>
-					<ul class="fragment">
-						<li><strong>f<sub>θ</sub>:</strong> Neural network with parameters θ</li>
-						<li><strong>Continuous depth:</strong> Infinite layers via integration</li>
-						<li><strong>Memory efficient:</strong> Adjoint method</li>
-						<li><strong>Adaptive computation:</strong> Error-controlled solvers</li>
-					</ul>
-					<div class="fragment bio-example">
-						<strong>Advantage:</strong> Efficient continuous dynamics
+					<div class="r-stack">
+						<div>
+							Parameterize the derivative directly with neurons
+							<small>
+								<a href="http://arxiv.org/abs/1806.07366">Chen et al. 2019, Neuronal Ordinary Equations</a>
+							</small>
+							<div class="equation">
+								$$\frac{dh}{dt} = f_\theta(h(t), t)$$
+							</div>
+							<ul class="fragment">
+								<li><strong>f<sub>θ</sub>:</strong> Neural network with parameters θ</li>
+								<li><strong>Continuous depth:</strong> Infinite layers via integration</li>
+								<li><strong>Memory efficient:</strong> Adjoint method</li>
+								<li><strong>Adaptive computation:</strong> Error-controlled solvers</li>
+							</ul>
+						</div>
+						<img src="ode_network.png" 
+							 alt="Neural ODEs" 
+							 style="width: 50%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
 					</div>
 				</section>
 
@@ -795,20 +815,134 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Covariant Spiking Neural Networks</h3>
-					<p>Geometry preserving transformations in neuromorphic computation</p>
+					<h3>Group Symmetries and Basis Functions</h3>
+					<p>Exploiting symmetries through linear combination</p>
+					<div class="equation">
+						$$f(x) = \sum_{n=0}^{\infty} a_n \phi_n(x)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Group actions:</strong> Rotations, translations, scaling</li>
+						<li><strong>Basis functions φ<sub>n</sub>:</strong> Orthogonal polynomials</li>
+						<li><strong>Harmonic analysis:</strong> Decompose complex functions with periodic function (sin/cos), e.g. Fourier</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Legendre Polynomials</h3>
+					<p>Orthogonal polynomials with optimal approximation properties</p>
+					<div class="equation">
+						$$P_n(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n}(x^2-1)^n$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Completeness:</strong> Any function can be expanded</li>
+						<li><strong>Optimality:</strong> Best polynomial approximation in $L^2$</li>
+						<li><strong>Recursion:</strong> Efficient computation via recurrence</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Hierarchical representation with increasing resolution
+					</div>
+				</section>
+
+				<section>
+					<h3>Legendre Memory Units (LMUs)</h3>
+					<p>Continuous-time memory with Legendre polynomials
+					<small>
+						<a href="https://dl.acm.org/doi/10.5555/3454287.3455682">Voelker et al. 2020, Legendre Memory Units</a>
+					</small></p>
+					<img src="legendre.png" 
+						 alt="Legendre Memory Units" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin: -10px 0;" class="fragment">
+					<ul class="fragment">
+						<li><strong>Sliding window:</strong> Represents history over time θ</li>
+						<li><strong>Optimal encoding:</strong> Legendre minimizes error</li>
+						<li><strong>Linear dynamics:</strong> Efficient computation!</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>HiPPO: High-order Polynomial Projection Operators</h3>
+					<p>Optimal continuous-time memory through polynomial approximation</p>
+					<small>
+						<a href="https://arxiv.org/abs/2008.07669">Gu et al. 2020, HiPPO: Recurrent Memory with Optimal Polynomial Projections</a>
+					</small>
+					<div class="equation">
+						$$\frac{d}{dt}c(t) = -Ac(t) + Bf(t)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Sliding window:</strong> Maintain optimal approximation of recent history</li>
+						<li><strong>Polynomial basis:</strong> Project onto orthogonal polynomials (Legendre, Laguerre, etc.)</li>
+						<li><strong>Matrix structure:</strong> A and B matrices derived from function theory</li>
+						<li><strong>LMU connection:</strong> LMUs are a specific instance using Legendre polynomials</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Mathematical foundation for optimal continuous-time memory
+					</div>
+				</section>
+
+				<section>
+					<h3>Spectral Analysis of Learning</h3>
+					<p>Frequency domain reveals optimization dynamics
+						<small>
+							<a href="https://proceedings.mlr.press/v247/marchetti24a.html">Marchetti et al. 2024, Harmonics of learning</a>
+						</small>
+					</p>
+					<div class="r-stack">
+						<div>
+							<ul>
+								<li><strong>Parameter oscillations:</strong> Training exhibits geometries</li>
+								<li><strong>Harmonic modes:</strong> Different parameters have characteristic frequencies</li>
+								<li><strong>Phase coupling:</strong> Coordination in updates</li>
+							</ul>
+						</div>
+						<img src="harmonics_weights.png" 
+							 alt="Spectral analysis of learning" 
+							 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-right: 20px;" class="fragment">
+					</div>
+							<div class="fragment bio-example">
+								<strong>Practical insight:</strong> recover structure of an unknown group
+							</div>
+				</section>
+
+				<section>
+					<h3>Spike-response model</h3>
+					<p>Arbitrary neuron dynamics as composed linear kernels
+						<br/>
+						<small>
+							<a href="http://ebooks.cambridge.org/ref/id/CBO9781107447615">Gerstner et al. 2014, Spiking Neuron Models</a>
+						</small>
+					</p>
 					<div class="equation">
 						$$u(t) = \eta(t - t_f) + \int_0^{\infty} \kappa(s)I(t - s)ds$$
 					</div>
-					<ul class="fragment">
-						<li><strong>Spike-response model:</strong> κ (membrane), H (threshold), η (reset)</li>
-						<li><strong>Temporal scale covariance:</strong> T(t'; μ', μ'_r) = T(t; μ, μ_r)</li>
-						<li><strong>Geometric structure:</strong> Transformations preserve neural dynamics</li>
-						<li><strong>Lie group symmetries:</strong> Spatial affine + Galilean + temporal scaling</li>
+					<img src="srm.png" 
+						 alt="Spike-response model" 
+						 style="width: 80%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" >
+				</section>
+
+				<section>
+					<h3>Covariant spiking neural networks</h3>
+					<p>Geometry preserving transformations in neuromorphic computation
+						<br/>
+						<small>
+							<a href="http://arxiv.org/abs/2405.00318">Pedersen et al. 2024, Covariant spiking neural networks</a>
+						</small>
+
+					</p>
+					<div class="r-stack">
+						<img src="foveated_scales.png" 
+							 alt="Foveated scales in spiking neural networks" 
+							 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"class="fragment">
+
+					<img src="covariant_representations.png" 
+						 alt="Covariant representations in spiking neural networks" 
+						 style="width: 80%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -10px;" class="fragment">
+
+					<ul class="fragment" style="background-color: white; padding: 10px 50px; border-radius: 8px;">
+						<li><strong>Spatial and temporal scale covariance:</strong>Spatial affine + Galilean + temporal scaling</li>
+						<li><strong>Neural representations:</strong> Geometric structure</li>
 					</ul>
-					<div class="fragment bio-example">
-						<strong>Insight:</strong> Neural behavior has inherent geometric structure that can be preserved
 					</div>
+					
 					<aside class="notes">
 						This slide introduces the concept that spiking neural networks can be designed to be covariant under 
 						geometric transformations. This means that the network's behavior transforms predictably when the 
@@ -818,68 +952,18 @@ Pontryagin's principle
 
 				<section>
 					<h3>Geometrization of Neural Processing</h3>
-					<p>From algebraic structures to computable geometric theories</p>
-					<div style="display: flex; gap: 20px; align-items: center;">
+					<p>From algebraic structures to computable geometries</p>
 						<div style="flex: 1;">
 							<ul>
-								<li class="fragment"><strong>Manifold structure:</strong> Neural state space as smooth manifold</li>
-								<li class="fragment"><strong>Lie groups:</strong> Transformations as group actions</li>
+								<li class="fragment"><strong>Manifold structure:</strong> Smooth neural state space</li>
 								<li class="fragment"><strong>Covariance:</strong> Structure-preserving maps</li>
+								<li class="fragment"><strong>Symmetry groups:</strong> Transformations as (differentiable) group actions</li>
 								<li class="fragment"><strong>Scale spaces:</strong> Differentiable representations</li>
 							</ul>
 						</div>
-						<div style="flex: 0 0 300px;" class="fragment">
-							<div class="equation">
-								$$L'(x', t'; \Sigma', \tau', v') \leftrightarrow L(x, t; \Sigma, \tau, v)$$
-							</div>
-							<p><small>Commutative transformations preserve neural computation</small></p>
-						</div>
-					</div>
 					<div class="fragment bio-example">
 						<strong>Biological relevance:</strong> Retinal receptive fields show similar covariance properties
 					</div>
-				</section>
-
-				<section>
-					<h3>Modern State Space Models</h3>
-					<p>Recent breakthrough: Structured State Space Models (S4, Mamba)</p>
-					<div class="equation">
-						$$\dot{x} = Ax + Bu$$
-						$$y = Cx + Du$$
-					</div>
-					<p class="fragment">Key innovations:</p>
-					<ul class="fragment">
-						<li>Structured matrices (A) for efficiency</li>
-						<li>Selective mechanisms (attention-like)</li>
-						<li>Long-range dependencies</li>
-					</ul>
-				</section>
-
-				<section>
-					<h3>SSM vs Traditional RNNs</h3>
-					<table class="fragment">
-						<tr>
-							<th></th>
-							<th>RNNs</th>
-							<th>SSMs</th>
-						</tr>
-						<tr>
-							<td>Training</td>
-							<td>Sequential</td>
-							<td>Parallel</td>
-						</tr>
-						<tr>
-							<td>Long-range</td>
-							<td>Limited</td>
-							<td>Excellent</td>
-						</tr>
-						<tr>
-							<td>Efficiency</td>
-							<td>Moderate</td>
-							<td>High</td>
-						</tr>
-					</table>
-					<p class="fragment">SSMs bring dynamical systems thinking to modern AI</p>
 				</section>
 
 				<section>
@@ -895,41 +979,13 @@ Pontryagin's principle
 						<strong>Future direction:</strong> Neuromorphic hardware implementing SSM-like dynamics
 					</div>
 				</section>
-
-				<section>
-					<h3>Controllability in Neural Networks</h3>
-					<p>Can we control neural network dynamics?</p>
-					<div class="fragment">
-						<p>Applications:</p>
-						<ul>
-							<li>Neural stimulation protocols</li>
-							<li>Adversarial robustness</li>
-							<li>Network architecture design</li>
-						</ul>
-					</div>
-					<p class="fragment">Controllability analysis guides intervention strategies</p>
-				</section>
 			</section>
 
 			<!-- Section 6: Integration & Applications -->
 			<section>
 				<section>
-					<h2>6. Integration & Applications</h2>
+					<h2>6. Summary</h2>
 					<h3>Bringing It All Together</h3>
-				</section>
-
-				<section>
-					<h3>Neuromorphic Control Systems</h3>
-					<p>Combining biological principles with engineering:</p>
-					<ul>
-						<li class="fragment">Event-driven computation</li>
-						<li class="fragment">Distributed processing</li>
-						<li class="fragment">Adaptive learning</li>
-						<li class="fragment">Energy efficiency</li>
-					</ul>
-					<div class="fragment bio-example">
-						<strong>Example:</strong> Neuromorphic motor control using spiking neural networks
-					</div>
 				</section>
 
 				<section>
@@ -948,9 +1004,8 @@ Pontryagin's principle
 					<h3>Future Directions</h3>
 					<ul>
 						<li class="fragment"><strong>Hybrid systems:</strong> Continuous dynamics + discrete events</li>
-						<li class="fragment"><strong>Distributed control:</strong> Multi-agent coordination</li>
 						<li class="fragment"><strong>Learning dynamics:</strong> Adaptive control laws</li>
-						<li class="fragment"><strong>Quantum control:</strong> Next frontier in control theory</li>
+						<li class="fragment"><strong>Koopman operators:</strong> Linearize nonlinear systems</li>
 					</ul>
 				</section>
 
@@ -960,10 +1015,11 @@ Pontryagin's principle
 					<ul>
 						<li class="fragment">SSMs capture long-range dependencies</li>
 						<li class="fragment">Biological systems show similar properties</li>
-						<li class="fragment">Neuromorphic hardware can implement both</li>
+						<li class="fragment">We can drive the geometric point much further</li>
+						<li class="fragment">Neuromorphic hardware can implement this!</li>
 					</ul>
 					<div class="fragment bio-example">
-						<strong>Research opportunity:</strong> Bio-inspired SSM architectures for neuromorphic control
+						<strong>Research opportunity:</strong> Neuromorphic SSMs for dynamical systems prediction (and control)
 					</div>
 				</section>
 
