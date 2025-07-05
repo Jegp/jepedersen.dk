@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Dynamical System Example</title>
+    
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <!-- Dynamical Systems Simulator -->
+    <script src="dynamical_systems.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .example {
+            margin-bottom: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .example h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Custom Dynamical Systems Examples</h1>
+        
+        <div class="example">
+            <h2>Example 1: Simple Exponential Decay</h2>
+            <div class="code-block">
+createDynamicalSystemsSimulator('decay-sim', {
+    system: {
+        name: 'Exponential Decay',
+        equation: 'ẋ = -λx + u',
+        parameters: [
+            { id: 'lambda', label: 'Decay Rate (λ)', min: 0.1, max: 2, step: 0.1, value: 0.5 },
+            { id: 'input', label: 'Input (u)', min: -1, max: 1, step: 0.1, value: 0 }
+        ],
+        initialState: { x: 2, y: 0, z: 0, t: 0 },
+        simulate: (params, state, dt) => {
+            const [lambda, u] = params;
+            const dx = -lambda * state.x + u;
+            return {
+                x: state.x + dt * dx,
+                y: dx, // Store derivative for phase plot
+                z: state.z,
+                t: state.t + dt
+            };
+        },
+        plotType: 'timeseries',
+        plotConfig: {
+            title: 'Exponential Decay Over Time',
+            xaxis: { title: 'Time', range: [0, 20] },
+            yaxis: { title: 'x(t)', range: [-3, 3] }
+        }
+    }
+});
+            </div>
+            <div id="decay-sim" style="height: 400px; margin: 20px 0;"></div>
+        </div>
+
+        <div class="example">
+            <h2>Example 2: Damped Driven Oscillator</h2>
+            <div class="code-block">
+createDynamicalSystemsSimulator('driven-osc-sim', {
+    system: {
+        name: 'Damped Driven Oscillator',
+        equation: 'ẍ + 2γẋ + ω₀²x = A cos(ωt)',
+        parameters: [
+            { id: 'gamma', label: 'Damping (γ)', min: 0, max: 1, step: 0.05, value: 0.1 },
+            { id: 'omega0', label: 'Natural Freq (ω₀)', min: 0.5, max: 3, step: 0.1, value: 1 },
+            { id: 'amplitude', label: 'Drive Amp (A)', min: 0, max: 2, step: 0.1, value: 0.5 },
+            { id: 'drive_freq', label: 'Drive Freq (ω)', min: 0.1, max: 3, step: 0.1, value: 1 }
+        ],
+        initialState: { x: 1, y: 0, z: 0, t: 0 },
+        simulate: (params, state, dt) => {
+            const [gamma, omega0, amplitude, drive_freq] = params;
+            const driving_force = amplitude * Math.cos(drive_freq * state.t);
+            const dx = state.y;
+            const dy = -2 * gamma * state.y - omega0 * omega0 * state.x + driving_force;
+            return {
+                x: state.x + dt * dx,
+                y: state.y + dt * dy,
+                z: state.z,
+                t: state.t + dt
+            };
+        },
+        plotType: '2d',
+        plotConfig: {
+            title: 'Phase Space (Position vs Velocity)',
+            xaxis: { title: 'Position (x)', range: [-2, 2] },
+            yaxis: { title: 'Velocity (ẋ)', range: [-2, 2] }
+        }
+    }
+});
+            </div>
+            <div id="driven-osc-sim" style="height: 400px; margin: 20px 0;"></div>
+        </div>
+
+        <div class="example">
+            <h2>Example 3: Predator-Prey (Lotka-Volterra)</h2>
+            <div class="code-block">
+createDynamicalSystemsSimulator('predprey-sim', {
+    system: {
+        name: 'Predator-Prey Model',
+        equation: 'ẋ = αx - βxy, ẏ = δxy - γy',
+        parameters: [
+            { id: 'alpha', label: 'Prey Growth (α)', min: 0.5, max: 2, step: 0.1, value: 1 },
+            { id: 'beta', label: 'Predation (β)', min: 0.5, max: 2, step: 0.1, value: 1 },
+            { id: 'delta', label: 'Conversion (δ)', min: 0.5, max: 2, step: 0.1, value: 1 },
+            { id: 'gamma', label: 'Predator Death (γ)', min: 0.5, max: 2, step: 0.1, value: 1 }
+        ],
+        initialState: { x: 1.5, y: 1, z: 0, t: 0 },
+        simulate: (params, state, dt) => {
+            const [alpha, beta, delta, gamma] = params;
+            const dx = alpha * state.x - beta * state.x * state.y;
+            const dy = delta * state.x * state.y - gamma * state.y;
+            return {
+                x: state.x + dt * dx,
+                y: state.y + dt * dy,
+                z: state.z,
+                t: state.t + dt
+            };
+        },
+        plotType: '2d',
+        plotConfig: {
+            title: 'Predator-Prey Dynamics',
+            xaxis: { title: 'Prey Population (x)', range: [0, 4] },
+            yaxis: { title: 'Predator Population (y)', range: [0, 3] }
+        }
+    }
+});
+            </div>
+            <div id="predprey-sim" style="height: 400px; margin: 20px 0;"></div>
+        </div>
+
+        <div class="example">
+            <h2>Example 4: Neural Competition Model</h2>
+            <div class="code-block">
+createDynamicalSystemsSimulator('competition-sim', {
+    system: {
+        name: 'Neural Competition',
+        equation: 'τẋ = -x + f(wx - wy + I), τẏ = -y + f(wy - wx + I)',
+        parameters: [
+            { id: 'tau', label: 'Time Constant (τ)', min: 0.1, max: 2, step: 0.1, value: 1 },
+            { id: 'w', label: 'Inhibition (w)', min: 0, max: 3, step: 0.1, value: 1.5 },
+            { id: 'input1', label: 'Input to x (I₁)', min: -2, max: 2, step: 0.1, value: 0.2 },
+            { id: 'input2', label: 'Input to y (I₂)', min: -2, max: 2, step: 0.1, value: 0 }
+        ],
+        initialState: { x: 0.1, y: 0.1, z: 0, t: 0 },
+        simulate: (params, state, dt) => {
+            const [tau, w, input1, input2] = params;
+            const f = (x) => Math.max(0, Math.tanh(x)); // ReLU-like activation
+            const dx = (-state.x + f(w * state.x - w * state.y + input1)) / tau;
+            const dy = (-state.y + f(w * state.y - w * state.x + input2)) / tau;
+            return {
+                x: state.x + dt * dx,
+                y: state.y + dt * dy,
+                z: state.z,
+                t: state.t + dt
+            };
+        },
+        plotType: '2d',
+        plotConfig: {
+            title: 'Neural Competition Phase Space',
+            xaxis: { title: 'Neuron 1 Activity (x)', range: [0, 1] },
+            yaxis: { title: 'Neuron 2 Activity (y)', range: [0, 1] }
+        }
+    }
+});
+            </div>
+            <div id="competition-sim" style="height: 400px; margin: 20px 0;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize all simulators when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example 1: Exponential Decay
+            createDynamicalSystemsSimulator('decay-sim', {
+                system: {
+                    name: 'Exponential Decay',
+                    equation: 'ẋ = -λx + u',
+                    parameters: [
+                        { id: 'lambda', label: 'Decay Rate (λ)', min: 0.1, max: 2, step: 0.1, value: 0.5 },
+                        { id: 'input', label: 'Input (u)', min: -1, max: 1, step: 0.1, value: 0 }
+                    ],
+                    initialState: { x: 2, y: 0, z: 0, t: 0 },
+                    simulate: (params, state, dt) => {
+                        const [lambda, u] = params;
+                        const dx = -lambda * state.x + u;
+                        return {
+                            x: state.x + dt * dx,
+                            y: dx,
+                            z: state.z,
+                            t: state.t + dt
+                        };
+                    },
+                    plotType: 'timeseries',
+                    plotConfig: {
+                        title: 'Exponential Decay Over Time',
+                        xaxis: { title: 'Time', range: [0, 20] },
+                        yaxis: { title: 'x(t)', range: [-3, 3] }
+                    }
+                }
+            });
+
+            // Example 2: Damped Driven Oscillator
+            createDynamicalSystemsSimulator('driven-osc-sim', {
+                system: {
+                    name: 'Damped Driven Oscillator',
+                    equation: 'ẍ + 2γẋ + ω₀²x = A cos(ωt)',
+                    parameters: [
+                        { id: 'gamma', label: 'Damping (γ)', min: 0, max: 1, step: 0.05, value: 0.1 },
+                        { id: 'omega0', label: 'Natural Freq (ω₀)', min: 0.5, max: 3, step: 0.1, value: 1 },
+                        { id: 'amplitude', label: 'Drive Amp (A)', min: 0, max: 2, step: 0.1, value: 0.5 },
+                        { id: 'drive_freq', label: 'Drive Freq (ω)', min: 0.1, max: 3, step: 0.1, value: 1 }
+                    ],
+                    initialState: { x: 1, y: 0, z: 0, t: 0 },
+                    simulate: (params, state, dt) => {
+                        const [gamma, omega0, amplitude, drive_freq] = params;
+                        const driving_force = amplitude * Math.cos(drive_freq * state.t);
+                        const dx = state.y;
+                        const dy = -2 * gamma * state.y - omega0 * omega0 * state.x + driving_force;
+                        return {
+                            x: state.x + dt * dx,
+                            y: state.y + dt * dy,
+                            z: state.z,
+                            t: state.t + dt
+                        };
+                    },
+                    plotType: '2d',
+                    plotConfig: {
+                        title: 'Phase Space (Position vs Velocity)',
+                        xaxis: { title: 'Position (x)', range: [-2, 2] },
+                        yaxis: { title: 'Velocity (ẋ)', range: [-2, 2] }
+                    }
+                }
+            });
+
+            // Example 3: Predator-Prey
+            createDynamicalSystemsSimulator('predprey-sim', {
+                system: {
+                    name: 'Predator-Prey Model',
+                    equation: 'ẋ = αx - βxy, ẏ = δxy - γy',
+                    parameters: [
+                        { id: 'alpha', label: 'Prey Growth (α)', min: 0.5, max: 2, step: 0.1, value: 1 },
+                        { id: 'beta', label: 'Predation (β)', min: 0.5, max: 2, step: 0.1, value: 1 },
+                        { id: 'delta', label: 'Conversion (δ)', min: 0.5, max: 2, step: 0.1, value: 1 },
+                        { id: 'gamma', label: 'Predator Death (γ)', min: 0.5, max: 2, step: 0.1, value: 1 }
+                    ],
+                    initialState: { x: 1.5, y: 1, z: 0, t: 0 },
+                    simulate: (params, state, dt) => {
+                        const [alpha, beta, delta, gamma] = params;
+                        const dx = alpha * state.x - beta * state.x * state.y;
+                        const dy = delta * state.x * state.y - gamma * state.y;
+                        return {
+                            x: state.x + dt * dx,
+                            y: state.y + dt * dy,
+                            z: state.z,
+                            t: state.t + dt
+                        };
+                    },
+                    plotType: '2d',
+                    plotConfig: {
+                        title: 'Predator-Prey Dynamics',
+                        xaxis: { title: 'Prey Population (x)', range: [0, 4] },
+                        yaxis: { title: 'Predator Population (y)', range: [0, 3] }
+                    }
+                }
+            });
+
+            // Example 4: Neural Competition
+            createDynamicalSystemsSimulator('competition-sim', {
+                system: {
+                    name: 'Neural Competition',
+                    equation: 'τẋ = -x + f(wx - wy + I), τẏ = -y + f(wy - wx + I)',
+                    parameters: [
+                        { id: 'tau', label: 'Time Constant (τ)', min: 0.1, max: 2, step: 0.1, value: 1 },
+                        { id: 'w', label: 'Inhibition (w)', min: 0, max: 3, step: 0.1, value: 1.5 },
+                        { id: 'input1', label: 'Input to x (I₁)', min: -2, max: 2, step: 0.1, value: 0.2 },
+                        { id: 'input2', label: 'Input to y (I₂)', min: -2, max: 2, step: 0.1, value: 0 }
+                    ],
+                    initialState: { x: 0.1, y: 0.1, z: 0, t: 0 },
+                    simulate: (params, state, dt) => {
+                        const [tau, w, input1, input2] = params;
+                        const f = (x) => Math.max(0, Math.tanh(x));
+                        const dx = (-state.x + f(w * state.x - w * state.y + input1)) / tau;
+                        const dy = (-state.y + f(w * state.y - w * state.x + input2)) / tau;
+                        return {
+                            x: state.x + dt * dx,
+                            y: state.y + dt * dy,
+                            z: state.z,
+                            t: state.t + dt
+                        };
+                    },
+                    plotType: '2d',
+                    plotConfig: {
+                        title: 'Neural Competition Phase Space',
+                        xaxis: { title: 'Neuron 1 Activity (x)', range: [0, 1] },
+                        yaxis: { title: 'Neuron 2 Activity (y)', range: [0, 1] }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

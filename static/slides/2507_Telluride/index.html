@@ -1,0 +1,1305 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Dynamical Systems for Control</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reset.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/theme/serif.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/monokai.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/js/all.min.js"></script>
+
+	<style>
+		.reveal .slides section .fragment.fade-in-then-semi-out {
+			opacity: 1;
+			visibility: inherit;
+		}
+		.reveal .slides section .fragment.fade-in-then-semi-out.visible {
+			opacity: 0.5;
+			visibility: inherit;
+		}
+		.equation {
+			font-size: 1em;
+			margin: 20px 0;
+		}
+		.bio-example {
+			background: #f0f8ff;
+			padding: 20px;
+			border-radius: 10px;
+			margin: 20px 0;
+		}
+		.reveal blockquote {
+			width: 100%;
+		}
+	</style>
+</head>
+
+<!-- TODO
+Dynamics modelling
+Basic intro (\dot{x} = f(x,u))
+Modelling dynamics
+Target dynamics: F10th? (get previous material from Tobi)
+Autoregressive vs Multi-horizon prediction
+With MLP (collecting data and predicting the model)
+Predictions with SSMs
+Learning dynamics
+Quantization
+Demo in control context (borrow from ETH F10th entry if possible?)
+
+
+Pontryagin's principle 
+-->
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<section>
+				<h1 style="font-size: 250%;">Dynamical Systems for Control</h1>
+				<br/>
+				<h5>Telluride Neuromorphic Cognition Workshop 2025</h5>
+				<br/>
+				<p>
+					<strong>Jens Egholm Pedersen</strong>
+					<br/>
+					<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
+				</p>
+				<div style="display: flex; justify-content: center; align-items: center; gap: 60px; font-size: 70%;">
+					<img src="../2304_NICE/kth.png" 
+						 alt="KTH Logo" 
+						 style="height: 70px;"> KTH Royal Institute of Technology
+				</div>
+				<aside class="notes">
+					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
+					to modern computational approaches, building mathematical tools along the way.
+				</aside></section>
+
+				<section>
+					<h1>Caveat emptor</h1>
+					<ul>
+						<li class="fragment">Huge topic to a broad audience</li>
+						<li class="fragment">Focus on mathematical abstractions</li>
+						<li class="fragment">Biological motivation <span class="fragment">- neural focus</span></li>
+						<li class="fragment">Emphasis on practice and code</li>
+						<li class="fragment">Slides at jepedersen.dk <span class="fragment">- but take notes!</span></li>
+						</li>
+					</ul>
+				</section>
+			</section>
+
+			<!-- Section 1: Biological Motivation -->
+			<section>
+				<section>
+					<h2>1. Biological motivation</h2>
+					<h3>Dynamical systems in nature</h3>
+				</section>
+
+				<section>
+					<h3>Central Pattern Generators (CPGs)</h3>
+					<div style="display: flex; gap: 30px; align-items: center;">
+						<div style="flex: 1 c;">
+							<div class="bio-example">
+								<p><strong>Locomotion:</strong> Rhythmic leg movements in walking</p>
+								<p><strong>Breathing:</strong> Automatic respiratory rhythm</p>
+								<p><strong>Swimming:</strong> Coordinated body undulation</p>
+							</div>
+							<p class="fragment">Key insight: <em>Autonomous rhythm generation without external timing</em></p>
+						</div>
+						<div style="flex: 0 0 200px;" class="fragment">
+							<img src="https://mediacdn.nhbs.com/jackets/jackets_resizer_xlarge/23/239893.jpg" 
+								 alt="Lessons from the Lobster book cover" 
+								 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
+					</div>
+					<aside class="notes">
+						CPGs are neural circuits that produce rhythmic outputs without rhythmic inputs. 
+						Eve Marder's "Lessons from the Lobster" details her groundbreaking work on the stomatogastric ganglion,
+						revealing fundamental principles of neural circuit flexibility and robustness in biological control systems.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Neural oscillators</h3>
+					<p>Individual neurons can act as oscillators:</p>
+					<ul>
+						<li class="fragment">Synaptic feedback loops</li>
+						<li class="fragment">Network interactions</li>
+					</ul>
+					<p class="fragment"><strong>Coupled oscillator networks</strong> → Complex spatiotemporal patterns</p>
+					<div style="flex: 0 0 200px;" class="fragment">
+							<img src="https://github.com/akandykeller/NeuralWaveMachines/raw/master/figures/rotating_mnist_full.gif" alt="Neural wave machines gif" 
+								 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						<small>Andy Keller & Max Welling, Neural Wave Machines, 2023</small>
+						</div>
+				</section>
+
+				<section>
+					<h3>The Mathematical Challenge</h3>
+					<p>How do we understand and control these systems?</p>
+					<div class="fragment">
+						<p>We need mathematical tools to:</p>
+						<ul>
+							<li>Model the dynamics</li>
+							<li>Predict behavior</li>
+							<li>Design control strategies</li>
+							<li>Establish guarantees</li>
+						</ul>
+					</div>
+				</section>
+
+				<section>
+					<blockquote>
+						An organism [...] is observed in different states.
+						This <i>observed system</i> is the target of the modeling activity.
+						Its states cannot really be described by only a few observable parameters, but we pretend they can
+						<br/>[...]<br/>
+						The relationship between the actual states of the real organism and the points of the geometric model is a fiction 
+					</blockquote>
+					<p><strong>— Abraham and Shaw 1991</strong></p>
+				</section>
+			</section>
+
+			<!-- Section 2: State Space Foundations -->
+			<section>
+				<section>
+					<h2>2. State Space Foundations</h2>
+					<h3>From Biology to Mathematics</h3>
+				</section>
+
+				<section>
+					<h3>State Space Representation</h3>
+						$$\dot{x} = f(x, u)$$
+						$$y = h(x, u)$$
+					<p>Where:</p>
+					<ul>
+						<li><strong>x</strong>: state vector (internal variables)</li>
+						<li><strong>u</strong>: input/control vector</li>
+						<li><strong>y</strong>: output/observation vector</li>
+					</ul>
+					<aside class="notes">
+						This is the fundamental mathematical abstraction. The state captures all the information 
+						needed to predict future behavior given current inputs.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Constant System (No State)</h3>
+					<p>Simplest case: no internal dynamics, just input-output mapping</p>
+					$$y = u$$
+					<div id="constant-sim-container" style="height: 300px; margin: 20px 0;"></div>
+				</section>
+
+				<section>
+					<h3>Simple 1-State System</h3>
+					<p>One-dimensional exponential decay with input
+						$$\dot{x} = -\lambda x + u$$
+					</p>
+					<div id="decay-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<p><small>This system has memory - its state x evolves over time based on decay rate λ and input u.</small></p>
+				</section>
+
+				<section>
+					<h3>Finding solutions</h3>
+					<table style="font-size: 80%;">
+						<tr>
+							<td>
+								<strong>Step 1:</strong> Start with the equation
+							</td>
+							<td>
+								$\frac{dx}{dt} = -\lambda x$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 2:</strong> Separate variables
+							</td>
+							<td>
+								$\frac{dx}{x} = -\lambda dt$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 3:</strong> Integrate both sides
+							</td>
+							<td>
+					$$\begin{align*}\int \frac{dx}{x} &= \int -\lambda dt \\ \ln|x| &= -\lambda t + C\end{align*}$$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 4:</strong> Solve for $x$
+							</td>
+							<td>
+								$$|x| = e^{-\lambda t + C} = e^C \cdot e^{-\lambda t}$$
+							</td>
+						</tr>
+					</table>
+							
+					<p class="fragment">
+					Since $e^C$ is just a positive constant: $x(t) = C e^{-\lambda t}$
+					</p>
+					
+				</section>
+
+				<section>
+					<h3>The Neuronal Dynamics Bible</h3>
+					<div style="display: flex;">
+						<div>
+							<img src="https://neuronaldynamics.epfl.ch/img/cover.jpg" 
+								 alt="Neuronal Dynamics book cover" 
+								 style="width: 200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
+						<div style="flex: 1; padding-left: 20px;">
+							<p><strong>Neuronal Dynamics:</strong> From Single Neurons to Networks and Models of Cognition</p>
+							<p>By Wulfram Gerstner, Werner M. Kistler, Richard Naud, and Liam Paninski</p>
+							Available online: <a href="https://neuronaldynamics.epfl.ch/">neuronaldynamics.epfl.ch</a>
+					</div>
+				</section>
+
+				<section>
+					<h3>Example: Motor Control</h3>
+					<div class="bio-example">
+						<p><strong>State (x):</strong> Joint angles, velocities, muscle activations</p>
+						<p><strong>Input (u):</strong> Motor commands from brain</p>
+						<p><strong>Output (y):</strong> Limb position, sensory feedback</p>
+					</div>
+					<p class="fragment">The state space captures the full "configuration" of the system</p>
+				</section>
+
+				<section>
+					<h3>Linear Time-Invariant (LTI) Systems</h3>
+					<p>A special class of systems with nice properties</p>
+					$$y(t) = (x \star h)(t)$$
+					<p>Where $x$ is input, $t$ is time, $h$ is the <i>impulse response</i> </p>
+					<ul class="fragment">
+						<li><strong>Linear:</strong> Superposition principle applies</li>
+						<li><strong>Time-invariant:</strong> System parameters don't change</li>
+						<li><strong>Analytical solutions:</strong> The convolution integral</li>
+					</ul>
+					<aside class="notes">
+						LTI systems are foundational in control theory. They allow us to use powerful mathematical tools like Fourier transforms and Laplace transforms.
+						They also provide a good approximation for many biological systems, especially in the linear regime.
+						for all linear systems, the net response caused by two or more stimuli is the sum of the responses that would have been caused by each stimulus individually
+					</aside>
+				</section>
+
+				<section>
+					<h3>Observability</h3>
+					<em>Can we determine the internal state from observations?</em> <small>(in LTI systems)</small>
+					<div style="display: flex; gap: 30px; align-items: center; flex-direction: row; margin-top: -50px;">
+					<div class="equation fragment" style="flex: 1;">
+						$$\begin{align*}
+						\dot{x} &= Ax + Bu \\
+						y &= Cx + Du \\
+						\mathcal{O} &= \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n - 1}\end{bmatrix}
+						\end{align*}$$
+					</div>
+					<div class="fragment" style="flex: 1;">System is observable if rank($\mathcal{O}$) = n
+						<br/>
+						<small>($n$ linearly independent components)</small>
+					<div class="fragment bio-example">
+						What can we infer about neural state from recordings?
+					</div>
+					<aside class="notes">
+						Observability is crucial for understanding how we can infer internal states from external measurements.
+						In neuroscience, this relates to how we can decode neural activity from recordings.
+						Observability matrix O
+						Rank = number of linearly independent rows or columns.
+						That is, the dimensions of the space spanned by the rows or columns.
+					</aside>
+				</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Controllability</h3>
+					<p><em>Can we steer the system to any desired state?</em></p>
+					<div class="equation fragment">
+						$$\begin{align*}
+						\dot{x} &= Ax + Bu \\
+						\mathcal{C} &= \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}
+						\end{align*}$$
+					</div>
+					<p class="fragment">System is controllable if rank($\mathcal{C}$) = n<br/>
+					<small>(Dual to observability)</small>
+					</p>
+					<div class="fragment bio-example">
+						Can we influence dynamics through stimulation?
+					</div>
+				</section>
+
+				<section>
+					<h3>Sensorimotor integration</h3>
+					<p>Observability + controllability = closed-loop control</p>
+					<div class="equation fragment">
+						$$u = -K(x - x_{\text{desired}}) + u_{\text{feedforward}}$$
+					</div>
+					<div class="fragment">
+						<p>Where:</p>
+						<ul>
+							<li><strong>K</strong>: feedback gain matrix (strength of correction)</li>
+							<li><strong>x</strong>: current state (observed through sensors)</li>
+							<li><strong>x<sub>desired</sub></strong>: target state (motor goal)</li>
+							<li><strong>u<sub>feedforward</sub></strong>: anticipated control (motor program)</li>
+						</ul>
+					</div>
+					<p class="fragment">This is the foundation of biological motor control!</p>
+				</section>
+
+				<section>
+					<h3>Demonstration: leaky integrator</h3>
+					$$\tau \dot{x} = -x + I(t)$$
+					<div id="sim-container" style="height: 300px; margin: 0 0 20px;"></div>
+					<aside class="notes">
+						The leaky integrator is fundamental in neuroscience - it models how neurons integrate synaptic inputs.
+						τ controls integration time scale, I is synaptic input, η is noise.
+						When τ is large: slow integration, good memory. When τ is small: fast response, poor memory.
+						This demonstrates the fundamental trade-off between integration and responsiveness.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Example: Leaky integrator</h3>
+					Let's analyze observability and controllability
+					$$\begin{align*}
+					\tau \dot{x} &= -x + u \quad \text{(dynamics)} \\
+					\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \\
+					y &= x \quad \text{(output)}
+					\end{align*}$$
+					<div class="fragment" style="margin-top: -40px;">
+						<p><strong>State-space matrices:</strong></p>
+						<ul>
+							<li>$A = -\frac{1}{\tau}$ (how state evolves)</li>
+							<li>$B = \frac{1}{\tau}$ (how input affects state)</li>
+							<li>$C = 1$ (how we observe the state: $y = 1 x$)</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h3>Example: Leaky integrator</h3>
+					<div>
+						<p><strong>State-space matrices:</strong></p>
+						<ul>
+							<li>$A = -\frac{1}{\tau}$ (how state evolves)</li>
+							<li>$B = \frac{1}{\tau}$ (how input affects state)</li>
+							<li>$C = 1$ (how we observe the state: $y = 1 x$)</li>
+						</ul>
+					</div>
+					<div class="fragment">
+						<ul>
+							<li><strong>Observability:</strong> $\mathcal{O} = [C] = [1]$ → rank = 1 ✓</li>
+							<li><strong>Controllability:</strong> $\mathcal{C} = [B] = [\frac{1}{\tau}]$ → rank = 1 ✓</li>
+						</ul>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Interpretation:</strong> We can infer the entire system from its state and fully control it using the input current
+					</div>
+				</section>
+			</section>
+
+			<!-- Section 3: Optimization & Stability -->
+			<section>
+				<section>
+					<h2>3. Optimization & stability</h2>
+					<h3>Energy landscapes and optimality</h3>
+				</section>
+
+				<section>
+					<h3>Energy-based optimization</h3>
+					<p>Many physical systems minimize energy functions:</p>
+					<div class="equation">
+						$$V(x) = \text{potential energy function}$$
+						$$\dot{x} = -\nabla V(x) + \text{noise}$$
+					</div>
+					<div class="fragment bio-example">
+						<strong>Examples:</strong> Neural network dynamics, protein folding, gradient-based learning, ...
+					</div>
+					<aside class="notes">
+						This is a powerful abstraction. Many biological systems can be viewed as minimizing some energy landscape.
+						For example, neural networks can be seen as optimizing synaptic weights to minimize error.
+						Lagrange dynamics is a common framework for modeling these systems.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Principle of least action</h3>
+					<p>Nature chooses paths that minimize action</p>
+					<div class="equation">
+						$$S = \int_{t_0}^{t_1} L(x, \dot{x}) \, dt$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Action S:</strong> Total "cost" of a trajectory</li>
+						<li><strong>Lagrangian L:</strong> Kinetic energy - potential energy</li>
+						<li><strong>Principle:</strong> Physical systems follow paths, $\partial S = 0$</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>The theoretical minimum</h3>
+					<div style="display: flex;">
+						<div>
+							<img src="https://upload.wikimedia.org/wikipedia/en/1/17/The_Theoretical_Minimum_-_book_cover.jpg" 
+								 alt="The Theoretical Minimum book cover" 
+								 style="width: 200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
+						<div style="flex: 1; padding-left: 20px;">
+							<p><strong>The Theoretical Minimum:</strong> What You Need to Know to Start Doing Physics</p>
+							<p>By Leonard Susskind and George Hrabovsky</p>
+					</div>
+				</section>
+
+				<section>
+					<h3>Pontryagin's Maximum Principle</h3>
+					<p>Optimal control: minimize cost subject to dynamics</p>
+					<div class="equation">
+						$$\min \int_0^T L(x, u) dt + \phi(x(T))$$
+					</div>
+					<ul class="fragment">
+						<li><strong>L(x,u):</strong> Running cost (energy, error, effort)</li>
+						<li><strong>φ(x(T)):</strong> Terminal cost (final target)</li>
+						<li><strong>Subject to:</strong> ẋ = f(x,u) (system dynamics)</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Example:</strong> Minimize energy while reaching a target position
+					</div>
+				</section>
+
+				<section>
+					<h3>Pontryagin's Solution Method</h3>
+					<p>Transform constrained optimization into unconstrained problem</p>
+					<div class="equation">
+						$$H = L(x, u) + \lambda^T f(x, u)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>H:</strong> Hamiltonian (augmented cost function)</li>
+						<li><strong>λ:</strong> Costate/adjoint variables (shadow prices)</li>
+						<li><strong>Optimality:</strong> $\frac{\partial H}{\partial u} = 0$ (critical point)</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Interpretation:</strong> λ tells us how valuable each state is
+					</div>
+				</section>
+
+				<section>
+					<h3>Lyapunov Stability Theory</h3>
+					<p>Prove stability without solving differential equations</p>
+					<div class="equation fragment">
+						$$V(x) > 0 \text{ for } x \neq 0$$
+						$$\dot{V}(x) \leq 0$$
+					</div>
+					<ul class="fragment">
+						<li><strong>V(x):</strong> Lyapunov function (generalized "energy")</li>
+						<li><strong>Positive definite:</strong> V > 0 away from equilibrium</li>
+						<li><strong>Non-increasing:</strong> V̇ ≤ 0 (energy dissipates)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Lyapunov Method in Practice</h3>
+					<p>Finding the right energy-like function</p>
+					<ul>
+						<li class="fragment"><strong>Physical energy:</strong> Often works for mechanical systems</li>
+						<li class="fragment"><strong>Quadratic forms:</strong> V(x) = x<sup>T</sup>Px for linear systems</li>
+						<li class="fragment"><strong>Problem:</strong> No systematic way to find V(x)</li>
+						<li class="fragment"><strong>Art:</strong> Requires intuition and experience</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Biology:</strong> Homeostasis, neural equilibria, population dynamics
+					</div>
+				</section>
+
+				<section>
+					<h3>Combining Stability & Optimality</h3>
+					<p>Pontryagin + Lyapunov → Robust optimal control</p>
+					<div class="fragment">
+						<p>Design controllers that are:</p>
+						<ul>
+							<li>Optimal (minimize cost)</li>
+							<li>Stable (bounded behavior)</li>
+							<li>Robust (handle uncertainty)</li>
+						</ul>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Biological example:</strong> Motor control with energy constraints and stability requirements
+					</div>
+				</section>
+			</section>
+
+			<!-- Section 4: Phase Space and Attractors -->
+			<section>
+				<section>
+					<h2>4. Phase space and attractors</h2>
+					<h3>Using geometry to extract information</h3>
+				</section>
+
+				<section>
+					<h3>Phase space</h3>
+					<p>The space of all possible states of a dynamical system</p>
+					<div class="equation">
+						$$\text{Phase space} = \{(x_1, x_2, \ldots, x_n) : x_i \in \mathbb{R}\}$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Each point</strong> represents a complete system state</li>
+						<li><strong>Trajectories</strong> show how states evolve over time</li>
+						<li><strong>Dimension</strong> equals number of state variables</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Example:</strong> Neuron membrane potential and its derivative form 2D phase space
+					</div>
+				</section>
+
+				<section>
+					<h3>Phase portraits</h3>
+					<p>Visual representation of system dynamics in phase space</p>
+					<ul class="fragment">
+						<li><strong>Vector field:</strong> Shows direction of flow at each point</li>
+						<li><strong>Trajectories:</strong> Solution curves starting from different initial conditions</li>
+						<li><strong>Nullclines:</strong> Where $\dot{x}_i = 0$</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Insight:</strong> Phase portraits reveal global behavior patterns
+					</div>
+				</section>
+
+				<section>
+					<h3>Van der Pol oscillator</h3>
+					<p>Classic nonlinear oscillator with limit cycle behavior</p>
+					<div class="equation">
+						$$\ddot{x} - \mu(1-x^2)\dot{x} + x = 0$$
+					</div>
+					<div class="r-stack" style="" >
+					<div id="vanderpol-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Van_der_pols_equation_phase_portrait.svg/1920px-Van_der_pols_equation_phase_portrait.svg.png" 
+						 alt="Van der Pol oscillator limit cycle" 
+						 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The Van der Pol oscillator is a classic example of a nonlinear system with a stable limit cycle.
+						When μ = 0, it's a harmonic oscillator. As μ increases, nonlinear damping creates a limit cycle.
+						This is fundamental in understanding biological oscillators like heart rhythms and neural oscillations.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Poles in phase space</h3>
+					<p>For linear systems: ẋ = Ax, behavior determined by eigenvalues of A</p>
+					<div class="equation fragment">
+						$$\text{Characteristic equation: } \det(A - \lambda I) = 0$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Poles (λ):</strong> Eigenvalues of matrix A</li>
+						<li><strong>Left half-plane:</strong> Re(λ) < 0 → Stable (decay)</li>
+						<li><strong>Right half-plane:</strong> Re(λ) > 0 → Unstable (growth)</li>
+						<li><strong>Imaginary axis:</strong> Re(λ) = 0 → Oscillatory</li>
+					</ul>
+					<p class="fragment">For non-linear systems: vector field becomes infinite <small>(not good)</small></p>
+				</section>
+
+				<section>
+					<h3>Poincaré diagram</h3>
+					$\text{Tr} A$ = "average tendency", $\det A$ = "shape scaling"</p>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Stability_Diagram.png" 
+						 alt="Poincaré diagram" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+					<p class="fragment">Lyanunov stability: orbit "stays in neighborhood"</p>
+				</section>
+
+				<section>
+					<h3>Example: Harmonic oscillator (spring)</h3>
+					$$\begin{align*}
+					\dot{x} &= A \sin ( \omega t + \phi) \\
+					\omega &= \sqrt{\frac{k}{m}} \quad \text{(angular frequency)} \\
+					\end{align*}$$
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Simple_Harmonic_Motion_Orbit.gif/380px-Simple_Harmonic_Motion_Orbit.gif" 
+						 alt="Harmonic oscillator phase space" 
+						 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;">
+				</section>
+
+				<section>
+					<h3>Ex: Dampened harmonic oscillator </h3>
+					$$
+					\ddot{x} + 2\gamma \dot{x} + \omega^2 x = 0
+					$$
+					<img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Phase_portrait_of_damped_oscillator%2C_with_increasing_damping_strength.gif" 
+						 alt="Dampened harmonic oscillator phase space" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -30px;" class="fragment">
+				</section>
+
+				<section>
+					<h3>Attractors</h3>
+					<p>Regions in phase space that "attract" nearby trajectories</p>
+					<ul>
+						<li class="fragment"><strong>Fixed points:</strong> $\dot{x} = 0$ (equilibrium states)</li>
+						<li class="fragment"><strong>Limit cycles:</strong> Closed periodic orbits</li>
+						<li class="fragment"><strong>Strange attractors:</strong> Chaotic, fractal structures</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Biology:</strong> Fixed points → memory states, Limit cycles → rhythmic behaviors
+					</div>
+				</section>
+
+				<section>
+					<h3>Van der Pol Oscillator</h3>
+					<p>Classic nonlinear oscillator with limit cycle behavior</p>
+					<div class="equation">
+						$$\ddot{x} - \mu(1-x^2)\dot{x} + x = 0$$
+					</div>
+					<div class="r-stack" style="" >
+					<div id="vanderpol-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<img src="van_der_pol_phase.png" 
+						 alt="Van der Pol oscillator limit cycle" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The Van der Pol oscillator is a classic example of a nonlinear system with a stable limit cycle.
+						When μ = 0, it's a harmonic oscillator. As μ increases, nonlinear damping creates a limit cycle.
+						This is fundamental in understanding biological oscillators like heart rhythms and neural oscillations.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Basins of Attraction</h3>
+					<p>Set of initial conditions that lead to the same attractor</p>
+					<div class="equation fragment">
+						$$B(A) = \{x_0 : \lim_{t \to \infty} x(t, x_0) \in A\}$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Separatrices:</strong> Boundaries between basins</li>
+						<li><strong>Multistability:</strong> Multiple attractors coexist</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Neural computation:</strong> Different basins → different memories or decisions
+					</div>
+				</section>
+
+				<section>
+					<h3>The importance of geometry</h3>
+					<div style="display: flex; gap: 20px;">
+						<img src="strogatz.jpg"
+						alt="Strogatz: Nonlinear dynamics and chaos"
+						 style="width: 300px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" class="fragment">
+						<div>
+							<h3>Strogatz: Nonlinear dynamics and chaos</h3>
+							<blockquote>
+								There aught to be an easier way [than analytical solutions] ... given the system, we want to draw the trajectories and thereby extract information about the solutions
+							</blockquote>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<img src="strogatz_variables.png" 
+						 alt="Strogatz variables" 
+						 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+				</section>
+
+				<section>
+					<h3>Some extra keywords</h3>
+					<ul style="font-size: 1.1em; line-height: 1.6; width: 95vw; margin-left: -60px;">
+						<li><strong>Laplace transform & s-space:</strong> Frequency domain analysis</li>
+						<li><strong>Bifurcation theory:</strong> Qualitative changes in dynamics</li>
+						<li><strong>Poincaré maps:</strong> Geometric analysis</li>
+						<li><strong>Stochastic dynamics:</strong> Noisy systems</li>
+						<li><strong>Statistical physics:</strong> Energy-based models</li>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Attractor networks in neural networks and biology</h3>
+					<ul>
+						<li class="fragment"><strong>Hopfield networks:</strong> Fixed-point attractor memory</li>
+						<li class="fragment"><strong>Central pattern generators:</strong> Limit cycles for rhythmic motion</li>
+						<li class="fragment"><strong>Decision circuits:</strong> Winner-take-all dynamics</li>
+						<li class="fragment"><strong>Neural avalanches:</strong> Critical dynamics near bifurcations</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Attractors are robust despite noise
+					</div>
+				</section>
+
+				<section>
+					<h2>Example: Neuron servo</h2>
+					<p><small><a href="https://authors.library.caltech.edu/53092/1/00080335.pdf">DeWeerth, Nielsen, Mead, & Åström 1991, A simple neuron servo</a></small></p>
+					<img src="neuron_servo.png" 
+						 alt="Neuron servo control" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">	
+				</section>
+
+			</section>
+
+			<!-- Section 5: Neural Network Dynamics -->
+			<section>
+				<section>
+					<h2>5. Neural Network Dynamics</h2>
+					<h3>Dynamics in modern AI</h3>
+				</section>
+
+				<section>
+					<h3>Adjoint Method for Backpropagation</h3>
+					<div class="r-stack">
+						<div>
+							<p>How to compute gradients through ODE solvers efficiently</p>
+							<div class="equation fragment">
+								$$\frac{dL}{d\theta} = -\int_{t_1}^{t_0} a(t)^T \frac{\partial f}{\partial \theta}(x, t, \theta) dt$$
+							</div>
+							<ul class="fragment">
+								<li><strong>Problem:</strong> Standard BP through ODE solver is costly</li>
+								<li><strong>Adjoint state $a(t)$:</strong> variable flowing "backward"</li>
+								<li><strong>Memory trade-off:</strong> O(1) memory</li>
+							</ul>
+						</div>
+							<img src="adjoint.png" 
+								alt="Adjoint method for backpropagation" 
+								style="width: 70%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: 00px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The adjoint method allows us to efficiently compute gradients through ODE solvers, which is crucial for training neural ODEs.
+						It uses a backward flow of information to compute gradients without storing all intermediate states.
+						This is particularly useful in deep learning where memory efficiency is critical.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Neural ODEs</h3>
+					<div class="r-stack">
+						<div>
+							Parameterize the derivative directly with neurons
+							<small>
+								<a href="http://arxiv.org/abs/1806.07366">Chen et al. 2019, Neuronal Ordinary Equations</a>
+							</small>
+							<div class="equation">
+								$$\frac{dh}{dt} = f_\theta(h(t), t)$$
+							</div>
+							<ul class="fragment">
+								<li><strong>f<sub>θ</sub>:</strong> Neural network with parameters θ</li>
+								<li><strong>Continuous depth:</strong> Infinite layers via integration</li>
+								<li><strong>Memory efficient:</strong> Adjoint method</li>
+								<li><strong>Adaptive computation:</strong> Error-controlled solvers</li>
+							</ul>
+						</div>
+						<img src="ode_network.png" 
+							 alt="Neural ODEs" 
+							 style="width: 50%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+					</div>
+				</section>
+
+				<section>
+					<h3>Neural ODEs ↔ Spiking Neural Networks</h3>
+					<p>Bridging continuous and event-driven computation
+						<br/>
+						<small>
+							<a href="http://arxiv.org/abs/2009.08378">Wunderlich & Pehle 2020, EventProp</a>
+						</small>
+					</p>
+					<div class="equation">
+						$$\tau \frac{dx}{dt} = -x + u$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Leaky integrate-and-fire:</strong> ODE until spike, hybrid</li>
+						<li><strong>Neural ODE perspective:</strong> Continuous dynamics</li>
+						<li><strong>Temporal coding:</strong> Information in spike timing</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Group Symmetries and Basis Functions</h3>
+					<p>Exploiting symmetries through linear combination</p>
+					<div class="equation">
+						$$f(x) = \sum_{n=0}^{\infty} a_n \phi_n(x)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Group actions:</strong> Rotations, translations, scaling</li>
+						<li><strong>Basis functions φ<sub>n</sub>:</strong> Orthogonal polynomials</li>
+						<li><strong>Harmonic analysis:</strong> Decompose complex functions with periodic function (sin/cos), e.g. Fourier</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Legendre Polynomials</h3>
+					<p>Orthogonal polynomials with optimal approximation properties</p>
+					<div class="equation">
+						$$P_n(x) = \frac{1}{2^n n!} \frac{d^n}{dx^n}(x^2-1)^n$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Completeness:</strong> Any function can be expanded</li>
+						<li><strong>Optimality:</strong> Best polynomial approximation in $L^2$</li>
+						<li><strong>Recursion:</strong> Efficient computation via recurrence</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Hierarchical representation with increasing resolution
+					</div>
+				</section>
+
+				<section>
+					<h3>Legendre Memory Units (LMUs)</h3>
+					<p>Continuous-time memory with Legendre polynomials
+					<small>
+						<a href="https://dl.acm.org/doi/10.5555/3454287.3455682">Voelker et al. 2020, Legendre Memory Units</a>
+					</small></p>
+					<img src="legendre.png" 
+						 alt="Legendre Memory Units" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin: -10px 0;" class="fragment">
+					<ul class="fragment">
+						<li><strong>Sliding window:</strong> Represents history over time θ</li>
+						<li><strong>Optimal encoding:</strong> Legendre minimizes error</li>
+						<li><strong>Linear dynamics:</strong> Efficient computation!</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>HiPPO: High-order Polynomial Projection Operators</h3>
+					<p>Optimal continuous-time memory through polynomial approximation</p>
+					<small>
+						<a href="https://arxiv.org/abs/2008.07669">Gu et al. 2020, HiPPO: Recurrent Memory with Optimal Polynomial Projections</a>
+					</small>
+					<div class="equation">
+						$$\frac{d}{dt}c(t) = -Ac(t) + Bf(t)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Sliding window:</strong> Maintain optimal approximation of recent history</li>
+						<li><strong>Polynomial basis:</strong> Project onto orthogonal polynomials (Legendre, Laguerre, etc.)</li>
+						<li><strong>Matrix structure:</strong> A and B matrices derived from function theory</li>
+						<li><strong>LMU connection:</strong> LMUs are a specific instance using Legendre polynomials</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Key insight:</strong> Mathematical foundation for optimal continuous-time memory
+					</div>
+				</section>
+
+				<section>
+					<h3>Spectral Analysis of Learning</h3>
+					<p>Frequency domain reveals optimization dynamics
+						<small>
+							<a href="https://proceedings.mlr.press/v247/marchetti24a.html">Marchetti et al. 2024, Harmonics of learning</a>
+						</small>
+					</p>
+					<div class="r-stack">
+						<div>
+							<ul>
+								<li><strong>Parameter oscillations:</strong> Training exhibits geometries</li>
+								<li><strong>Harmonic modes:</strong> Different parameters have characteristic frequencies</li>
+								<li><strong>Phase coupling:</strong> Coordination in updates</li>
+							</ul>
+						</div>
+						<img src="harmonics_weights.png" 
+							 alt="Spectral analysis of learning" 
+							 style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-right: 20px;" class="fragment">
+					</div>
+							<div class="fragment bio-example">
+								<strong>Practical insight:</strong> recover structure of an unknown group
+							</div>
+				</section>
+
+				<section>
+					<h3>Spike-response model</h3>
+					<p>Arbitrary neuron dynamics as composed linear kernels
+						<br/>
+						<small>
+							<a href="http://ebooks.cambridge.org/ref/id/CBO9781107447615">Gerstner et al. 2014, Spiking Neuron Models</a>
+						</small>
+					</p>
+					<div class="equation">
+						$$u(t) = \eta(t - t_f) + \int_0^{\infty} \kappa(s)I(t - s)ds$$
+					</div>
+					<img src="srm.png" 
+						 alt="Spike-response model" 
+						 style="width: 80%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" >
+				</section>
+
+				<section>
+					<h3>Covariant spiking neural networks</h3>
+					<p>Geometry preserving transformations in neuromorphic computation
+						<br/>
+						<small>
+							<a href="http://arxiv.org/abs/2405.00318">Pedersen et al. 2024, Covariant spiking neural networks</a>
+						</small>
+
+					</p>
+					<div class="r-stack">
+						<img src="foveated_scales.png" 
+							 alt="Foveated scales in spiking neural networks" 
+							 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"class="fragment">
+
+					<img src="covariant_representations.png" 
+						 alt="Covariant representations in spiking neural networks" 
+						 style="width: 80%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -10px;" class="fragment">
+
+					<ul class="fragment" style="background-color: white; padding: 10px 50px; border-radius: 8px;">
+						<li><strong>Spatial and temporal scale covariance:</strong>Spatial affine + Galilean + temporal scaling</li>
+						<li><strong>Neural representations:</strong> Geometric structure</li>
+					</ul>
+					</div>
+					
+					<aside class="notes">
+						This slide introduces the concept that spiking neural networks can be designed to be covariant under 
+						geometric transformations. This means that the network's behavior transforms predictably when the 
+						input undergoes spatial or temporal transformations, preserving the geometric structure of behavior.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Geometrization of Neural Processing</h3>
+					<p>From algebraic structures to computable geometries</p>
+						<div style="flex: 1;">
+							<ul>
+								<li class="fragment"><strong>Manifold structure:</strong> Smooth neural state space</li>
+								<li class="fragment"><strong>Covariance:</strong> Structure-preserving maps</li>
+								<li class="fragment"><strong>Symmetry groups:</strong> Transformations as (differentiable) group actions</li>
+								<li class="fragment"><strong>Scale spaces:</strong> Differentiable representations</li>
+							</ul>
+						</div>
+					<div class="fragment bio-example">
+						<strong>Biological relevance:</strong> Retinal receptive fields show similar covariance properties
+					</div>
+				</section>
+
+				<section>
+					<h3>Bridging Biology and AI</h3>
+					<p>Common principles:</p>
+					<ul>
+						<li class="fragment">State-based computation</li>
+						<li class="fragment">Temporal dynamics</li>
+						<li class="fragment">Hierarchical processing</li>
+						<li class="fragment">Adaptive behavior</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Future direction:</strong> Neuromorphic hardware implementing SSM-like dynamics
+					</div>
+				</section>
+			</section>
+
+			<!-- Section 6: Integration & Applications -->
+			<section>
+				<section>
+					<h2>6. Summary</h2>
+					<h3>Bringing It All Together</h3>
+				</section>
+
+				<section>
+					<h3>Design Principles</h3>
+					<div class="equation">
+						$$\begin{align*}
+						\text{Observability} &\rightarrow \text{State estimation} \\
+						\text{Controllability} &\rightarrow \text{Control design} \\
+						\text{Stability} &\rightarrow \text{Robust operation} \\
+						\text{Optimality} &\rightarrow \text{Efficient control}
+						\end{align*}$$
+					</div>
+				</section>
+
+				<section>
+					<h3>Future Directions</h3>
+					<ul>
+						<li class="fragment"><strong>Hybrid systems:</strong> Continuous dynamics + discrete events</li>
+						<li class="fragment"><strong>Learning dynamics:</strong> Adaptive control laws</li>
+						<li class="fragment"><strong>Koopman operators:</strong> Linearize nonlinear systems</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Modern SSMs Meet Biology</h3>
+					<p>Exciting convergence:</p>
+					<ul>
+						<li class="fragment">SSMs capture long-range dependencies</li>
+						<li class="fragment">Biological systems show similar properties</li>
+						<li class="fragment">We can drive the geometric point much further</li>
+						<li class="fragment">Neuromorphic hardware can implement this!</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Research opportunity:</strong> Neuromorphic SSMs for dynamical systems prediction (and control)
+					</div>
+				</section>
+
+				<section>
+					<h2>Summary</h2>
+					<p>We've connected:</p>
+					<ul>
+						<li class="fragment">Biological rhythms → Mathematical dynamics</li>
+						<li class="fragment">State space theory → Control design</li>
+						<li class="fragment">Stability analysis → Robust systems</li>
+						<li class="fragment">Neural networks → Modern AI</li>
+						<li class="fragment">Theory → Neuromorphic applications</li>
+					</ul>
+					<p class="fragment"><strong>The future of control is neuromorphic!</strong></p>
+				</section>
+
+				<section style="font-size:50%;">
+					<h2>Resources</h2>
+					<div style="text-align: left; margin: 40px auto; max-width: 800px;">
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #007bff;">
+							<h4 style="margin-top: 0; color: #007bff;">📚 Textbooks & Theory</h4>
+							<p><a href="http://www.aerialpress.com/DYN/" target="_blank" style="color: #007bff; text-decoration: none; font-weight: bold;">
+								Dynamics: The Geometry of Behavior (Abraham & Shaw)
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Classic text on dynamical systems theory and geometric approaches</p>
+						</div>
+						
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #28a745;">
+							<h4 style="margin-top: 0; color: #28a745;">🧠 Neural Dynamics</h4>
+							<p><a href="https://neuronaldynamics.epfl.ch/" target="_blank" style="color: #28a745; text-decoration: none; font-weight: bold;">
+								Neuronal Dynamics (Gerstner, Kistler, Naud & Paninski)
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Comprehensive online textbook on spiking neuron models and neural coding</p>
+						</div>
+						
+						<div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #dc3545;">
+							<h4 style="margin-top: 0; color: #dc3545;">⚙️ Simulation Tools</h4>
+							<p><a href="https://www.nengo.ai/" target="_blank" style="color: #dc3545; text-decoration: none; font-weight: bold;">
+								Nengo: Neural Engineering Framework
+							</a></p>
+							<p style="font-size: 0.9em; color: #666; margin: 5px 0;">Python library for building large-scale neural models and neuromorphic applications</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+				<h1 style="font-size: 250%;">Dynamical Systems for Control</h1>
+				<br/>
+				<h5>Telluride Neuromorphic Cognition Workshop 2025</h5>
+				<br/>
+				<p>
+					<strong>Jens Egholm Pedersen</strong>
+					<br/>
+					<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
+				</p>
+				<div style="display: flex; justify-content: center; align-items: center; gap: 60px; font-size: 70%;">
+					<img src="../2304_NICE/kth.png" 
+						 alt="KTH Logo" 
+						 style="height: 70px;"> KTH Royal Institute of Technology
+				</div>
+				<aside class="notes">
+					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
+					to modern computational approaches, building mathematical tools along the way.
+				</aside></section>
+			</section>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/dist/reveal.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/notes/notes.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/markdown/markdown.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/highlight/highlight.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.2.1/plugin/math/math.js"></script>
+	
+	<!-- Plotly for interactive simulations -->
+	<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+	<!-- Dynamical Systems Simulator -->
+	<script src="dynamical_systems.js"></script>
+
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			transition: 'slide',
+			transitionSpeed: 'fast',
+			backgroundTransition: 'fade',
+			
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+		});
+
+		// Initialize dynamical systems simulator when reveal.js is ready
+		Reveal.addEventListener('ready', function() {
+			// Check if sim container exists and initialize simulator
+			const simContainer = document.getElementById('sim-container');
+			if (simContainer) {
+				window.dynamicalSimulator = createDynamicalSystemsSimulator('sim-container', {
+					height: 400,
+					maxPoints: 200,
+					system: {
+						name: 'Leaky Integrator',
+						equation: 'τẋ = -x + I',
+						parameters: [
+							{ id: 'tau', label: 'Time Constant (τ)', min: 0.5, max: 5, step: 0.1, value: 1.5 },
+							{ id: 'input', label: 'Input Current (I)', min: -2, max: 2, step: 0.1, value: 0.5 },
+							],
+						initialState: { x: 0, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [tau, input] = params;
+							const dx = (-state.x + input) / tau;
+							return {
+								x: state.x + dt * dx,
+								y: dx,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Leaky Integrator: τẋ = -x + I',
+							xaxis: { title: 'Time', range: [0, 25] },
+							yaxis: { title: 'x(t)', range: [-3, 3] }
+						}
+					}
+				});
+			}
+
+			// Initialize Van der Pol oscillator simulator
+			const vanderpolSimContainer = document.getElementById('vanderpol-sim-container');
+			if (vanderpolSimContainer) {
+				window.vanderpolSimulator = createDynamicalSystemsSimulator('vanderpol-sim-container', {
+					height: 300,
+					maxPoints: 200,
+					system: {
+						name: 'Van der Pol Oscillator',
+						equation: 'ẍ - μ(1-x²)ẋ + x = 0',
+						parameters: [
+							{ id: 'mu', label: 'Nonlinearity (μ)', min: 0, max: 3, step: 0.1, value: 1.0 }
+						],
+						initialState: { x: 2, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [mu] = params;
+							// Convert to first-order system: x1 = x, x2 = dx/dt
+							const dx1 = state.y;
+							const dx2 = mu * (1 - state.x * state.x) * state.y - state.x;
+							return {
+								x: state.x + dt * dx1,
+								y: state.y + dt * dx2,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: '2d',
+						plotConfig: {
+							title: 'Van der Pol Phase Portrait',
+							xaxis: { title: 'Position (x)', range: [-3, 3] },
+							yaxis: { title: 'Velocity (ẋ)', range: [-6, 6] }
+						}
+					}
+				});
+			}
+
+			// Initialize constant system simulator
+			const constantSimContainer = document.getElementById('constant-sim-container');
+			if (constantSimContainer) {
+				window.constantSimulator = createDynamicalSystemsSimulator('constant-sim-container', {
+					height: 300,
+					maxPoints: 100,
+					system: {
+						name: 'Constant System',
+						equation: 'y = u',
+						parameters: [
+							{ id: 'input', label: 'Input (u)', min: -2, max: 2, step: 0.1, value: 1 }
+						],
+						initialState: { x: 0, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [u] = params;
+							return {
+								x: u,
+								y: u,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Constant System: y = u',
+							xaxis: { title: 'Time', range: [0, 10] },
+							yaxis: { title: 'y(t)', range: [-2.5, 2.5] }
+						}
+					}
+				});
+			}
+
+			// Initialize decay system simulator
+			const decaySimContainer = document.getElementById('decay-sim-container');
+			if (decaySimContainer) {
+				window.decaySimulator = createDynamicalSystemsSimulator('decay-sim-container', {
+					height: 300,
+					maxPoints: 100,
+					system: {
+						name: 'Exponential Decay',
+						equation: 'ẋ = -λx + u',
+						parameters: [
+							{ id: 'lambda', label: 'Decay Rate (λ)', min: 0.1, max: 2, step: 0.1, value: 0.5 },
+							{ id: 'input', label: 'Input (u)', min: -1, max: 1, step: 0.1, value: 0 }
+						],
+						initialState: { x: 1, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [lambda, u] = params;
+							const dx = -lambda * state.x + u;
+							return {
+								x: state.x + dt * dx,
+								y: dx,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: 'timeseries',
+						plotConfig: {
+							title: 'Exponential Decay: ẋ = -λx + u',
+							xaxis: { title: 'Time', range: [0, 20] },
+							yaxis: { title: 'x(t)', range: null }
+						}
+					}
+				});
+			}
+		});
+
+		// Handle slide changes to manage simulator
+		Reveal.addEventListener('slidechanged', function(event) {
+			const currentSlide = event.currentSlide;
+			const hasSimulator = currentSlide.querySelector('#sim-container');
+			const hasConstantSimulator = currentSlide.querySelector('#constant-sim-container');
+			const hasDecaySimulator = currentSlide.querySelector('#decay-sim-container');
+			const hasVanderpolSimulator = currentSlide.querySelector('#vanderpol-sim-container');
+			
+			// Manage original simulator
+			if (window.dynamicalSimulator) {
+				if (hasSimulator) {
+					window.dynamicalSimulator.startAnimation();
+				} else {
+					window.dynamicalSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage Van der Pol simulator
+			if (window.vanderpolSimulator) {
+				if (hasVanderpolSimulator) {
+					window.vanderpolSimulator.startAnimation();
+				} else {
+					window.vanderpolSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage constant system simulator
+			if (window.constantSimulator) {
+				if (hasConstantSimulator) {
+					window.constantSimulator.startAnimation();
+				} else {
+					window.constantSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage decay system simulator
+			if (window.decaySimulator) {
+				if (hasDecaySimulator) {
+					window.decaySimulator.startAnimation();
+				} else {
+					window.decaySimulator.stopAnimation();
+				}
+			}
+		});
+	</script>
+
+</body>
+</html>

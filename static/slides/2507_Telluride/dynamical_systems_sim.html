@@ -1,0 +1,545 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Interactive Dynamical Systems</title>
+
+  <!-- PyScript CSS -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <!-- This script tag bootstraps PyScript -->
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .sim-container {
+      margin-bottom: 40px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .sim-title {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    .sim-equation {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 15px;
+    }
+
+    .plot-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .controls {
+      min-width: 200px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .slider-group {
+      margin-bottom: 15px;
+    }
+
+    .slider-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .slider-group input[type="range"] {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+
+    .slider-value {
+      font-family: 'Courier New', monospace;
+      background: #e9ecef;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    .plot-area {
+      flex: 1;
+      min-height: 300px;
+    }
+
+    .reset-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .reset-btn:hover {
+      background: #0056b3;
+    }
+
+    #loading {
+      outline: none;
+      border: none;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+
+  <script type="module">
+    const loading = document.getElementById('loading');
+    addEventListener('py:ready', () => loading.close());
+    loading.showModal();
+  </script>
+</head>
+
+<body>
+  <dialog id="loading">
+    <h1>Loading Interactive Simulations...</h1>
+    <p>Setting up PyScript and dynamical systems...</p>
+  </dialog>
+
+  <div class="container">
+    <h1>Interactive Dynamical Systems for Control</h1>
+
+    <!-- Harmonic Oscillator -->
+    <div class="sim-container">
+      <div class="sim-title">1. Harmonic Oscillator (CPG Model)</div>
+      <div class="sim-equation">
+        ẋ = y<br>
+        ẏ = -ω²x - 2γy + u
+      </div>
+      <div class="plot-container">
+        <div class="controls">
+          <div class="slider-group">
+            <label for="omega1">Frequency (ω):</label>
+            <input type="range" id="omega1" min="0.5" max="3" step="0.1" value="1.5">
+            <span class="slider-value" id="omega1-val">1.5</span>
+          </div>
+          <div class="slider-group">
+            <label for="gamma1">Damping (γ):</label>
+            <input type="range" id="gamma1" min="0" max="1" step="0.05" value="0.1">
+            <span class="slider-value" id="gamma1-val">0.1</span>
+          </div>
+          <div class="slider-group">
+            <label for="input1">Input (u):</label>
+            <input type="range" id="input1" min="-2" max="2" step="0.1" value="0">
+            <span class="slider-value" id="input1-val">0.0</span>
+          </div>
+          <button class="reset-btn" onclick="resetSim(1)">Reset</button>
+        </div>
+        <div class="plot-area" id="plot1"></div>
+      </div>
+    </div>
+
+    <!-- Van der Pol Oscillator -->
+    <div class="sim-container">
+      <div class="sim-title">2. Van der Pol Oscillator (Limit Cycle)</div>
+      <div class="sim-equation">
+        ẋ = y<br>
+        ẏ = μ(1-x²)y - x + u
+      </div>
+      <div class="plot-container">
+        <div class="controls">
+          <div class="slider-group">
+            <label for="mu2">Nonlinearity (μ):</label>
+            <input type="range" id="mu2" min="0.1" max="3" step="0.1" value="1">
+            <span class="slider-value" id="mu2-val">1.0</span>
+          </div>
+          <div class="slider-group">
+            <label for="input2">Input (u):</label>
+            <input type="range" id="input2" min="-2" max="2" step="0.1" value="0">
+            <span class="slider-value" id="input2-val">0.0</span>
+          </div>
+          <button class="reset-btn" onclick="resetSim(2)">Reset</button>
+        </div>
+        <div class="plot-area" id="plot2"></div>
+      </div>
+    </div>
+
+    <!-- Lorenz System -->
+    <div class="sim-container">
+      <div class="sim-title">3. Lorenz System (Chaotic Attractor)</div>
+      <div class="sim-equation">
+        ẋ = σ(y-x)<br>
+        ẏ = x(ρ-z) - y<br>
+        ż = xy - βz
+      </div>
+      <div class="plot-container">
+        <div class="controls">
+          <div class="slider-group">
+            <label for="sigma3">σ (Prandtl):</label>
+            <input type="range" id="sigma3" min="5" max="15" step="0.5" value="10">
+            <span class="slider-value" id="sigma3-val">10.0</span>
+          </div>
+          <div class="slider-group">
+            <label for="rho3">ρ (Rayleigh):</label>
+            <input type="range" id="rho3" min="20" max="35" step="0.5" value="28">
+            <span class="slider-value" id="rho3-val">28.0</span>
+          </div>
+          <div class="slider-group">
+            <label for="beta3">β:</label>
+            <input type="range" id="beta3" min="1" max="4" step="0.1" value="2.67">
+            <span class="slider-value" id="beta3-val">2.67</span>
+          </div>
+          <button class="reset-btn" onclick="resetSim(3)">Reset</button>
+        </div>
+        <div class="plot-area" id="plot3"></div>
+      </div>
+    </div>
+
+    <!-- Neural Network Dynamics -->
+    <div class="sim-container">
+      <div class="sim-title">4. Neural Network Node (Hopfield-like)</div>
+      <div class="sim-equation">
+        τẋ = -x + tanh(wx + I)
+      </div>
+      <div class="plot-container">
+        <div class="controls">
+          <div class="slider-group">
+            <label for="tau4">Time Constant (τ):</label>
+            <input type="range" id="tau4" min="0.1" max="2" step="0.1" value="1">
+            <span class="slider-value" id="tau4-val">1.0</span>
+          </div>
+          <div class="slider-group">
+            <label for="weight4">Weight (w):</label>
+            <input type="range" id="weight4" min="-3" max="3" step="0.1" value="1.5">
+            <span class="slider-value" id="weight4-val">1.5</span>
+          </div>
+          <div class="slider-group">
+            <label for="current4">Input Current (I):</label>
+            <input type="range" id="current4" min="-2" max="2" step="0.1" value="0">
+            <span class="slider-value" id="current4-val">0.0</span>
+          </div>
+          <button class="reset-btn" onclick="resetSim(4)">Reset</button>
+        </div>
+        <div class="plot-area" id="plot4"></div>
+      </div>
+    </div>
+  </div>
+
+  <py-script>
+    import js
+    from pyodide import ffi
+    import math
+
+    # Global simulation states
+    sim_states = {
+        1: {"x": 1.0, "y": 0.0, "t": 0},
+        2: {"x": 0.1, "y": 0.1, "t": 0},
+        3: {"x": 1.0, "y": 1.0, "z": 1.0, "t": 0},
+        4: {"x": 0.1, "t": 0}
+    }
+
+    dt = 0.02
+
+    def harmonic_oscillator(omega, gamma, u, state):
+        """Harmonic oscillator with damping and input"""
+        x, y = state["x"], state["y"]
+        dx = y
+        dy = -omega*omega*x - 2*gamma*y + u
+        return {"x": x + dt*dx, "y": y + dt*dy, "t": state["t"] + dt}
+
+    def van_der_pol(mu, u, state):
+        """Van der Pol oscillator"""
+        x, y = state["x"], state["y"]
+        dx = y
+        dy = mu*(1 - x*x)*y - x + u
+        return {"x": x + dt*dx, "y": y + dt*dy, "t": state["t"] + dt}
+
+    def lorenz(sigma, rho, beta, state):
+        """Lorenz system"""
+        x, y, z = state["x"], state["y"], state["z"]
+        dx = sigma*(y - x)
+        dy = x*(rho - z) - y
+        dz = x*y - beta*z
+        return {"x": x + dt*dx, "y": y + dt*dy, "z": z + dt*dz, "t": state["t"] + dt}
+
+    def neural_node(tau, weight, current, state):
+        """Neural network node dynamics"""
+        x = state["x"]
+        dx = (-x + math.tanh(weight*x + current))/tau
+        return {"x": x + dt*dx, "t": state["t"] + dt}
+
+    def simulate_system(sim_id, params):
+        """Main simulation function called from JavaScript"""
+        global sim_states
+        
+        if sim_id == 1:
+            omega, gamma, u = params
+            sim_states[1] = harmonic_oscillator(omega, gamma, u, sim_states[1])
+            return [sim_states[1]["x"], sim_states[1]["y"]]
+        elif sim_id == 2:
+            mu, u = params
+            sim_states[2] = van_der_pol(mu, u, sim_states[2])
+            return [sim_states[2]["x"], sim_states[2]["y"]]
+        elif sim_id == 3:
+            sigma, rho, beta = params
+            sim_states[3] = lorenz(sigma, rho, beta, sim_states[3])
+            return [sim_states[3]["x"], sim_states[3]["y"], sim_states[3]["z"]]
+        elif sim_id == 4:
+            tau, weight, current = params
+            sim_states[4] = neural_node(tau, weight, current, sim_states[4])
+            return [sim_states[4]["x"]]
+
+    def reset_simulation(sim_id):
+        """Reset simulation state"""
+        global sim_states
+        if sim_id == 1:
+            sim_states[1] = {"x": 1.0, "y": 0.0, "t": 0}
+        elif sim_id == 2:
+            sim_states[2] = {"x": 0.1, "y": 0.1, "t": 0}
+        elif sim_id == 3:
+            sim_states[3] = {"x": 1.0, "y": 1.0, "z": 1.0, "t": 0}
+        elif sim_id == 4:
+            sim_states[4] = {"x": 0.1, "t": 0}
+
+    # Export functions to JavaScript
+    js.simulate_system = ffi.create_proxy(simulate_system)
+    js.reset_simulation = ffi.create_proxy(reset_simulation)
+    js.init_simulations()
+  </py-script>
+
+  <script type="text/javascript">
+    // Global variables for each simulation
+    const simulations = {
+        1: { data: [], maxPoints: 200, traces: 2 },
+        2: { data: [], maxPoints: 200, traces: 2 },
+        3: { data: [], maxPoints: 300, traces: 3 },
+        4: { data: [], maxPoints: 200, traces: 1 }
+    };
+
+    let animationRunning = false;
+
+    // Initialize sliders and their display values
+    function initSliders() {
+        const sliders = ['omega1', 'gamma1', 'input1', 'mu2', 'input2', 
+                        'sigma3', 'rho3', 'beta3', 'tau4', 'weight4', 'current4'];
+        
+        sliders.forEach(id => {
+            const slider = document.getElementById(id);
+            const display = document.getElementById(id + '-val');
+            
+            slider.addEventListener('input', function() {
+                display.textContent = parseFloat(this.value).toFixed(2);
+            });
+        });
+    }
+
+    function initPlots() {
+        // Harmonic Oscillator (phase plot)
+        Plotly.newPlot('plot1', [{
+            x: [], y: [], mode: 'lines', name: 'Phase Space',
+            line: {color: '#1f77b4', width: 2}
+        }], {
+            title: 'Phase Space (x vs ẋ)',
+            xaxis: {title: 'Position (x)', range: [-3, 3]},
+            yaxis: {title: 'Velocity (ẋ)', range: [-3, 3]},
+            margin: {l: 50, r: 20, t: 50, b: 50}
+        });
+
+        // Van der Pol (phase plot)
+        Plotly.newPlot('plot2', [{
+            x: [], y: [], mode: 'lines', name: 'Limit Cycle',
+            line: {color: '#ff7f0e', width: 2}
+        }], {
+            title: 'Phase Space (x vs ẋ)',
+            xaxis: {title: 'x', range: [-3, 3]},
+            yaxis: {title: 'ẋ', range: [-3, 3]},
+            margin: {l: 50, r: 20, t: 50, b: 50}
+        });
+
+        // Lorenz (3D plot)
+        Plotly.newPlot('plot3', [{
+            x: [], y: [], z: [], mode: 'lines', type: 'scatter3d',
+            name: 'Lorenz Attractor',
+            line: {color: '#2ca02c', width: 3}
+        }], {
+            title: 'Lorenz Attractor',
+            scene: {
+                xaxis: {title: 'X'},
+                yaxis: {title: 'Y'},
+                zaxis: {title: 'Z'}
+            },
+            margin: {l: 0, r: 0, t: 50, b: 0}
+        });
+
+        // Neural node (time series)
+        Plotly.newPlot('plot4', [{
+            x: [], y: [], mode: 'lines', name: 'Activation',
+            line: {color: '#d62728', width: 2}
+        }], {
+            title: 'Neural Activation over Time',
+            xaxis: {title: 'Time', range: [0, 50]},
+            yaxis: {title: 'Activation', range: [-2, 2]},
+            margin: {l: 50, r: 20, t: 50, b: 50}
+        });
+    }
+
+    function updateSimulation() {
+        if (!animationRunning) return;
+
+        // Update each simulation
+        updateHarmonicOscillator();
+        updateVanDerPol();
+        updateLorenz();
+        updateNeuralNode();
+
+        requestAnimationFrame(updateSimulation);
+    }
+
+    function updateHarmonicOscillator() {
+        const omega = parseFloat(document.getElementById('omega1').value);
+        const gamma = parseFloat(document.getElementById('gamma1').value);
+        const input = parseFloat(document.getElementById('input1').value);
+        
+        const result = simulate_system(1, [omega, gamma, input]);
+        const x = result[0], y = result[1];
+        
+        simulations[1].data.push([x, y]);
+        if (simulations[1].data.length > simulations[1].maxPoints) {
+            simulations[1].data.shift();
+        }
+        
+        const xData = simulations[1].data.map(d => d[0]);
+        const yData = simulations[1].data.map(d => d[1]);
+        
+        Plotly.animate('plot1', {
+            data: [{x: xData, y: yData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+    }
+
+    function updateVanDerPol() {
+        const mu = parseFloat(document.getElementById('mu2').value);
+        const input = parseFloat(document.getElementById('input2').value);
+        
+        const result = simulate_system(2, [mu, input]);
+        const x = result[0], y = result[1];
+        
+        simulations[2].data.push([x, y]);
+        if (simulations[2].data.length > simulations[2].maxPoints) {
+            simulations[2].data.shift();
+        }
+        
+        const xData = simulations[2].data.map(d => d[0]);
+        const yData = simulations[2].data.map(d => d[1]);
+        
+        Plotly.animate('plot2', {
+            data: [{x: xData, y: yData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+    }
+
+    function updateLorenz() {
+        const sigma = parseFloat(document.getElementById('sigma3').value);
+        const rho = parseFloat(document.getElementById('rho3').value);
+        const beta = parseFloat(document.getElementById('beta3').value);
+        
+        const result = simulate_system(3, [sigma, rho, beta]);
+        const x = result[0], y = result[1], z = result[2];
+        
+        simulations[3].data.push([x, y, z]);
+        if (simulations[3].data.length > simulations[3].maxPoints) {
+            simulations[3].data.shift();
+        }
+        
+        const xData = simulations[3].data.map(d => d[0]);
+        const yData = simulations[3].data.map(d => d[1]);
+        const zData = simulations[3].data.map(d => d[2]);
+        
+        Plotly.animate('plot3', {
+            data: [{x: xData, y: yData, z: zData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+    }
+
+    function updateNeuralNode() {
+        const tau = parseFloat(document.getElementById('tau4').value);
+        const weight = parseFloat(document.getElementById('weight4').value);
+        const current = parseFloat(document.getElementById('current4').value);
+        
+        const result = simulate_system(4, [tau, weight, current]);
+        const x = result[0];
+        
+        simulations[4].data.push([simulations[4].data.length * 0.1, x]);
+        if (simulations[4].data.length > simulations[4].maxPoints) {
+            simulations[4].data.shift();
+            // Shift time values
+            simulations[4].data.forEach((d, i) => d[0] = i * 0.1);
+        }
+        
+        const tData = simulations[4].data.map(d => d[0]);
+        const xData = simulations[4].data.map(d => d[1]);
+        
+        Plotly.animate('plot4', {
+            data: [{x: tData, y: xData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+    }
+
+    function resetSim(simId) {
+        reset_simulation(simId);
+        simulations[simId].data = [];
+        
+        // Clear the corresponding plot
+        const plotId = 'plot' + simId;
+        if (simId === 3) {
+            // 3D plot
+            Plotly.animate(plotId, {
+                data: [{x: [], y: [], z: []}]
+            }, {transition: {duration: 0}, frame: {duration: 0}});
+        } else {
+            // 2D plot
+            Plotly.animate(plotId, {
+                data: [{x: [], y: []}]
+            }, {transition: {duration: 0}, frame: {duration: 0}});
+        }
+    }
+
+    function init_simulations() {
+        initSliders();
+        initPlots();
+        animationRunning = true;
+        requestAnimationFrame(updateSimulation);
+    }
+
+    // Make resetSim available globally
+    window.resetSim = resetSim;
+  </script>
+
+</body>
+</html>

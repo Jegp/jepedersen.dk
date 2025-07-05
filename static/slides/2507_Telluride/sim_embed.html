@@ -1,0 +1,492 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Dynamical System Simulator</title>
+
+  <!-- PyScript CSS -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .equation {
+      font-size: 1.3em;
+      font-family: 'Times New Roman', serif;
+      margin: 10px 0;
+      padding: 15px;
+      background: #e3f2fd;
+      border-radius: 8px;
+      border-left: 4px solid #2196f3;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .controls {
+      width: 250px;
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #e9ecef;
+    }
+
+    .slider-group {
+      margin-bottom: 20px;
+    }
+
+    .slider-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #495057;
+    }
+
+    .slider-group input[type="range"] {
+      width: 100%;
+      margin-bottom: 8px;
+      height: 6px;
+      background: #ddd;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    .slider-group input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #2196f3;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider-value {
+      font-family: 'Courier New', monospace;
+      background: #e9ecef;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      display: inline-block;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .plot-area {
+      flex: 1;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .reset-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .reset-btn:hover {
+      background: #c82333;
+    }
+
+    .system-selector {
+      margin-bottom: 20px;
+    }
+
+    .system-selector select {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e9ecef;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    #loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 20px 40px;
+      border-radius: 10px;
+      text-align: center;
+      z-index: 1000;
+    }
+
+    .phase-space {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 10px;
+      font-style: italic;
+    }
+  </style>
+
+  <script type="module">
+    const loading = document.getElementById('loading');
+    addEventListener('py:ready', () => {
+      loading.style.display = 'none';
+      initializeSimulation();
+    });
+  </script>
+</head>
+
+<body>
+  <div id="loading">
+    <h3>Loading Simulation...</h3>
+    <p>Initializing PyScript...</p>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div class="system-selector">
+        <label for="system-select"><strong>Choose Dynamical System:</strong></label>
+        <select id="system-select" onchange="changeSystem()">
+          <option value="harmonic">Harmonic Oscillator (CPG Model)</option>
+          <option value="vanderpol">Van der Pol Oscillator (Limit Cycle)</option>
+          <option value="lorenz">Lorenz System (Chaotic Attractor)</option>
+          <option value="neural">Neural Node (Hopfield-like)</option>
+        </select>
+      </div>
+      <div id="equation-display" class="equation"></div>
+    </div>
+
+    <div class="main-content">
+      <div class="controls">
+        <div id="controls-content">
+          <!-- Dynamic controls will be inserted here -->
+        </div>
+        <button class="reset-btn" onclick="resetSimulation()">Reset Simulation</button>
+        <div class="phase-space" id="plot-description"></div>
+      </div>
+      
+      <div class="plot-area">
+        <div id="plot" style="width: 100%; height: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <py-script>
+    import js
+    from pyodide import ffi
+    import math
+
+    # Global simulation state
+    current_system = "harmonic"
+    sim_state = {"x": 1.0, "y": 0.0, "z": 1.0, "t": 0}
+    dt = 0.02
+
+    def harmonic_oscillator(params, state):
+        """ẋ = y, ẏ = -ω²x - 2γy + u"""
+        omega, gamma, u = params
+        x, y = state["x"], state["y"]
+        dx = y
+        dy = -omega*omega*x - 2*gamma*y + u
+        return {"x": x + dt*dx, "y": y + dt*dy, "z": state.get("z", 0), "t": state["t"] + dt}
+
+    def van_der_pol(params, state):
+        """ẋ = y, ẏ = μ(1-x²)y - x + u"""
+        mu, u = params
+        x, y = state["x"], state["y"]
+        dx = y
+        dy = mu*(1 - x*x)*y - x + u
+        return {"x": x + dt*dx, "y": y + dt*dy, "z": state.get("z", 0), "t": state["t"] + dt}
+
+    def lorenz(params, state):
+        """ẋ = σ(y-x), ẏ = x(ρ-z) - y, ż = xy - βz"""
+        sigma, rho, beta = params
+        x, y, z = state["x"], state["y"], state["z"]
+        dx = sigma*(y - x)
+        dy = x*(rho - z) - y
+        dz = x*y - beta*z
+        return {"x": x + dt*dx, "y": y + dt*dy, "z": z + dt*dz, "t": state["t"] + dt}
+
+    def neural_node(params, state):
+        """τẋ = -x + tanh(wx + I)"""
+        tau, weight, current = params
+        x = state["x"]
+        dx = (-x + math.tanh(weight*x + current))/tau
+        return {"x": x + dt*dx, "y": state.get("y", 0), "z": state.get("z", 0), "t": state["t"] + dt}
+
+    def simulate_step(system_type, params):
+        """Simulate one step of the current system"""
+        global sim_state
+        
+        if system_type == "harmonic":
+            sim_state = harmonic_oscillator(params, sim_state)
+            return [sim_state["x"], sim_state["y"]]
+        elif system_type == "vanderpol":
+            sim_state = van_der_pol(params, sim_state)
+            return [sim_state["x"], sim_state["y"]]
+        elif system_type == "lorenz":
+            sim_state = lorenz(params, sim_state)
+            return [sim_state["x"], sim_state["y"], sim_state["z"]]
+        elif system_type == "neural":
+            sim_state = neural_node(params, sim_state)
+            return [sim_state["t"], sim_state["x"]]
+
+    def reset_state(system_type):
+        """Reset simulation state"""
+        global sim_state
+        if system_type == "harmonic":
+            sim_state = {"x": 1.0, "y": 0.0, "z": 0, "t": 0}
+        elif system_type == "vanderpol":
+            sim_state = {"x": 0.1, "y": 0.1, "z": 0, "t": 0}
+        elif system_type == "lorenz":
+            sim_state = {"x": 1.0, "y": 1.0, "z": 1.0, "t": 0}
+        elif system_type == "neural":
+            sim_state = {"x": 0.1, "y": 0, "z": 0, "t": 0}
+
+    # Export functions to JavaScript
+    js.simulate_step = ffi.create_proxy(simulate_step)
+    js.reset_state = ffi.create_proxy(reset_state)
+  </py-script>
+
+  <script type="text/javascript">
+    let animationId = null;
+    let plotData = [];
+    let maxPoints = 300;
+    let currentSystem = "harmonic";
+
+    const systemConfigs = {
+      harmonic: {
+        equation: "ẋ = y<br>ẏ = -ω²x - 2γy + u",
+        description: "Phase space: position vs velocity",
+        controls: [
+          {id: "omega", label: "Frequency (ω)", min: 0.5, max: 3, step: 0.1, value: 1.5},
+          {id: "gamma", label: "Damping (γ)", min: 0, max: 1, step: 0.05, value: 0.1},
+          {id: "input", label: "Input (u)", min: -2, max: 2, step: 0.1, value: 0}
+        ],
+        plotConfig: {
+          title: "Harmonic Oscillator Phase Space",
+          xaxis: {title: "Position (x)", range: [-3, 3]},
+          yaxis: {title: "Velocity (ẋ)", range: [-3, 3]},
+          type: "2d"
+        }
+      },
+      vanderpol: {
+        equation: "ẋ = y<br>ẏ = μ(1-x²)y - x + u",
+        description: "Phase space showing limit cycle",
+        controls: [
+          {id: "mu", label: "Nonlinearity (μ)", min: 0.1, max: 3, step: 0.1, value: 1},
+          {id: "input", label: "Input (u)", min: -2, max: 2, step: 0.1, value: 0}
+        ],
+        plotConfig: {
+          title: "Van der Pol Limit Cycle",
+          xaxis: {title: "x", range: [-3, 3]},
+          yaxis: {title: "ẋ", range: [-3, 3]},
+          type: "2d"
+        }
+      },
+      lorenz: {
+        equation: "ẋ = σ(y-x)<br>ẏ = x(ρ-z) - y<br>ż = xy - βz",
+        description: "3D chaotic attractor",
+        controls: [
+          {id: "sigma", label: "σ (Prandtl)", min: 5, max: 15, step: 0.5, value: 10},
+          {id: "rho", label: "ρ (Rayleigh)", min: 20, max: 35, step: 0.5, value: 28},
+          {id: "beta", label: "β", min: 1, max: 4, step: 0.1, value: 2.67}
+        ],
+        plotConfig: {
+          title: "Lorenz Chaotic Attractor",
+          type: "3d"
+        }
+      },
+      neural: {
+        equation: "τẋ = -x + tanh(wx + I)",
+        description: "Neural activation over time",
+        controls: [
+          {id: "tau", label: "Time Constant (τ)", min: 0.1, max: 2, step: 0.1, value: 1},
+          {id: "weight", label: "Weight (w)", min: -3, max: 3, step: 0.1, value: 1.5},
+          {id: "current", label: "Input Current (I)", min: -2, max: 2, step: 0.1, value: 0}
+        ],
+        plotConfig: {
+          title: "Neural Node Dynamics",
+          xaxis: {title: "Time", range: [0, 50]},
+          yaxis: {title: "Activation", range: [-2, 2]},
+          type: "timeseries"
+        }
+      }
+    };
+
+    function changeSystem() {
+      const select = document.getElementById('system-select');
+      currentSystem = select.value;
+      
+      // Update equation display
+      document.getElementById('equation-display').innerHTML = systemConfigs[currentSystem].equation;
+      document.getElementById('plot-description').innerHTML = systemConfigs[currentSystem].description;
+      
+      // Update controls
+      updateControls();
+      
+      // Reset simulation
+      resetSimulation();
+    }
+
+    function updateControls() {
+      const controlsContainer = document.getElementById('controls-content');
+      const config = systemConfigs[currentSystem];
+      
+      let html = '';
+      config.controls.forEach(control => {
+        html += `
+          <div class="slider-group">
+            <label for="${control.id}">${control.label}:</label>
+            <input type="range" id="${control.id}" 
+                   min="${control.min}" max="${control.max}" 
+                   step="${control.step}" value="${control.value}"
+                   oninput="updateSliderValue('${control.id}')">
+            <span class="slider-value" id="${control.id}-val">${control.value.toFixed(2)}</span>
+          </div>
+        `;
+      });
+      
+      controlsContainer.innerHTML = html;
+    }
+
+    function updateSliderValue(sliderId) {
+      const slider = document.getElementById(sliderId);
+      const display = document.getElementById(sliderId + '-val');
+      display.textContent = parseFloat(slider.value).toFixed(2);
+    }
+
+    function getParameters() {
+      const config = systemConfigs[currentSystem];
+      return config.controls.map(control => 
+        parseFloat(document.getElementById(control.id).value)
+      );
+    }
+
+    function initializePlot() {
+      const config = systemConfigs[currentSystem].plotConfig;
+      
+      if (config.type === "3d") {
+        Plotly.newPlot('plot', [{
+          x: [], y: [], z: [],
+          mode: 'lines',
+          type: 'scatter3d',
+          line: {color: '#2196f3', width: 4}
+        }], {
+          title: config.title,
+          scene: {
+            xaxis: {title: 'X'},
+            yaxis: {title: 'Y'},
+            zaxis: {title: 'Z'}
+          },
+          margin: {l: 0, r: 0, t: 30, b: 0}
+        });
+      } else {
+        Plotly.newPlot('plot', [{
+          x: [], y: [],
+          mode: 'lines',
+          line: {color: '#2196f3', width: 2}
+        }], {
+          title: config.title,
+          xaxis: config.xaxis || {title: 'X'},
+          yaxis: config.yaxis || {title: 'Y'},
+          margin: {l: 50, r: 20, t: 50, b: 50}
+        });
+      }
+    }
+
+    function animate() {
+      const params = getParameters();
+      const result = simulate_step(currentSystem, params);
+      
+      if (currentSystem === "lorenz") {
+        plotData.push([result[0], result[1], result[2]]);
+      } else if (currentSystem === "neural") {
+        plotData.push([result[0], result[1]]);
+      } else {
+        plotData.push([result[0], result[1]]);
+      }
+      
+      if (plotData.length > maxPoints) {
+        plotData.shift();
+      }
+      
+      updatePlot();
+      animationId = requestAnimationFrame(animate);
+    }
+
+    function updatePlot() {
+      const config = systemConfigs[currentSystem].plotConfig;
+      
+      if (config.type === "3d") {
+        const xData = plotData.map(d => d[0]);
+        const yData = plotData.map(d => d[1]);
+        const zData = plotData.map(d => d[2]);
+        
+        Plotly.animate('plot', {
+          data: [{x: xData, y: yData, z: zData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+      } else {
+        const xData = plotData.map(d => d[0]);
+        const yData = plotData.map(d => d[1]);
+        
+        Plotly.animate('plot', {
+          data: [{x: xData, y: yData}]
+        }, {transition: {duration: 0}, frame: {duration: 0}});
+      }
+    }
+
+    function resetSimulation() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      
+      reset_state(currentSystem);
+      plotData = [];
+      initializePlot();
+      
+      // Restart animation
+      animationId = requestAnimationFrame(animate);
+    }
+
+    function initializeSimulation() {
+      changeSystem(); // Initialize with default system
+      resetSimulation();
+    }
+
+    // Make functions available globally
+    window.changeSystem = changeSystem;
+    window.resetSimulation = resetSimulation;
+  </script>
+
+</body>
+</html>
