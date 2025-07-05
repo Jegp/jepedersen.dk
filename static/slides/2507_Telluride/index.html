@@ -26,7 +26,7 @@
 			visibility: inherit;
 		}
 		.equation {
-			font-size: 1.2em;
+			font-size: 1em;
 			margin: 20px 0;
 		}
 		.bio-example {
@@ -211,6 +211,64 @@ Pontryagin's principle
 				</section>
 
 				<section>
+					<h3>Finding solutions</h3>
+					<table style="font-size: 80%;">
+						<tr>
+							<td>
+								<strong>Step 1:</strong> Start with the equation
+							</td>
+							<td>
+								$\frac{dx}{dt} = -\lambda x$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 2:</strong> Separate variables
+							</td>
+							<td>
+								$\frac{dx}{x} = -\lambda dt$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 3:</strong> Integrate both sides
+							</td>
+							<td>
+					$$\begin{align*}\int \frac{dx}{x} &= \int -\lambda dt \\ \ln|x| &= -\lambda t + C\end{align*}$$
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td>
+								<strong>Step 4:</strong> Solve for $x$
+							</td>
+							<td>
+								$$|x| = e^{-\lambda t + C} = e^C \cdot e^{-\lambda t}$$
+							</td>
+						</tr>
+					</table>
+							
+					<p class="fragment">
+					Since $e^C$ is just a positive constant: $x(t) = C e^{-\lambda t}$
+					</p>
+					
+				</section>
+
+				<section>
+					<h3>The Neuronal Dynamics Bible</h3>
+					<div style="display: flex;">
+						<div>
+							<img src="https://neuronaldynamics.epfl.ch/img/cover.jpg" 
+								 alt="Neuronal Dynamics book cover" 
+								 style="width: 200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
+						<div style="flex: 1; padding-left: 20px;">
+							<p><strong>Neuronal Dynamics:</strong> From Single Neurons to Networks and Models of Cognition</p>
+							<p>By Wulfram Gerstner, Werner M. Kistler, Richard Naud, and Liam Paninski</p>
+							Available online: <a href="https://neuronaldynamics.epfl.ch/">neuronaldynamics.epfl.ch</a>
+					</div>
+				</section>
+
+				<section>
 					<h3>Example: Motor Control</h3>
 					<div class="bio-example">
 						<p><strong>State (x):</strong> Joint angles, velocities, muscle activations</p>
@@ -230,24 +288,37 @@ Pontryagin's principle
 						<li><strong>Time-invariant:</strong> System parameters don't change</li>
 						<li><strong>Analytical solutions:</strong> The convolution integral</li>
 					</ul>
+					<aside class="notes">
+						LTI systems are foundational in control theory. They allow us to use powerful mathematical tools like Fourier transforms and Laplace transforms.
+						They also provide a good approximation for many biological systems, especially in the linear regime.
+						for all linear systems, the net response caused by two or more stimuli is the sum of the responses that would have been caused by each stimulus individually
+					</aside>
 				</section>
 
 				<section>
 					<h3>Observability</h3>
-					<p><em>Can we determine the internal state from observations?</em> <small>(in LTI systems)</small></p>
-					<div style="display: flex; gap: 30px; align-items: center; flex-direction: row;">
+					<em>Can we determine the internal state from observations?</em> <small>(in LTI systems)</small>
+					<div style="display: flex; gap: 30px; align-items: center; flex-direction: row; margin-top: -50px;">
 					<div class="equation fragment" style="flex: 1;">
 						$$\begin{align*}
 						\dot{x} &= Ax + Bu \\
-						\mathcal{O} &= \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \end{bmatrix}
+						y &= Cx + Du \\
+						\mathcal{O} &= \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n - 1}\end{bmatrix}
 						\end{align*}$$
 					</div>
 					<div class="fragment" style="flex: 1;">System is observable if rank($\mathcal{O}$) = n
 						<br/>
-						<small>($n$ columns are linearly independent)</small>
+						<small>($n$ linearly independent components)</small>
 					<div class="fragment bio-example">
 						What can we infer about neural state from recordings?
 					</div>
+					<aside class="notes">
+						Observability is crucial for understanding how we can infer internal states from external measurements.
+						In neuroscience, this relates to how we can decode neural activity from recordings.
+						Observability matrix O
+						Rank = number of linearly independent rows or columns.
+						That is, the dimensions of the space spanned by the rows or columns.
+					</aside>
 				</div>
 					</div>
 				</section>
@@ -301,27 +372,31 @@ Pontryagin's principle
 
 				<section>
 					<h3>Example: Leaky integrator</h3>
-					<p>Let's analyze observability and controllability</p>
-						$$\begin{align*}
-						\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \quad \text{(dynamics)} \\
-						y &= x \quad \text{(output)}
-						\end{align*}$$
-					<div class="fragment">
+					Let's analyze observability and controllability
+					$$\begin{align*}
+					\tau \dot{x} &= -x + u \quad \text{(dynamics)} \\
+					\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \\
+					y &= x \quad \text{(output)}
+					\end{align*}$$
+					<div class="fragment" style="margin-top: -40px;">
 						<p><strong>State-space matrices:</strong></p>
 						<ul>
 							<li>$A = -\frac{1}{\tau}$ (how state evolves)</li>
 							<li>$B = \frac{1}{\tau}$ (how input affects state)</li>
-							<li>$C = 1$ (how we observe the state: $y = 1 \cdot x$)</li>
+							<li>$C = 1$ (how we observe the state: $y = 1 x$)</li>
 						</ul>
 					</div>
 				</section>
 				<section>
 					<h3>Example: Leaky integrator</h3>
-					<p>Let's analyze observability and controllability</p>
-						$$\begin{align*}
-						\dot{x} &= -\frac{1}{\tau}x + \frac{1}{\tau}u \quad \text{(dynamics)} \\
-						y &= x \quad \text{(output)}
-						\end{align*}$$
+					<div>
+						<p><strong>State-space matrices:</strong></p>
+						<ul>
+							<li>$A = -\frac{1}{\tau}$ (how state evolves)</li>
+							<li>$B = \frac{1}{\tau}$ (how input affects state)</li>
+							<li>$C = 1$ (how we observe the state: $y = 1 x$)</li>
+						</ul>
+					</div>
 					<div class="fragment">
 						<ul>
 							<li><strong>Observability:</strong> $\mathcal{O} = [C] = [1]$ → rank = 1 ✓</li>
@@ -329,7 +404,7 @@ Pontryagin's principle
 						</ul>
 					</div>
 					<div class="fragment bio-example">
-						<strong>Interpretation:</strong> We can observe the neuron's state and control it with input current
+						<strong>Interpretation:</strong> We can infer the entire system from its state and fully control it using the input current
 					</div>
 				</section>
 			</section>
@@ -359,15 +434,29 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Lyapunov Stability</h3>
-					<p>How do we prove a system is stable?</p>
-					<div class="equation fragment">
-						$$V(x) > 0 \text{ for } x \neq 0$$
-						$$\dot{V}(x) \leq 0$$
+					<h3>Principle of least action</h3>
+					<p>Nature chooses paths that minimize action</p>
+					<div class="equation">
+						$$S = \int_{t_0}^{t_1} L(x, \dot{x}) \, dt$$
 					</div>
-					<p class="fragment">If such a function V exists → system is stable</p>
-					<div class="fragment bio-example">
-						<strong>Examples:</strong> Homeostasis, robust neural computation, safety in control systems
+					<ul class="fragment">
+						<li><strong>Action S:</strong> Total "cost" of a trajectory</li>
+						<li><strong>Lagrangian L:</strong> Kinetic energy - potential energy</li>
+						<li><strong>Principle:</strong> Physical systems follow paths, $\partial S = 0$</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>The theoretical minimum</h3>
+					<div style="display: flex;">
+						<div>
+							<img src="https://upload.wikimedia.org/wikipedia/en/1/17/The_Theoretical_Minimum_-_book_cover.jpg" 
+								 alt="The Theoretical Minimum book cover" 
+								 style="width: 200px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+						</div>
+						<div style="flex: 1; padding-left: 20px;">
+							<p><strong>The Theoretical Minimum:</strong> What You Need to Know to Start Doing Physics</p>
+							<p>By Leonard Susskind and George Hrabovsky</p>
 					</div>
 				</section>
 
@@ -375,13 +464,60 @@ Pontryagin's principle
 					<h3>Pontryagin's Maximum Principle</h3>
 					<p>Optimal control: minimize cost subject to dynamics</p>
 					<div class="equation">
-						$$\min \int_0^T L(x, u, t) dt + \phi(x(T))$$
+						$$\min \int_0^T L(x, u) dt + \phi(x(T))$$
 					</div>
+					<ul class="fragment">
+						<li><strong>L(x,u):</strong> Running cost (energy, error, effort)</li>
+						<li><strong>φ(x(T)):</strong> Terminal cost (final target)</li>
+						<li><strong>Subject to:</strong> ẋ = f(x,u) (system dynamics)</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Example:</strong> Minimize energy while reaching a target position
+					</div>
+				</section>
+
+				<section>
+					<h3>Pontryagin's Solution Method</h3>
+					<p>Transform constrained optimization into unconstrained problem</p>
+					<div class="equation">
+						$$H = L(x, u) + \lambda^T f(x, u)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>H:</strong> Hamiltonian (augmented cost function)</li>
+						<li><strong>λ:</strong> Costate/adjoint variables (shadow prices)</li>
+						<li><strong>Optimality:</strong> $\frac{\partial H}{\partial u} = 0$ (critical point)</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Interpretation:</strong> λ tells us how valuable each state is
+					</div>
+				</section>
+
+				<section>
+					<h3>Lyapunov Stability Theory</h3>
+					<p>Prove stability without solving differential equations</p>
 					<div class="equation fragment">
-						$$H = L(x, u, t) + \lambda^T f(x, u, t)$$
-						$$\frac{\partial H}{\partial u} = 0$$
+						$$V(x) > 0 \text{ for } x \neq 0$$
+						$$\dot{V}(x) \leq 0$$
 					</div>
-					<p class="fragment">Gives us necessary conditions for optimal control</p>
+					<ul class="fragment">
+						<li><strong>V(x):</strong> Lyapunov function (generalized "energy")</li>
+						<li><strong>Positive definite:</strong> V > 0 away from equilibrium</li>
+						<li><strong>Non-increasing:</strong> V̇ ≤ 0 (energy dissipates)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Lyapunov Method in Practice</h3>
+					<p>Finding the right energy-like function</p>
+					<ul>
+						<li class="fragment"><strong>Physical energy:</strong> Often works for mechanical systems</li>
+						<li class="fragment"><strong>Quadratic forms:</strong> V(x) = x<sup>T</sup>Px for linear systems</li>
+						<li class="fragment"><strong>Problem:</strong> No systematic way to find V(x)</li>
+						<li class="fragment"><strong>Art:</strong> Requires intuition and experience</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Biology:</strong> Homeostasis, neural equilibria, population dynamics
+					</div>
 				</section>
 
 				<section>
@@ -405,11 +541,11 @@ Pontryagin's principle
 			<section>
 				<section>
 					<h2>4. Phase space and attractors</h2>
-					<h3>Visualizing System Behavior</h3>
+					<h3>Visualizing system behavior</h3>
 				</section>
 
 				<section>
-					<h3>Phase Space</h3>
+					<h3>Phase space</h3>
 					<p>The space of all possible states of a dynamical system</p>
 					<div class="equation">
 						$$\text{Phase space} = \{(x_1, x_2, \ldots, x_n) : x_i \in \mathbb{R}\}$$
@@ -425,7 +561,7 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Phase Portraits</h3>
+					<h3>Phase portraits</h3>
 					<p>Visual representation of system dynamics in phase space</p>
 					<ul class="fragment">
 						<li><strong>Vector field:</strong> Shows direction of flow at each point</li>
@@ -435,6 +571,70 @@ Pontryagin's principle
 					<div class="fragment bio-example">
 						<strong>Insight:</strong> Phase portraits reveal global behavior patterns
 					</div>
+				</section>
+
+				<section>
+					<h3>Van der Pol oscillator</h3>
+					<p>Classic nonlinear oscillator with limit cycle behavior</p>
+					<div class="equation">
+						$$\ddot{x} - \mu(1-x^2)\dot{x} + x = 0$$
+					</div>
+					<div class="r-stack" style="" >
+					<div id="vanderpol-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<img src="van_der_pol_phase.png" 
+						 alt="Van der Pol oscillator limit cycle" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The Van der Pol oscillator is a classic example of a nonlinear system with a stable limit cycle.
+						When μ = 0, it's a harmonic oscillator. As μ increases, nonlinear damping creates a limit cycle.
+						This is fundamental in understanding biological oscillators like heart rhythms and neural oscillations.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Poles in phase space</h3>
+					<p>For linear systems: ẋ = Ax, behavior determined by eigenvalues of A</p>
+					<div class="equation fragment">
+						$$\text{Characteristic equation: } \det(A - \lambda I) = 0$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Poles (λ):</strong> Eigenvalues of matrix A</li>
+						<li><strong>Left half-plane:</strong> Re(λ) < 0 → Stable (decay)</li>
+						<li><strong>Right half-plane:</strong> Re(λ) > 0 → Unstable (growth)</li>
+						<li><strong>Imaginary axis:</strong> Re(λ) = 0 → Oscillatory</li>
+					</ul>
+					<p class="fragment">For non-linear systems: vector field becomes infinite <small>(not good)</small></p>
+				</section>
+
+				<section>
+					<h3>Poincaré diagram</h3>
+					$\text{Tr} A$ = "average tendency", $\det A$ = "shape scaling"</p>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Stability_Diagram.png" 
+						 alt="Poincaré diagram" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+					<p class="fragment">Lyanunov stability: orbit "stays in neighborhood"</p>
+				</section>
+
+				<section>
+					<h3>Example: Harmonic oscillator (spring)</h3>
+					$$\begin{align*}
+					\dot{x} &= A \sin ( \omega t + \phi) \\
+					\omega &= \sqrt{\frac{k}{m}} \quad \text{(angular frequency)} \\
+					\end{align*}$$
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Simple_Harmonic_Motion_Orbit.gif/380px-Simple_Harmonic_Motion_Orbit.gif" 
+						 alt="Harmonic oscillator phase space" 
+						 style="width: 40%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;">
+				</section>
+
+				<section>
+					<h3>Ex: Dampened harmonic oscillator </h3>
+					$$
+					\ddot{x} + 2\gamma \dot{x} + \omega^2 x = 0
+					$$
+					<img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Phase_portrait_of_damped_oscillator%2C_with_increasing_damping_strength.gif" 
+						 alt="Dampened harmonic oscillator phase space" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -30px;" class="fragment">
 				</section>
 
 				<section>
@@ -448,6 +648,25 @@ Pontryagin's principle
 					<div class="fragment bio-example">
 						<strong>Biology:</strong> Fixed points → memory states, Limit cycles → rhythmic behaviors
 					</div>
+				</section>
+
+				<section>
+					<h3>Van der Pol Oscillator</h3>
+					<p>Classic nonlinear oscillator with limit cycle behavior</p>
+					<div class="equation">
+						$$\ddot{x} - \mu(1-x^2)\dot{x} + x = 0$$
+					</div>
+					<div class="r-stack" style="" >
+					<div id="vanderpol-sim-container" style="height: 300px; margin: 20px 0;"></div>
+					<img src="van_der_pol_phase.png" 
+						 alt="Van der Pol oscillator limit cycle" 
+						 style="width: 60%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: -20px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The Van der Pol oscillator is a classic example of a nonlinear system with a stable limit cycle.
+						When μ = 0, it's a harmonic oscillator. As μ increases, nonlinear damping creates a limit cycle.
+						This is fundamental in understanding biological oscillators like heart rhythms and neural oscillations.
+					</aside>
 				</section>
 
 				<section>
@@ -466,35 +685,16 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h3>Example: Pendulum Dynamics</h3>
-					<p>Classic example showing rich phase space structure</p>
-					<div class="equation">
-						$$\ddot{\theta} + \frac{g}{l}\sin\theta = 0$$
-						$$\text{or } \begin{cases} \dot{\theta} = \omega \\ \dot{\omega} = -\frac{g}{l}\sin\theta \end{cases}$$
-					</div>
-					<div class="fragment">
-						<ul>
-							<li><strong>Fixed points:</strong> $(\theta, \omega) = (0, 0), (\pi, 0)$</li>
-							<li><strong>Separatrices:</strong> Divide oscillation from rotation</li>
-							<li><strong>Conservation:</strong> Energy is conserved (Hamiltonian system)</li>
-						</ul>
-					</div>
-					<div class="fragment bio-example">
-						<strong>Bio-analogy:</strong> Neural oscillators, motor pattern generators
-					</div>
-				</section>
-
-				<section>
-					<h3>Attractor Networks in Biology</h3>
+					<h3>Attractor networks in biology</h3>
 					<p>How biological systems use attractors for computation</p>
 					<ul>
-						<li class="fragment"><strong>Hopfield networks:</strong> Fixed-point attractors for memory</li>
+						<li class="fragment"><strong>Hopfield networks:</strong> Fixed-point attractor memory</li>
 						<li class="fragment"><strong>Central pattern generators:</strong> Limit cycles for rhythmic motion</li>
 						<li class="fragment"><strong>Decision circuits:</strong> Winner-take-all dynamics</li>
 						<li class="fragment"><strong>Neural avalanches:</strong> Critical dynamics near bifurcations</li>
 					</ul>
 					<div class="fragment bio-example">
-						<strong>Key insight:</strong> Attractors provide robust computation despite noise
+						<strong>Key insight:</strong> Attractors are robust despite noise
 					</div>
 				</section>
 			</section>
@@ -528,6 +728,115 @@ Pontryagin's principle
 					<p class="fragment">Only train $W_{\text{out}}$ → computationally efficient</p>
 					<div class="fragment bio-example">
 						<strong>Biological inspiration:</strong> Cortical microcircuits as computational reservoirs
+					</div>
+				</section>
+
+				<section>
+					<h3>Adjoint Method for Backpropagation</h3>
+					<div class="r-stack">
+						<div>
+							<p>How to compute gradients through ODE solvers efficiently</p>
+							<div class="equation fragment">
+								$$\frac{dL}{d\theta} = -\int_{t_1}^{t_0} a(t)^T \frac{\partial f}{\partial \theta}(z(t), t, \theta) dt$$
+							</div>
+							<ul class="fragment">
+								<li><strong>Problem:</strong> Standard BP through ODE solver is costly</li>
+								<li><strong>Adjoint state a(t):</strong> variable flowing "backward"</li>
+								<li><strong>Memory trade-off:</strong> O(1) memory</li>
+							</ul>
+						</div>
+							<img src="adjoint.png" 
+								alt="Adjoint method for backpropagation" 
+								style="width: 70%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-top: 00px;" class="fragment">
+					</div>
+					<aside class="notes">
+						The adjoint method allows us to efficiently compute gradients through ODE solvers, which is crucial for training neural ODEs.
+						It uses a backward flow of information to compute gradients without storing all intermediate states.
+						This is particularly useful in deep learning where memory efficiency is critical.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Neural ODEs</h3>
+					Parameterize the derivative directly with neurons
+					<small>
+						<a href="http://arxiv.org/abs/1806.07366">Chen et al. 2019, Neuronal Ordinary Equations</a>
+					</small>
+					<div class="equation">
+						$$\frac{dh}{dt} = f_\theta(h(t), t)$$
+					</div>
+					<ul class="fragment">
+						<li><strong>f<sub>θ</sub>:</strong> Neural network with parameters θ</li>
+						<li><strong>Continuous depth:</strong> Infinite layers via integration</li>
+						<li><strong>Memory efficient:</strong> Adjoint method</li>
+						<li><strong>Adaptive computation:</strong> Error-controlled solvers</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Advantage:</strong> Efficient continuous dynamics
+					</div>
+				</section>
+
+				<section>
+					<h3>Neural ODEs ↔ Spiking Neural Networks</h3>
+					<p>Bridging continuous and event-driven computation
+						<br/>
+						<small>
+							<a href="http://arxiv.org/abs/2009.08378">Wunderlich & Pehle 2020, EventProp</a>
+						</small>
+					</p>
+					<div class="equation">
+						$$\tau \frac{dx}{dt} = -x + u$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Leaky integrate-and-fire:</strong> ODE until spike, hybrid</li>
+						<li><strong>Neural ODE perspective:</strong> Continuous dynamics</li>
+						<li><strong>Temporal coding:</strong> Information in spike timing</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Covariant Spiking Neural Networks</h3>
+					<p>Geometry preserving transformations in neuromorphic computation</p>
+					<div class="equation">
+						$$u(t) = \eta(t - t_f) + \int_0^{\infty} \kappa(s)I(t - s)ds$$
+					</div>
+					<ul class="fragment">
+						<li><strong>Spike-response model:</strong> κ (membrane), H (threshold), η (reset)</li>
+						<li><strong>Temporal scale covariance:</strong> T(t'; μ', μ'_r) = T(t; μ, μ_r)</li>
+						<li><strong>Geometric structure:</strong> Transformations preserve neural dynamics</li>
+						<li><strong>Lie group symmetries:</strong> Spatial affine + Galilean + temporal scaling</li>
+					</ul>
+					<div class="fragment bio-example">
+						<strong>Insight:</strong> Neural behavior has inherent geometric structure that can be preserved
+					</div>
+					<aside class="notes">
+						This slide introduces the concept that spiking neural networks can be designed to be covariant under 
+						geometric transformations. This means that the network's behavior transforms predictably when the 
+						input undergoes spatial or temporal transformations, preserving the geometric structure of behavior.
+					</aside>
+				</section>
+
+				<section>
+					<h3>Geometrization of Neural Processing</h3>
+					<p>From algebraic structures to computable geometric theories</p>
+					<div style="display: flex; gap: 20px; align-items: center;">
+						<div style="flex: 1;">
+							<ul>
+								<li class="fragment"><strong>Manifold structure:</strong> Neural state space as smooth manifold</li>
+								<li class="fragment"><strong>Lie groups:</strong> Transformations as group actions</li>
+								<li class="fragment"><strong>Covariance:</strong> Structure-preserving maps</li>
+								<li class="fragment"><strong>Scale spaces:</strong> Differentiable representations</li>
+							</ul>
+						</div>
+						<div style="flex: 0 0 300px;" class="fragment">
+							<div class="equation">
+								$$L'(x', t'; \Sigma', \tau', v') \leftrightarrow L(x, t; \Sigma, \tau, v)$$
+							</div>
+							<p><small>Commutative transformations preserve neural computation</small></p>
+						</div>
+					</div>
+					<div class="fragment bio-example">
+						<strong>Biological relevance:</strong> Retinal receptive fields show similar covariance properties
 					</div>
 				</section>
 
@@ -626,12 +935,12 @@ Pontryagin's principle
 				<section>
 					<h3>Design Principles</h3>
 					<div class="equation">
-						\begin{align}
+						$$\begin{align*}
 						\text{Observability} &\rightarrow \text{State estimation} \\
 						\text{Controllability} &\rightarrow \text{Control design} \\
 						\text{Stability} &\rightarrow \text{Robust operation} \\
 						\text{Optimality} &\rightarrow \text{Efficient control}
-						\end{align}
+						\end{align*}$$
 					</div>
 				</section>
 
@@ -701,11 +1010,28 @@ Pontryagin's principle
 				</section>
 
 				<section>
-					<h2>Questions?</h2>
-					<p>Thank you for your attention!</p>
-					<br>
-					<p><small>Telluride Neuromorphic Cognition Workshop 2025</small></p>
-				</section>
+				<h1 style="font-size: 250%;">Dynamical Systems for Control</h1>
+				<br/>
+				<h5>Telluride Neuromorphic Cognition Workshop 2025</h5>
+				<br/>
+				<p>
+					<strong>Jens Egholm Pedersen</strong>
+					<br/>
+					<span style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social </span>
+					&nbsp;
+					<span style="font-size: 80%;"><i class="fa fa-house"></i> <a href="https://jepedersen.dk">jepedersen.dk</a></span>
+				</p>
+				<div style="display: flex; justify-content: center; align-items: center; gap: 60px; font-size: 70%;">
+					<img src="../2304_NICE/kth.png" 
+						 alt="KTH Logo" 
+						 style="height: 70px;"> KTH Royal Institute of Technology
+				</div>
+				<aside class="notes">
+					Welcome to this tutorial on dynamical systems for control. Today we'll journey from biological systems 
+					to modern computational approaches, building mathematical tools along the way.
+				</aside></section>
 			</section>
 		</div>
 	</div>
@@ -771,6 +1097,41 @@ Pontryagin's principle
 				});
 			}
 
+			// Initialize Van der Pol oscillator simulator
+			const vanderpolSimContainer = document.getElementById('vanderpol-sim-container');
+			if (vanderpolSimContainer) {
+				window.vanderpolSimulator = createDynamicalSystemsSimulator('vanderpol-sim-container', {
+					height: 300,
+					maxPoints: 200,
+					system: {
+						name: 'Van der Pol Oscillator',
+						equation: 'ẍ - μ(1-x²)ẋ + x = 0',
+						parameters: [
+							{ id: 'mu', label: 'Nonlinearity (μ)', min: 0, max: 3, step: 0.1, value: 1.0 }
+						],
+						initialState: { x: 2, y: 0, z: 0, t: 0 },
+						simulate: (params, state, dt) => {
+							const [mu] = params;
+							// Convert to first-order system: x1 = x, x2 = dx/dt
+							const dx1 = state.y;
+							const dx2 = mu * (1 - state.x * state.x) * state.y - state.x;
+							return {
+								x: state.x + dt * dx1,
+								y: state.y + dt * dx2,
+								z: 0,
+								t: state.t + dt
+							};
+						},
+						plotType: '2d',
+						plotConfig: {
+							title: 'Van der Pol Phase Portrait',
+							xaxis: { title: 'Position (x)', range: [-3, 3] },
+							yaxis: { title: 'Velocity (ẋ)', range: [-6, 6] }
+						}
+					}
+				});
+			}
+
 			// Initialize constant system simulator
 			const constantSimContainer = document.getElementById('constant-sim-container');
 			if (constantSimContainer) {
@@ -831,7 +1192,7 @@ Pontryagin's principle
 						plotConfig: {
 							title: 'Exponential Decay: ẋ = -λx + u',
 							xaxis: { title: 'Time', range: [0, 20] },
-							yaxis: { title: 'x(t)', range: [-8, 8] }
+							yaxis: { title: 'x(t)', range: null }
 						}
 					}
 				});
@@ -844,6 +1205,7 @@ Pontryagin's principle
 			const hasSimulator = currentSlide.querySelector('#sim-container');
 			const hasConstantSimulator = currentSlide.querySelector('#constant-sim-container');
 			const hasDecaySimulator = currentSlide.querySelector('#decay-sim-container');
+			const hasVanderpolSimulator = currentSlide.querySelector('#vanderpol-sim-container');
 			
 			// Manage original simulator
 			if (window.dynamicalSimulator) {
@@ -851,6 +1213,15 @@ Pontryagin's principle
 					window.dynamicalSimulator.startAnimation();
 				} else {
 					window.dynamicalSimulator.stopAnimation();
+				}
+			}
+			
+			// Manage Van der Pol simulator
+			if (window.vanderpolSimulator) {
+				if (hasVanderpolSimulator) {
+					window.vanderpolSimulator.startAnimation();
+				} else {
+					window.vanderpolSimulator.stopAnimation();
 				}
 			}
 			
