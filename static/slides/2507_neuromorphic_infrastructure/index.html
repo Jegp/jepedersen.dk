@@ -1,0 +1,408 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Accelerating Neuromorphic Computing</title>
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css"
+        />
+
+        <style>
+            .reveal {
+                font-family: "Source Sans Pro", Helvetica, sans-serif;
+                font-size: 32px; /* Balanced for HDMI visibility */
+            }
+
+            .reveal .slides {
+                width: 1920px;
+                height: 1080px;
+            }
+
+            .reveal .slides section {
+                text-align: left;
+                padding: 30px;
+                height: 100%;
+                box-sizing: border-box;
+            }
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3 {
+                color: #42a5f5;
+                text-align: center;
+                margin-bottom: 0.8em;
+            }
+
+            .reveal .title-slide h1 {
+                font-size: 2em;
+                margin-bottom: 0.5em;
+            }
+
+            .reveal .title-slide h2 {
+                font-size: 1.2em;
+                color: #90caf9;
+                font-weight: normal;
+            }
+
+            .reveal h2 {
+                font-size: 1.6em;
+                margin-bottom: 0.7em;
+            }
+
+            .library-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.2em;
+                margin: 0.6em 0;
+            }
+
+            .library-card {
+                background-color: rgba(66, 165, 245, 0.1);
+                padding: 1em;
+                border-radius: 8px;
+                border-left: 4px solid #42a5f5;
+                height: fit-content;
+            }
+
+            .library-card h3 {
+                margin-top: 0;
+                margin-bottom: 0.4em;
+                text-align: left;
+                font-size: 1em;
+            }
+
+            .library-card p {
+                margin: 0.3em 0;
+                font-size: 0.9em;
+                line-height: 1.3;
+            }
+
+            .library-card .metric {
+                color: #4caf50;
+                font-weight: bold;
+                font-size: 0.95em;
+            }
+
+            .lesson-highlight {
+                background-color: rgba(255, 193, 7, 0.2);
+                padding: 0.8em;
+                border-radius: 8px;
+                border-left: 4px solid #ffc107;
+                margin: 0.6em 0;
+            }
+
+            .lesson-highlight h3 {
+                font-size: 1em;
+                margin-bottom: 0.4em;
+                text-align: left;
+            }
+
+            .lesson-highlight p {
+                font-size: 0.9em;
+                line-height: 1.4;
+                margin: 0;
+            }
+
+            .quote {
+                font-style: italic;
+                color: #90caf9;
+                font-size: 1em;
+                margin: 0.7em 0;
+                padding-left: 1em;
+                border-left: 3px solid #42a5f5;
+            }
+
+            .stat {
+                font-size: 1.4em;
+                color: #ffc107;
+                font-weight: bold;
+                text-align: center;
+                margin: 0.5em 0;
+            }
+
+            .reveal ul {
+                display: block;
+                margin-left: 1em;
+                font-size: 0.9em;
+            }
+
+            .reveal li {
+                margin-bottom: 0.4em;
+            }
+
+            .reveal .progress {
+                color: #42a5f5;
+            }
+
+            .timing {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.6em;
+                color: #666;
+            }
+
+            .center-content {
+                text-align: center !important;
+            }
+
+            .large-text {
+                font-size: 1.1em;
+                line-height: 1.4;
+            }
+
+            .onm-highlight {
+                background-color: rgba(76, 175, 80, 0.2);
+                padding: 0.8em;
+                border-radius: 8px;
+                border-left: 4px solid #4caf50;
+                margin: 0.6em 0;
+            }
+
+            .onm-highlight h3 {
+                font-size: 1em;
+                margin-bottom: 0.4em;
+                text-align: left;
+            }
+
+            .future-focus {
+                background-color: rgba(156, 39, 176, 0.2);
+                padding: 0.8em;
+                border-radius: 8px;
+                border-left: 4px solid #9c27b0;
+                margin: 0.6em 0;
+            }
+
+            .future-focus h3 {
+                font-size: 1em;
+                margin-bottom: 0.4em;
+                text-align: left;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <!-- Slide 1: Title & Introduction (60s) -->
+                <section class="title-slide center-content">
+                    <h1>Accelerating Neuromorphic Computing, Together</h1>
+                    <h2>Collaboration, Competition, and KPIs</h2>
+                    <br />
+                    <p class="large-text">Jens E. Pedersen</p>
+                    <p>Chair, Open Neuromorphic | PhD Candidate, KTH</p>
+                    <br />
+                    <p class="quote center-content">
+                        "What I cannot build I do not understand" - Richard
+                        Feynman
+                    </p>
+                </section>
+
+                <!-- Slide 2: Individual & Community Contributions (90s) -->
+                <section>
+                    <h2>Building Blocks: My Contributions</h2>
+                    <div class="library-grid">
+                        <div class="library-card">
+                            <h3>🔗 NIR</h3>
+                            <p><strong>Common language</strong></p>
+                            <p class="metric">12+ platforms</p>
+                        </div>
+                        <div class="library-card">
+                            <h3>⚡ AEStream</h3>
+                            <p><strong>Event processing</strong></p>
+                            <p class="metric">Real-time event-processing</p>
+                        </div>
+                    </div>
+                    <div class="library-grid">
+                        <div class="library-card">
+                            <h3>🧠 Norse</h3>
+                            <p><strong>PyTorch SNNs</strong></p>
+                            <p class="metric">Familiar API</p>
+                        </div>
+                        <div class="library-card">
+                            <h3>🧚 Faery</h3>
+                            <p><strong>Universal processing</strong></p>
+                            <p class="metric">Faster & cleaner</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slide 3: Development Lessons Learned (90s) -->
+                <section>
+                    <h2>Lessons for Building Better Infrastructure</h2>
+
+                    <div class="lesson-highlight">
+                        <h3>🔧 Standards Enable Innovation</h3>
+                        <p>We need more community-driven standards.</p>
+                    </div>
+
+                    <div class="lesson-highlight">
+                        <h3>⚡ Performance Through Collaboration</h3>
+                        <p>Community efforts and benchmarks are crucial.</p>
+                    </div>
+
+                    <div class="lesson-highlight">
+                        <h3>🧠 Lower Barriers, Wider Adoption</h3>
+                        <p>Community documentation scales impact.</p>
+                    </div>
+                </section>
+
+                <!-- Slide 4: Future Plans (60s) -->
+                <section>
+                    <h2>What's Next: Community-First Vision</h2>
+
+                    <div class="future-focus">
+                        <h3>🔮 Near-term Community Goals</h3>
+                        <ul>
+                            <li>
+                                <strong>Standards:</strong> A "Neuromorphic"
+                                ONNX from idea to deployment
+                            </li>
+                            <li>
+                                <strong>Benchmarks:</strong> "Real" metrics for
+                                realistic scenarios
+                            </li>
+                            <li>
+                                <strong>Education:</strong> Up-to-date
+                                entry-level material
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="future-focus">
+                        <h3>🚀 Long-term Ecosystem Vision</h3>
+                        <ul>
+                            <li>
+                                Community-owned neuromorphic development stack
+                            </li>
+                            <li>
+                                Industry partnerships that benefit the ecosystem
+                            </li>
+                            <li>
+                                Sustainable funding models for open-source tools
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="timing">60s</div>
+                </section>
+
+                <!-- Slide 5: ONM Community Support & Focus (60s) -->
+                <section>
+                    <h2>My take-aways</h2>
+
+                    <div class="onm-highlight">
+                        <h3>🌐 What ONM Can Do</h3>
+                        <ul>
+                            <li>
+                                <strong>Standardization:</strong> Promote
+                                adoption, engage benchmarks
+                            </li>
+                            <li>
+                                <strong>Education:</strong> Collaborate on
+                                tutorials, workshops, and guides
+                            </li>
+                            <li>
+                                <strong>Integration:</strong> Open conversations
+                                about workflows and tooling
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="onm-highlight">
+                        <h3>🎯 Community Focus Areas</h3>
+                        <ul>
+                            <li>
+                                Bridge the gap between neuroscience and
+                                engineering
+                            </li>
+                            <li>
+                                Create "neuromorphic stack" - from sensors to
+                                deployment
+                            </li>
+                            <li>
+                                Foster industry partnerships, not just academic
+                                projects
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Slide 6: Call to Action (40s) -->
+                <section class="center-content">
+                    <h2>
+                        Collaborate <span class="fragment">- or die 💀</span>
+                    </h2>
+                    <div class="onm-highlight center-content">
+                        <p class="large-text">
+                            How do we make neuromorphic computing
+                            <em>boring</em>?<br />
+                            <small
+                                >(In the best way - reliable, predictable, just
+                                works)</small
+                            >
+                        </p>
+                    </div>
+
+                    <div class="center-content">
+                        <p class="quote center fragment">
+                            Which applications and processors can be enhanced by
+                            NM compute? - Muir & Sheik, 2025
+                        </p>
+                        <p class="quote center fragment">
+                            We should identify common primitives that can be
+                            connected in a heterogeneous fashion and be further
+                            integrated to develop multi-use architectures -
+                            Kudithipudi et al., 2025
+                        </p>
+                    </div>
+
+                    <br />
+                </section>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+        <script>
+            Reveal.initialize({
+                hash: true,
+                controls: true,
+                progress: true,
+                center: false,
+                transition: "slide",
+                transitionSpeed: "default",
+                backgroundTransition: "fade",
+            });
+
+            // Auto-advance slides for 5-minute total presentation
+            // Comment out for manual control during presentation
+            /*
+        let slideTimings = [60, 90, 90, 60, 60, 40]; // seconds per slide (5 minutes total)
+        let currentSlide = 0;
+
+        function autoAdvance() {
+            if (currentSlide < slideTimings.length - 1) {
+                setTimeout(() => {
+                    Reveal.next();
+                    currentSlide++;
+                    autoAdvance();
+                }, slideTimings[currentSlide] * 1000);
+            }
+        }
+
+        // Uncomment to enable auto-advance
+        // autoAdvance();
+        */
+        </script>
+    </body>
+</html>
