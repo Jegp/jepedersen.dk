@@ -73,6 +73,10 @@
             letter-spacing: -0.025em;
         }
 
+        .reveal h1.main-title {
+            font-size: 2.8em; /* Reduced main title font size */
+        }
+
         .reveal h2 {
             border-bottom: 3px solid var(--color-accent-new);
             padding-bottom: 15px;
@@ -80,11 +84,11 @@
 
         /* Adjusted styles for list items */
         .reveal .slides ul li {
-            margin-bottom: 0.9em; /* Adjusted spacing to prevent clipping */
+            margin-bottom: 0.9em;
         }
 
         .reveal .slides ul li strong {
-            color: var(--color-accent-new); /* Added color to bolded text */
+            color: var(--color-accent-new);
         }
         /* End of adjusted styles */
 
@@ -92,8 +96,8 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin: 30px 0;
-            padding: 30px;
+            margin: 15px 0; /* Further reduced margin */
+            padding: 15px; /* Further reduced padding */
             background: rgba(239, 68, 68, 0.1);
             border-radius: 12px;
             border: 2px solid #ef4444;
@@ -105,23 +109,23 @@
         }
 
         .energy-stat .number {
-            font-size: 3em;
+            font-size: 2.2em; /* Further reduced font size */
             font-weight: bold;
             color: #fbbf24;
             display: block;
         }
 
         .energy-stat .label {
-            font-size: 1.2em;
+            font-size: 1.0em; /* Further reduced font size */
             color: #cbd5e1;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .vs {
-            font-size: 2.5em;
+            font-size: 2.0em; /* Further reduced font size */
             color: #ef4444;
             font-weight: bold;
-            margin: 0 20px;
+            margin: 0 15px;
         }
 
         .logo-grid {
@@ -248,7 +252,7 @@
     <div class="slides">
         <!-- Title Slide -->
         <section>
-            <h1>
+            <h1 class="main-title">
                 The Unseen Cost of AI: Why Neuromorphic Hardware is the
                 Future
             </h1>
