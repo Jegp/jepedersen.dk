@@ -1,0 +1,535 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>
+        Neuromorphic Computing: Bridging Turing's and Newton's Domains
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css" />
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-align: center;
+        }
+
+        .reveal .title-slide {
+            text-align: center;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .credit {
+            font-size: 0.6em;
+            color: #888;
+            text-align: center;
+            margin: 40px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+
+                <section class="title-slide" style="text-align: center">
+                    <h1>Where Turing and Newton meet</h1>
+                    <h2 class="fragment">
+                        Neuromorphic computing through mixed-signal systems
+                    </h2>
+                    <strong>Jens Egholm Pedersen</strong><br />
+                    Postdoc, jegpe@dtu.dk
+                </section>
+                <section style="text-align: center">
+                    <h3>Title shamelessly appropriated from</h3>
+                    <a href="https://jontalle.web.engr.illinois.edu/TEACH/TuringMeetsNewton-lblum-vs.cmu.edu2.pdf"><b>Lenora
+                            Blum:</b> Computing over the Reals: Where Turing Meets Newton, 2004</a>
+                    <p class="fragment">
+                        Slides available at <tt>jepedersen.dk</tt>
+                    </p>
+                </section>
+            </section>
+
+            <!-- Abstract/Overview -->
+            <section>
+                <h2>Overview</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Turing</h3>
+                        <ul>
+                            <li>State machines</li>
+                            <li>Boolean algebra</li>
+                            <li>"New" problems</li>
+                        </ul>
+                        <br />
+                        <br />
+                        <p class="fragment"><b>Computations as state transitions</b>
+                            <br />
+                            $\mathbb{B}^N \to \mathbb{B}^M$
+                        </p>
+                    </div>
+                    <div class="column" style="flex-grow: 1.3;">
+                        <h3>Newton</h3>
+                        <ul>
+                            <li>Continuous dynamics</li>
+                            <li>Differential equations</li>
+                            <li>"Classical" problems</li>
+                        </ul>
+                        <br />
+                        <br />
+                        <p class="fragment"><b>Uncharted territory (mostly)</b></p>
+                        <p class="fragment">
+                            <br />
+                            $\mathbb{R}^N \to \mathbb{R}^M$
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <!-- Talk Structure -->
+            <section>
+                <h2>Talk Structure</h2>
+                <ol>
+                    <!--  First, I motivate neuromorphic computing from the perspective of computer science, followed by application examples for signal processing and my own research on computational abstractions. -->
+                    <li class="fragment">
+                        <strong>Computer Science Perspective</strong>
+                        <ul>
+                            <li>Motivation for neuromorphic computing</li>
+                            <li>Signal processing applications</li>
+                        </ul>
+                    </li>
+                    <!-- Second, I motivate neuromorphic computing from the perspective of physics, followed by a demonstration of event-based cameras and my own research on covariant spiking neural networks, that is, networks that preserve transformational structure. -->
+                    <li class="fragment">
+                        <strong>Physics Perspective</strong>
+                        <ul>
+                            <li>Physical motivation</li>
+                            <li>Event-based cameras demonstration</li>
+                        </ul>
+                    </li>
+                    <!-- Finally, we discuss how the establishment of computational models along with structure-preserving maps, positions neuromorphic computing to outcompete conventional systems within certain classes of problems by several orders of magnitude in terms of energy efficiency and processing speed. -->
+                    <li class="fragment">
+                        <strong>Computational Models & Performance</strong>
+                        <ul>
+                            <li>Energy and performance gains</li>
+                            <li>Covariant spiking neural networks</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Part 1: Computer Science Perspective -->
+            <!--  First, I motivate neuromorphic computing from the perspective of computer science, followed by application examples for signal processing and my own research on computational abstractions. -->
+            <section>
+                <section>
+                    <h1>Part I</h1>
+                    <h2>Computer science perspective</h2>
+                </section>
+
+                <section>
+                    <h2>Computational classes</h2>
+                    <img src="compfun.png" alt="Computational Functions" style="margin: 0 auto; display: block;" />
+                </section>
+
+                <section>
+                    <h3>Church-Turing theory</h3>
+                    <p class="fragment">
+                        Any function that can be computed by an algorithm
+                        can be computed by a Turing machine.
+                        <span class="credit"> (Alonzo Church and Alan Turing,
+                            around 1936)</span>
+                    </p>
+
+                    <h3 class="fragment">Church-Turing-Deutch principle</h3>
+                    <p class="fragment">
+                        Any physical process can be simulated by a
+                        universal computer to arbitrary precision.
+                        <span class="credit"> (David Deutsch, 1985)</span>
+                    </p>
+
+                    <!-- <h3 class="fragment">Blum-Shub-Smale model</h3> -->
+
+                    <p class="fragment">
+                        ... if you wait long enough.
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Motivation for brain-inspired computing</h2>
+
+                    <img src="../2409_DIT/computerandbrain.jpg" alt="Computer and Brain"
+                        style="margin: 0 auto; display: block; height:400px;" />
+                    <p class="credit">von Neumann, 1958</p>
+                </section>
+
+                <section>
+                    <h2>Motivation for Neuromorphic Computing</h2>
+                    <div class="two-column">
+                        <div class="column fragment">
+                            <h3>Von Neumann Architecture</h3>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png"
+                                alt="Von Neumann Architecture" style="margin: 0 auto; display: block;" />
+                            <p class="credit">Wikipedia</p>
+                        </div>
+                        <div class="column">
+                            <h3 class="fragment">Pain points</h3>
+                            <ul>
+                                <li class="fragment">von Neumann bottleneck</li>
+                                <li class="fragment">Power consumption challenges</li>
+                                <li class="fragment">Real-time processing requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A lot of room to improve</h3>
+                    <img src="energy_limit.png" alt="Energy Limit"
+                        style="margin: 0 auto; display: block; height:600px;" />
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/10363573">Shankar, Energy Estimates,
+                            2023</a></p>
+                </section>
+
+                <section>
+                    <h2>Spiking neuron models</h2>
+                    <img src="srm.png" alt="Spiking Neuron Models" style="margin: 0 auto; display: block;" />
+                </section>
+
+                <section>
+                    <h2>Neuromorphic Intermediate Representation (NIR)</h2>
+                    <p>Defines <i>physical</i> computational primitives as ODEs</p>
+                    <div class="r-stack">
+                        <img src="nir.png" alt="Neuromorphic Intermediate Representation"
+                            style="margin: 0 auto; display: block;" class="fragment" />
+                        <img src="nir_hw.png" alt="Neuromorphic Intermediate Representation Hardware"
+                            style="margin: 0 auto; display: block;" class="fragment" />
+                    </div>
+                    <p class="credit">Pedersen et al., 2024</p>
+                </section>
+
+                <section>
+                    <h2>Neuromorphic signal processing</h2>
+                    <p class="fragment">Core tenet: physics <i>is</i> the computation</p>
+                    <ul>
+                        <li class="fragment">Sensory data processing <a class="credit"
+                                href="https://ieeexplore.ieee.org/document/10059327">(Arnold et al. Nonlinear demapping,
+                                2023)</a></li>
+                        <li class="fragment">Temporal pattern recognition <a class="credit"
+                                href="https://dl.acm.org/doi/10.1145/3584954.3584996">(Pedersen et al. Object tracking,
+                                2023)</a></li>
+                        <li class="fragment">Real-time control systems <a
+                                href="https://dx.doi.org/10.1088/2634-4386/addc15" class="credit">(Romero et al. Air
+                                Hockey player 2023)</a></li>
+                        <li class="fragment">Neuromorphic wavelets <span class="credit">(unpublished)</span></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Next steps: <br />Computational abstractions</h2>
+                    <p class="fragment">
+                        Building higher-level programming models for
+                        mixed-signal systems
+                    </p>
+                    <ul>
+                        <li class="fragment">Strengthen computational understanding</li>
+                        <li class="fragment">Port existing algorithms to mixed-signals</li>
+                        <li class="fragment">Put ODEs onto hardware, NIR as assembly</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Part 2: Physics Perspective -->
+            <!-- Second, I motivate neuromorphic computing from the perspective of physics, followed by a demonstration of event-based cameras and my own research on covariant spiking neural networks, that is, networks that preserve transformational structure. -->
+            <section>
+                <section>
+                    <h1>Part II</h1>
+                    <h2>Physics perspective</h2>
+                </section>
+
+                <section>
+                    <h2>Where are we...</h2>
+                    <img src="dynamics_frontier.png" alt="Dynamics Frontier" style="margin: 0 auto; display: block;" />
+                    <p class="credit">Adopted from Strogatz, "Nonlinear Dynamics and Chaos", 2019</p>
+                </section>
+
+                <section>
+                    <h3>Correspondence between neural and electrical systems</h3>
+                    <div class="two-column" style="margin: 0 auto; text-align: center;">
+                        <div class="column">
+                            <h4>MOS transistor current</h4>
+                            <img src="transistor.png" alt="Transistor vs Neuron"
+                                style="margin: 0 auto; display: block; " />
+                        </div>
+                        <div class="column fragment">
+                            <h4>Membrane conductance</h4>
+                            <img src="conductance.png" alt="Ion Channel Conductance"
+                                style="margin: 0 auto; display: block;" />
+                        </div>
+                    </div>
+                    <p class="credit">Mead 1990</p>
+                </section>
+
+                <section>
+                    <h2>Biological inspiration</h2>
+                    <div class="two-column">
+                        <div class="column">
+                            <h3>VLSI neuron</h3>
+                            <img src="servo_circuit.png" alt="Servo Circuit" style="margin: 0 auto; display: block;" />
+                        </div>
+                        <div class="column fragment">
+                            <h3>VLSI neuron response</h3>
+                            <img src="neuron_control.png" alt="Neuron" style="margin: 0 auto; display: block;" />
+                        </div>
+                    </div>
+                    <p class="credit"><a href="https://authors.library.caltech.edu/53092/1/00080335.pdf">DeWeerth et al.
+                            A simple neuron serve, 1994</a></p>
+                </section>
+
+                <section>
+                    <h2>What the frog's eyes tell the frog's brain</h2>
+                    <div class="two-column">
+                        <div class="column" style="flex-grow: 1.5;">
+                            Frogs eyes are "bug detectors"
+                            <br />
+                            <br />
+                            <ul>
+                                <li class="fragment">Sharp, dark, moving edges</li>
+                                <li class="fragment">Independent of luminosity</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <img src="frog.png" alt="Frog brain"
+                                style="margin: 0 auto; display: block; height:400px;" />
+                        </div>
+                    </div>
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/4065609">Lettvin et al., 1959</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Transformation covariance</h2>
+                    Signal $x$, transformation $g$, operator $\phi$
+                    $$
+                    g \cdot \phi = \phi' \cdot g'
+                    $$
+                    <img src="covariance.png" alt="Covariance" style="margin: 0 auto; display: block;"
+                        class="fragment" />
+                </section>
+
+                <section>
+                    <h2>Event-Based Cameras</h2>
+                    <div class="r-stack">
+                        <img src="event_sensor.png" alt="Event-Based Camera" style="margin: 0 auto; display: block;" />
+                        <video src="../2409_DIT/westmead_3d_small.mp4" autoplay loop muted controls
+                            style="margin: 0 auto; display: block;" class="fragment"></video>
+                    </div>
+                    <p class="credit" style="margin-top: -20px;">Alexandre Mariceau, 2023</p>
+                    <p class="fragment">
+                        Can we do covariant processing with event-based data?
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Covariant spiking neural networks</h3>
+                    <div class="r-stack">
+                        <img src="rfs.png" alt="Receptive Fields" style="margin: 0 auto; display: block;"
+                            class="fragment" />
+                        <img src="model.png" alt="Covariant Spiking Neural Networks"
+                            style="margin: 0 auto; display: block; height: 400px;" class="fragment" />
+                        <img src="rfs_result.png" alt="Receptive Field Results" style="margin: 0 auto; display: block;"
+                            class="fragment" />
+                    </div>
+                </section>
+
+            </section>
+
+            <!-- Part 3: Computational Models & Performance -->
+            <!-- Finally, we discuss how the establishment of computational models along with structure-preserving maps, positions neuromorphic computing to outcompete conventional systems within certain classes of problems by several orders of magnitude in terms of energy efficiency and processing speed. -->
+            <section>
+                <section>
+                    <h1>Part III</h1>
+                    <h2>Computational models & performance</h2>
+                </section>
+
+                <section>
+                    <h2>The story so far</h2>
+                    <ul>
+                        <li class="fragment">
+                            We are motivated by energy and performance constraints
+                        </li>
+                        <li class="fragment">
+                            We know biological systems/mixed signal systems are efficient
+                        </li>
+                        <li class="fragment">
+                            ... but we lack computational models
+                        </li>
+                        <li class="fragment">
+                            ... and practical benefits are still unclear
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>von Neumann vs neuromorphic</h2>
+                    <div class="two-column" style="font-size: 80%;">
+                        <div class="column">
+                            <h3>Von Neumann</h3>
+                            <ul>
+                                <li class="fragment">Space efficiency</li>
+                                <li class="fragment">Dense, homogenous workloads</li>
+                                <li class="fragment">Memory scaling</li>
+                                <li class="fragment">Single instruction, multiple data (SIMD)</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h3>Neuromorphic</h3>
+                            <ul>
+                                <li class="fragment">Time complexity</li>
+                                <li class="fragment">Sparse, heterogeneous workloads</li>
+                                <li class="fragment">Energy scaling</li>
+                                <li class="fragment">Multiple instructions, multiple data (MIMD)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="credit"><a href="https://arxiv.org/abs/2507.17886v1">Aimone 2025</a></p>
+                </section>
+
+                <section>
+                    <h2>Structure-preserving computational models</h2>
+                    <p class="fragment">Establishing formal mathematical foundations for mixed-signal computing</p>
+                    <ul>
+                        <li class="fragment">Morphisms between computational domains: $\mathbb{B}^N \leftrightarrow
+                            \mathbb{R}^M$</li>
+                        <li class="fragment">Preservation of essential properties under transformations</li>
+                        <li class="fragment">Compositional reasoning about hybrid systems</li>
+                        <li class="fragment">Guaranteed correctness across signal domains</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Performance advantages</h2>
+                    <div class="two-column">
+                        <div class="column">
+                            <h3>Energy efficiency</h3>
+                            <ul>
+                                <li class="fragment">Event-driven computation</li>
+                                <li class="fragment">Sparse activity patterns</li>
+                                <li class="fragment">Orders of magnitude improvement for specific workloads</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h3>Processing speed</h3>
+                            <ul>
+                                <li class="fragment">Parallel, distributed processing</li>
+                                <li class="fragment">Real-time capabilities</li>
+                                <li class="fragment">Low latency responses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Problem classes where neuromorphic excels</h2>
+                    <ul>
+                        <li class="fragment">Temporal pattern recognition in sparse data</li>
+                        <li class="fragment">Real-time sensorimotor control</li>
+                        <li class="fragment">Adaptive signal processing with covariance constraints</li>
+                        <li class="fragment">Event-driven optimization problems</li>
+                        <li class="fragment">Mixed-signal approximate computing</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Conclusion -->
+            <section>
+                <section>
+                    <h2>Summary</h2>
+                    <ul>
+                        <li class="fragment">
+                            <span class="highlight">Mixed-signal processors</span> naturally handle both discrete events
+                            and continuous dynamics
+                        </li>
+                        <li class="fragment">
+                            <span class="highlight">Event-driven filtering</span> achieves sparse, adaptive signal
+                            processing with inherent noise robustness
+                        </li>
+                        <li class="fragment">
+                            <span class="highlight">Covariant architectures</span> preserve transformational
+                            structure—translation, rotation, scaling—without explicit computation
+                        </li>
+                        <li class="fragment">
+                            <span class="highlight">Energy-delay trade-offs</span> favor neuromorphic for real-time,
+                            sparse, temporal pattern recognition tasks
+                        </li>
+                        <li class="fragment">
+                            <span class="highlight">ODEs as computational primitives</span> open new algorithmic
+                            possibilities beyond traditional DSP
+                        </li>
+                    </ul>
+                </section>
+
+
+                <section class="title-slide" style="text-align: center">
+                    <h1>Where Turing and Newton meet</h1>
+                    <h2>
+                        Neuromorphic computing through mixed-signal systems
+                    </h2>
+                    <strong>Jens Egholm Pedersen</strong><br />
+                    Postdoc, jegpe@dtu.dk
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/math/math.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: "slide",
+            transitionSpeed: "default",
+            backgroundTransition: "fade",
+            margin: 0.02,
+            slideNumber: "c/t",
+            width: 1024,
+            height: 768,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3],
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
