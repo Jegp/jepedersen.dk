@@ -158,10 +158,10 @@
                         Any function that can be computed by an algorithm
                         can be computed by a Turing machine.
                         <span class="credit"> (Alonzo Church and Alan Turing,
-                            around 1936)</span>
+                            ~1936)</span>
                     </p>
 
-                    <h3 class="fragment">Church-Turing-Deutch principle</h3>
+                    <h3 class="fragment">Church-Turing-Deutsch principle</h3>
                     <p class="fragment">
                         Any physical process can be simulated by a
                         universal computer to arbitrary precision.
@@ -173,14 +173,6 @@
                     <p class="fragment">
                         ... if you wait long enough.
                     </p>
-                </section>
-
-                <section>
-                    <h2>Motivation for brain-inspired computing</h2>
-
-                    <img src="../2409_DIT/computerandbrain.jpg" alt="Computer and Brain"
-                        style="margin: 0 auto; display: block; height:400px;" />
-                    <p class="credit">von Neumann, 1958</p>
                 </section>
 
                 <section>
@@ -212,8 +204,22 @@
                 </section>
 
                 <section>
+                    <h2>Motivation for brain-inspired computing</h2>
+
+                    <img src="../2409_DIT/computerandbrain.jpg" alt="Computer and Brain"
+                        style="margin: 0 auto; display: block; height:400px;" />
+                    <p class="credit">von Neumann, 1958</p>
+                </section>
+
+                <section>
                     <h2>Spiking neuron models</h2>
                     <img src="srm.png" alt="Spiking Neuron Models" style="margin: 0 auto; display: block;" />
+                </section>
+
+                <section>
+                    <h2>How do we program neuromorphic systems?</h2>
+                    <img src="programming_nm.png" alt="Programming Neuromorphic Systems"
+                        style="margin: 0 auto; display: block; height: 500px;" />
                 </section>
 
                 <section>
@@ -303,14 +309,14 @@
                         </div>
                     </div>
                     <p class="credit"><a href="https://authors.library.caltech.edu/53092/1/00080335.pdf">DeWeerth et al.
-                            A simple neuron serve, 1994</a></p>
+                            A simple neuron servo, 1994</a></p>
                 </section>
 
                 <section>
                     <h2>What the frog's eyes tell the frog's brain</h2>
                     <div class="two-column">
                         <div class="column" style="flex-grow: 1.5;">
-                            Frogs eyes are "bug detectors"
+                            Frog eyes are "bug detectors"
                             <br />
                             <br />
                             <ul>
@@ -376,10 +382,11 @@
                     <h2>The story so far</h2>
                     <ul>
                         <li class="fragment">
-                            We are motivated by energy and performance constraints
+                            Motivation: <b>energy and performance constraints</b> <span class="fragment">and <b>highly
+                                    nonlinear and heterogeneous problems</b></span>
                         </li>
                         <li class="fragment">
-                            We know biological systems/mixed signal systems are efficient
+                            Inspiration: biological systems/mixed signal systems
                         </li>
                         <li class="fragment">
                             ... but we lack computational models
@@ -391,24 +398,25 @@
                 </section>
 
                 <section>
-                    <h2>von Neumann vs neuromorphic</h2>
+                    <h2>Which one is best?</h2>
+                    <h3>von Neumann vs neuromorphic</h3>
                     <div class="two-column" style="font-size: 80%;">
                         <div class="column">
-                            <h3>Von Neumann</h3>
                             <ul>
-                                <li class="fragment">Space efficiency</li>
-                                <li class="fragment">Dense, homogenous workloads</li>
-                                <li class="fragment">Memory scaling</li>
-                                <li class="fragment">Single instruction, multiple data (SIMD)</li>
+                                <li class="fragment" data-fragment-index="1">Space efficiency</li>
+                                <li class="fragment" data-fragment-index="2">Dense, homogeneous workloads</li>
+                                <li class="fragment" data-fragment-index="3">Memory scaling</li>
+                                <li class="fragment" data-fragment-index="4">Single instruction, multiple data (SIMD)</li>
+                                <li class="fragment" data-fragment-index="10">Fixed</li>
                             </ul>
                         </div>
                         <div class="column">
-                            <h3>Neuromorphic</h3>
                             <ul>
-                                <li class="fragment">Time complexity</li>
-                                <li class="fragment">Sparse, heterogeneous workloads</li>
-                                <li class="fragment">Energy scaling</li>
-                                <li class="fragment">Multiple instructions, multiple data (MIMD)</li>
+                                <li class="fragment" data-fragment-index="5">Time complexity</li>
+                                <li class="fragment" data-fragment-index="6">Sparse, heterogeneous workloads</li>
+                                <li class="fragment" data-fragment-index="7">Energy scaling</li>
+                                <li class="fragment" data-fragment-index="8">Multiple instructions, multiple data (MIMD)</li>
+                                <li class="fragment" data-fragment-index="9"><i>Plastic</i></li>
                             </ul>
                         </div>
                     </div>
@@ -416,48 +424,82 @@
                 </section>
 
                 <section>
-                    <h2>Structure-preserving computational models</h2>
-                    <p class="fragment">Establishing formal mathematical foundations for mixed-signal computing</p>
-                    <ul>
-                        <li class="fragment">Morphisms between computational domains: $\mathbb{B}^N \leftrightarrow
-                            \mathbb{R}^M$</li>
-                        <li class="fragment">Preservation of essential properties under transformations</li>
-                        <li class="fragment">Compositional reasoning about hybrid systems</li>
-                        <li class="fragment">Guaranteed correctness across signal domains</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h2>Performance advantages</h2>
-                    <div class="two-column">
-                        <div class="column">
-                            <h3>Energy efficiency</h3>
-                            <ul>
-                                <li class="fragment">Event-driven computation</li>
-                                <li class="fragment">Sparse activity patterns</li>
-                                <li class="fragment">Orders of magnitude improvement for specific workloads</li>
-                            </ul>
+                    <h2>Sweetspot:</h2>
+                    <h3>Compressible dynamical systems</h3>
+                    <div class="r-stack">
+                        <div class="fragment fade-in-then-out">
+                            <iframe width="840" height="472"
+                                src="https://www.youtube.com/embed/Tsvxx-GGlTg?si=tfbf70UmFj5c_4k5&amp;controls=0&autoplay=1"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                            <p class="credit">Marijn van Vliet, 2022</p>
                         </div>
-                        <div class="column">
-                            <h3>Processing speed</h3>
-                            <ul>
-                                <li class="fragment">Parallel, distributed processing</li>
-                                <li class="fragment">Real-time capabilities</li>
-                                <li class="fragment">Low latency responses</li>
-                            </ul>
+                        <div class="fragment">
+                            <iframe width="840" height="472"
+                                src="https://www.youtube.com/embed/LmHXD-3N-iw?si=ikIrr6P7cCCabUZy&amp;controls=0&autoplay=1"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen autoplay></iframe>
+                            <p class="credit">Carson Scott, 2020</p>
                         </div>
                     </div>
                 </section>
 
                 <section>
-                    <h2>Problem classes where neuromorphic excels</h2>
-                    <ul>
-                        <li class="fragment">Temporal pattern recognition in sparse data</li>
-                        <li class="fragment">Real-time sensorimotor control</li>
-                        <li class="fragment">Adaptive signal processing with covariance constraints</li>
-                        <li class="fragment">Event-driven optimization problems</li>
-                        <li class="fragment">Mixed-signal approximate computing</li>
-                    </ul>
+                    <h2>Neuromorphic hardware</h2>
+
+                    <div class="r-stack">
+                        <div class="two-column fragment fade-out" style=" vertical-align: middle;">
+                            <div class="column" style="flex-grow: 1.5;">
+                                <ul>
+                                    <li class="fragment" data-fragment-index="1">Digital ~10mW</li>
+                                    <li class="fragment" data-fragment-index="3">Mixed-signal ~1mW</li>
+                                    <li class="fragment" data-fragment-index="5">FPAA $\ll$ mW</li>
+                                </ul>
+                            </div>
+                            <div class="r-stack column">
+                                <div class="fragment fade-in-then-out" data-fragment-index="2">
+                                    <img src="Speck.png" alt="Speck Neuromorphic Chip"
+                                        style="margin: 0 auto; display: block; height: 400px;" />
+                                    <p class="credit">SynSense Speck</p>
+                                </div>
+                                <div class="fragment fade-in-then-out" data-fragment-index="4">
+                                    <img src="hicann.jpg" alt="HICANN Neuromorphic Chip"
+                                        style="margin: 0 auto; display: block; height: 400px;" />
+                                    <p class="credit">Pehle et al. 2023</p>
+                                </div>
+                                <div class="fragment fade-in-then-out" data-fragment-index="6">
+                                    <img src="vmm.png" alt="FPAA Neuromorphic Chip"
+                                        style="margin: 0 auto; display: block;" />
+                                    <p class="credit">Hasler and Shah 2018</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fragment">
+                            <img src="../2505_Tonik/4090.png" alt="FPAA" style="margin: 0 auto; display: block;" />
+                            <p class="credit">Nvidia 4090, ~500W</p>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h2>Plenty of room at the bottom</h2>
+                    <img src="nir_hw.png" alt="Neuromorphic Intermediate Representation Hardware"
+                        style="margin: 0 auto; display: block;" />
+
+                    <div style="width: 80%; margin: 0 auto;" class="fragment">
+                        <q>Quantum computing ... is analogous to an analog implementation</q>
+                        <p class="credit"><a href="https://www.mdpi.com/2079-9268/11/2/14">Hasler & Black 2021</a></p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>But we have to be careful</h2>
+                    <img src="synapse_memory.png" alt="Synapse Memory"
+                        style="margin: 0 auto; display: block; height: 400px;"/>
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/9927729/">Dampfhoffer et al. 2023</a></p>
                 </section>
             </section>
 
@@ -467,24 +509,22 @@
                     <h2>Summary</h2>
                     <ul>
                         <li class="fragment">
-                            <span class="highlight">Mixed-signal processors</span> naturally handle both discrete events
-                            and continuous dynamics
+                            <span class="highlight">Mathematical foundation:</span> ODEs as computations
+                            <span class="fragment">physics <i>is</i> computation</span>
                         </li>
                         <li class="fragment">
-                            <span class="highlight">Event-driven filtering</span> achieves sparse, adaptive signal
-                            processing with inherent noise robustness
+                            <span class="highlight">Mixed-signal computing:</span> Digital + analog
                         </li>
                         <li class="fragment">
-                            <span class="highlight">Covariant architectures</span> preserve transformational
-                            structure—translation, rotation, scaling—without explicit computation
+                            <span class="highlight">Performance advantage:</span> OOM gains (sometimes)
                         </li>
                         <li class="fragment">
-                            <span class="highlight">Energy-delay trade-offs</span> favor neuromorphic for real-time,
-                            sparse, temporal pattern recognition tasks
+                            <span class="highlight">Applications:</span> Event-based sensing, real-time control, 
+                            adaptive (antifragile) systems
                         </li>
+                        <li style="list-style: none;"><br/></li>
                         <li class="fragment">
-                            <span class="highlight">ODEs as computational primitives</span> open new algorithmic
-                            possibilities beyond traditional DSP
+                            <span class="highlight">Future outlook:</span> Analog hardware scaling approaches fundamental limits; Plasticity and adaptability
                         </li>
                     </ul>
                 </section>
