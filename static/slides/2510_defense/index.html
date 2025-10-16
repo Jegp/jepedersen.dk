@@ -1,0 +1,475 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>
+        Neuromorphic computation in space and time
+    </title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css" />
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-align: center;
+        }
+
+        .reveal .title-slide {
+            text-align: center;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .credit {
+            font-size: 0.6em;
+            color: #888;
+            text-align: center;
+            margin: 40px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+
+                <section class="title-slide" style="text-align: center">
+                    <h2>
+                        Neuromorphic computation in space and time
+                    </h2>
+                    <h3>On first-principles approaches to computation in mixed-signal systems</h3>
+                    <ul style="list-style-type: none;">
+                        <li><b>Candidate - </b>Jens Egholm Pedersen</li>
+                        <li><b>Supervisors - </b>Jörg Conradt & Arvind Kumar</li>
+                        <li><b>Opponent - </b>Jennifer Hasler</li>
+                        <li><b>Committee - </b>Dimos V. Dimarogonas, Charlotte Frenkel, & Ayca Özcelikkale</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Contributions</h2>
+                    <ul style="list-style-type: upper-roman;">
+                        <li>Neuromorphic intermediate representation: A unified instruction set for interoperable
+                            brain-inspired computing</li>
+                        <li>Q-S5: Towards quantized state space models</li>
+                        <li>Neuromorphic programming: Emerging directions for brain-inspired hardware</li>
+                        <li>Covariant spatio-temporal receptive fields for spiking neural networks</li>
+                        <li>GERD: Geometric event response data generation</li>
+                        <li>Translation and scale invariance for event-based object tracking</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Omitted contributions</h2>
+                    <ul style="list-style-type:upper-alpha; font-size: 90%;">
+                        <li>Closed-loop neuromorphic air hockey player with millisecond reaction time</li>
+                        <li>A Benchmarking Framework for Embodied Neuromorphic Agents</li>
+                        <li>Interdisciplinary and collaborative training in neuroscience: Insights from the human brain
+                            project education programme</li>
+                        <li>A high-throughput low-latency interface board for SpiNNaker-in-the-loop real-time systems
+                        </li>
+                        <li>AEStream: Accelerated event-based processing with coroutines</li>
+                        <li>Norse - a deep learning library for spiking neural networks</li>
+                    </ul>
+
+                </section>
+
+                <!-- Talk Structure -->
+                <section>
+                    <h2>Talk Structure</h2>
+                    <ol>
+                        <!--  First, I motivate neuromorphic computing from the perspective of computer science, followed by application examples for signal processing and my own research on computational abstractions. -->
+                        <li class="fragment">
+                            <strong>Real-time processing</strong>
+                            <ul>
+                                <li>Real-time event-based processing (III, IV, A, D, E)</li>
+                                <li>Spiking neural network accelerators (I, F)</li>
+                            </ul>
+                        </li>
+                        <!-- Second, I motivate neuromorphic computing from the perspective of physics, followed by a demonstration of event-based cameras and my own research on covariant spiking neural networks, that is, networks that preserve transformational structure. -->
+                        <li class="fragment">
+                            <strong>Axiomatic computation</strong>
+                            <ul>
+                                <li>Why axiomatization?</li>
+                                <li>Intermediate representations (I, II, III, F)</li>
+                            </ul>
+                        </li>
+                        <!-- Finally, we discuss how the establishment of computational models along with structure-preserving maps, positions neuromorphic computing to outcompete conventional systems within certain classes of problems by several orders of magnitude in terms of energy efficiency and processing speed. -->
+                        <li class="fragment">
+                            <strong>Geometric approach to event-based vision</strong>
+                            <ul>
+                                <li>Why geometrization?</li>
+                                <li>Covariant spiking neural networks (IV, V, VI, A, F)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h1>Part I</h1>
+                    <h2>Real-time event processing</h2>
+                </section>
+
+                <section>
+                    <h2>Event-based cameras</h2>
+                    <video src="../2409_DIT/westmead_3d_small.mp4" autoplay loop muted controls
+                        style="margin: 0 auto; display: block;" class="fragment"></video>
+                </section>
+
+                <section>
+                    <h2>The real-time workflow</h2>
+                    <img src="commodity_workflow.svg" alt="Commodity Workflow"
+                        style="margin: 0 auto; display: block; height: 400px;" />
+                </section>
+
+                <section>
+                    <h2>Demonstration: laser pointer tracking</h2>
+                    <div class="two-column">
+                        <div class="column">
+                            <img src="laser_schematic.svg" alt="Laser Pointer Tracking Schematic"
+                                style="margin: 0 auto; display: block; height: 400px;" />
+                        </div>
+                        <div class="column fragment">
+                            <img src="airhockey_latency.png" alt="Air Hockey Latency"
+                                style="margin: 0 auto; display: block; height: 400px;" />
+                            <p class="credit">Romero et al., 2025</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Open-source contributions</h2>
+                    <table>
+                        <tr>
+                            <th>Project</th>
+                            <th>Downloads</th>
+                        </tr>
+                        <tr>
+                            <td>AEStream</td>
+                            <td>~150k</td>
+                        </tr>
+                        <tr>
+                            <td>Durin</td>
+                            <td>~60k</td>
+                        </tr>
+                        <tr>
+                            <td>NIR</td>
+                            <td>~500k</td>
+                        </tr>
+                        <tr>
+                            <td>Norse</td>
+                            <td>~250k</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>~1M</td>
+                        </tr>
+                    </table>
+                </section>
+
+            </section>
+
+            <section>
+                <section>
+                    <h1>Part II</h1>
+                    <h2>Axiomatic computation</h2>
+                </section>
+
+                <section>
+                    <h2>Computational classes</h2>
+                    <img src="compfun.png" alt="Computational Functions" style="margin: 0 auto; display: block;" />
+                </section>
+
+                <section>
+                    <h2>Motivation for Neuromorphic Computing</h2>
+                    <div class="two-column">
+                        <div class="column fragment">
+                            <h3>Von Neumann Architecture</h3>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png"
+                                alt="Von Neumann Architecture" style="margin: 0 auto; display: block;" />
+                            <p class="credit">Wikipedia</p>
+                        </div>
+                        <div class="column">
+                            <h3 class="fragment">Pain points</h3><br />
+                            <ul>
+                                <li class="fragment">Memory bottleneck<br /><br /></li>
+                                <li class="fragment">Power consumption<br /><br /></li>
+                                <li class="fragment">Real-time processing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A lot of room to improve</h3>
+                    <img src="energy_limit.png" alt="Energy Limit"
+                        style="margin: 0 auto; display: block; height:600px;" />
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/10363573">Shankar, Energy Estimates,
+                            2023</a></p>
+                </section>
+
+                <section>
+                    <h2>How do we program neuromorphic systems?</h2>
+                    <img src="programming_nm.png" alt="Programming Neuromorphic Systems"
+                        style="margin: 0 auto; display: block; height: 500px;" />
+                    <p class="credit">Abreu & Pedersen, 2024</p>
+                </section>
+
+                <section>
+                    <h2>Neuromorphic Intermediate Representation (NIR)</h2>
+                    <p class="fragment">Defines <i>physical</i> computational primitives as ODEs</p>
+                    <div class="r-stack">
+                        <img src="nir.png" alt="Neuromorphic Intermediate Representation"
+                            style="margin: 0 auto; display: block;" class="fragment" />
+                        <img src="nir_hw.png" alt="Neuromorphic Intermediate Representation Hardware"
+                            style="margin: 0 auto; display: block;" class="fragment" />
+                    </div>
+                    <p class="credit">Pedersen et al., 2024</p>
+                </section>
+
+                <section>
+                    <h2>Why NIR?</h2>
+                    <ul>
+                        <li class="fragment">Interoperability between neuromorphic systems</li>
+                        <li class="fragment">Axiomatic approach</li>
+                        <li class="fragment">Hardware-software co-design</li>
+                        <li class="fragment">Facilitates benchmarking and reproducibility</li>
+                </section>
+
+                <section>
+                    <h2>Next: a neuromorphic programming model</h2>
+                    <ul>
+                        <li class="fragment">Clear and unambiguous "instructions" (axioms 1, 2)</li>
+                        <li class="fragment">Platform-independent representations (axiom 3)</li>
+                        <li class="fragment">Guaranteed semantic retention (axiom 4)</li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <section>
+                <section>
+                    <h1>Part III</h1>
+                    <h2>Geometric approach to event-based vision</h2>
+                </section>
+
+                <section>
+                    <h2>What the frog's eyes tell the frog's brain</h2>
+                    <div class="two-column">
+                        <div class="column fragment" style="flex-grow: 1.5;">
+                            Frog eyes are "bug detectors"
+                            <br />
+                            <br />
+                            <ul>
+                                <li class="fragment">Sharp, dark, moving edges</li>
+                                <li class="fragment">Independent of luminosity</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <img src="frog.png" alt="Frog brain"
+                                style="margin: 0 auto; display: block; height:400px;" />
+                        </div>
+                    </div>
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/4065609">Lettvin et al., 1959</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>How do we <div class="r-stack">
+                            <div class="fragment strike" data-fragment-index="2">
+                                <span class="fragment fade-out" data-fragment-index="3">model</span>
+                            </div>
+                            <div class="fragment" data-fragment-index="3">understand</div>
+                        </div>
+                        brains?</h2>
+                    <div class="fragment" data-fragment-index="1">
+                        <img src="dynamics_frontier.png" alt="Dynamics Frontier"
+                            style="margin: 0 auto; display: block;" />
+                        <p class="credit">Adopted from Strogatz, "Nonlinear Dynamics and Chaos", 2019</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Exploiting structure and symmetries</h2>
+                    <img src="covariance.png" alt="Covariance" style="margin: 0 auto; display: block; height: 300px;" />
+                    <table>
+                        <tr>
+                            <td>Signal: $x$</td>
+                            <td class="fragment">Sun rising: $g$</td>
+                            <td class="fragment">Bug detection: $x_\phi$</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td>Signal: $x$</td>
+                            <td class="fragment">Movement: $g$</td>
+                            <td class="fragment">Shape detection: $x_\phi$</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Tracking objects with event-based vision</h2>
+                    <div class="r-stack">
+                        <video src="circle_dense_raw_cropped.mp4" autoplay loop class="fragment fade-in-then-out"
+                            style="height: 550px;"></video>
+                        <video src="circle_sparse_raw_cropped.mp4" autoplay loop class="fragment fade-in-then-out">
+                        </video>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Covariant spiking neural networks</h3>
+                    <img src="network_plot.png" style="margin: 0;" />
+                    <p>
+                        <span class="fragment">Leaky Integrator (LI)</span><br />
+                        <span class="fragment">vs. Leaky Integrate-and-Fire (LIF)</span><br />
+                        <span class="fragment">vs. Artificial Neural Network (ANN)</span><span class="fragment"> &mdash;
+                            with 8 frames</span>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Tracking sparse objects</h2>
+                    <div class="r-stack">
+                        <video src="circle_dense_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out">
+                        </video>
+                        <video src="circle_dense_cropped.mp4" autoplay loop class="fragment fade-in-then-out"> </video>
+                        <video src="circle_dense_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out">
+                        </video>
+                        <video src="circle_sparse_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out">
+                        </video>
+                        <video src="circle_sparse_cropped.mp4" autoplay loop class="fragment"> </video>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Why this matters?</h2>
+                    <ul>
+                        <li class="fragment">Real-time processing</li>
+                        <li class="fragment">Purely neuromorphic</li>
+                        <li class="fragment">Provably captures signal information</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Next: Geometrizing event-based vision</h2>
+                    <ul>
+                        <li class="fragment">Axiomatic approach to neuromorphic computation</li>
+                        <li class="fragment">Aligns with principles of physics</li>
+                        <li class="fragment">Programmable and computable representations</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Summary</h2>
+                    <ol>
+                        <!--  First, I motivate neuromorphic computing from the perspective of computer science, followed by application examples for signal processing and my own research on computational abstractions. -->
+                        <li class="fragment">
+                            <strong>Real-time processing</strong>
+                            <ul>
+                                <li>Real-time event-based processing (III, IV, A, D, E)</li>
+                                <li>Spiking neural network accelerators (I, F)</li>
+                            </ul>
+                        </li>
+                        <!-- Second, I motivate neuromorphic computing from the perspective of physics, followed by a demonstration of event-based cameras and my own research on covariant spiking neural networks, that is, networks that preserve transformational structure. -->
+                        <li class="fragment">
+                            <strong>Axiomatic computation</strong>
+                            <ul>
+                                <li>Why axiomatization?</li>
+                                <li>Intermediate representations (I, III, F)</li>
+                            </ul>
+                        </li>
+                        <!-- Finally, we discuss how the establishment of computational models along with structure-preserving maps, positions neuromorphic computing to outcompete conventional systems within certain classes of problems by several orders of magnitude in terms of energy efficiency and processing speed. -->
+                        <li class="fragment">
+                            <strong>Geometric approach to event-based vision</strong>
+                            <ul>
+                                <li>Why geometrization?</li>
+                                <li>Covariant spiking neural networks (IV, V, VI, A, F)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Acknowledgements</h2>
+                    <ul>
+                        <li class="fragment">Supervisors: Jörg Conradt, Arvind Kumar</li>
+                        <li class="fragment">Collaborators: Tony Lindeberg, Steven Abreu, Jason Eshraghian, and many
+                            many others</li>
+                        <li class="fragment">Family and friends</li>
+                    </ul>
+                </section>
+
+                <section class="title-slide" style="text-align: center">
+                    <h2>
+                        Neuromorphic computation in space and time
+                    </h2>
+                    <h3>On first-principles approaches to computation in mixed-signal systems</h3>
+                    <ul style="list-style-type: none;">
+                        <li><b>Candidate - </b>Jens Egholm Pedersen</li>
+                        <li><b>Supervisors - </b>Jörg Conradt & Arvind Kumar</li>
+                        <li><b>Opponent - </b>Jennifer Hasler</li>
+                        <li><b>Committee - </b>Dimos V. Dimarogonas, Charlotte Frenkel, & Ayca Özcelikkale</li>
+                    </ul>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/math/math.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: "slide",
+            transitionSpeed: "default",
+            backgroundTransition: "fade",
+            margin: 0.02,
+            slideNumber: "c/t",
+            width: 1024,
+            height: 768,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3],
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
