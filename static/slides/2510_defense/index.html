@@ -148,11 +148,12 @@
                 </section>
 
                 <section>
-                    <h2>Demonstration: laser pointer tracking</h2>
+                    <h2>Demonstration: object tracking</h2>
                     <div class="two-column">
                         <div class="column">
                             <img src="laser_schematic.svg" alt="Laser Pointer Tracking Schematic"
                                 style="margin: 0 auto; display: block; height: 400px;" />
+                            <p class="credit">Unpublished, 2023</p>
                         </div>
                         <div class="column fragment">
                             <img src="airhockey_latency.png" alt="Air Hockey Latency"
@@ -201,11 +202,6 @@
                 </section>
 
                 <section>
-                    <h2>Computational classes</h2>
-                    <img src="compfun.png" alt="Computational Functions" style="margin: 0 auto; display: block;" />
-                </section>
-
-                <section>
                     <h2>Motivation for Neuromorphic Computing</h2>
                     <div class="two-column">
                         <div class="column fragment">
@@ -240,6 +236,12 @@
                     <p class="credit">Abreu & Pedersen, 2024</p>
                 </section>
 
+                <section style="text-align: center;">
+                    <h2>Computational classes</h2>
+                    <img src="compfun.png" alt="Computational Functions" style="margin: 0 auto; display: block;" />
+                    <p class="fragment">What is "neuromorphic computation"?</p>
+                </section>
+
                 <section>
                     <h2>Neuromorphic Intermediate Representation (NIR)</h2>
                     <p class="fragment">Defines <i>physical</i> computational primitives as ODEs</p>
@@ -258,13 +260,13 @@
                         <li class="fragment">Interoperability between neuromorphic systems</li>
                         <li class="fragment">Axiomatic approach</li>
                         <li class="fragment">Hardware-software co-design</li>
-                        <li class="fragment">Facilitates benchmarking and reproducibility</li>
+                        <li class="fragment">Allows benchmarking and reproducibility</li>
                 </section>
 
                 <section>
                     <h2>Next: a neuromorphic programming model</h2>
                     <ul>
-                        <li class="fragment">Clear and unambiguous "instructions" (axioms 1, 2)</li>
+                        <li class="fragment">Unambiguous and composable "instructions" (axioms 1, 2)</li>
                         <li class="fragment">Platform-independent representations (axiom 3)</li>
                         <li class="fragment">Guaranteed semantic retention (axiom 4)</li>
                     </ul>
@@ -281,16 +283,16 @@
                 <section>
                     <h2>What the frog's eyes tell the frog's brain</h2>
                     <div class="two-column">
-                        <div class="column fragment" style="flex-grow: 1.5;">
+                        <div class="column" style="flex-grow: 1.5;">
                             Frog eyes are "bug detectors"
                             <br />
                             <br />
                             <ul>
-                                <li class="fragment">Sharp, dark, moving edges</li>
-                                <li class="fragment">Independent of luminosity</li>
+                                <li class="fragment" data-fragment-index="2">Sharp, dark, moving edges</li>
+                                <li class="fragment" data-fragment-index="3">Independent of luminosity</li>
                             </ul>
                         </div>
-                        <div class="column">
+                        <div class="column fragment" data-fragment-index="1">
                             <img src="frog.png" alt="Frog brain"
                                 style="margin: 0 auto; display: block; height:400px;" />
                         </div>
@@ -300,13 +302,13 @@
                 </section>
 
                 <section>
-                    <h2>How do we <div class="r-stack">
+                    <h2>How do we model <div class="r-stack">
                             <div class="fragment strike" data-fragment-index="2">
-                                <span class="fragment fade-out" data-fragment-index="3">model</span>
+                                <span class="fragment fade-out" data-fragment-index="3">brains?</span>
                             </div>
-                            <div class="fragment" data-fragment-index="3">understand</div>
+                            <div class="fragment" data-fragment-index="3">transformations?</div>
                         </div>
-                        brains?</h2>
+                    </h2>
                     <div class="fragment" data-fragment-index="1">
                         <img src="dynamics_frontier.png" alt="Dynamics Frontier"
                             style="margin: 0 auto; display: block;" />
@@ -420,8 +422,9 @@
                     <h2>Acknowledgements</h2>
                     <ul>
                         <li class="fragment">Supervisors: Jörg Conradt, Arvind Kumar</li>
-                        <li class="fragment">Collaborators: Tony Lindeberg, Steven Abreu, Jason Eshraghian, and many
-                            many others</li>
+                        <li class="fragment">Collaborators: Tony Lindeberg, Steven Abreu, Jason Eshraghian, ...</li>
+                        <li class="fragment">Colleagues: Juan, Dimitrios, Giovanni, Wiebke, ...</li>
+                        <li class="fragment">Funding: HBP, KTH, NeuroPAC</li>
                         <li class="fragment">Family and friends</li>
                     </ul>
                 </section>
