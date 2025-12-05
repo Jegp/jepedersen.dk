@@ -1,0 +1,514 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>
+        Spiking Neural Receptive Fields
+    </title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css" />
+    <style>
+        .reveal .slides section {
+            text-align: left;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-align: center;
+        }
+
+        .reveal .title-slide {
+            text-align: center;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .credit {
+            font-size: 0.6em;
+            color: #888;
+            text-align: center;
+            margin: 40px 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section class="title-slide" style="text-align: center">
+                <h2>
+                    Spiking heural receptive fields
+                </h2>
+                <h3>Covariant spatio-temporal processing for spiking neural networks</h3>
+                <br/>
+                <strong>Jens Egholm Pedersen</strong><br />
+                Postdoc, Technical University of Denmark<br/>
+                jegpe@dtu.dk
+                <br/><br/>
+                <p style="font-size: 0.8em;">Open Neuromorphic Student Talk, December 5, 2025</p>
+            </section>
+
+            <!-- Part 1: Energy Problem Motivation -->
+            <section>
+                <section>
+                    <h1>Part I</h1>
+                    <h2>The energy problem</h2>
+                </section>
+
+                <section>
+                    <h2>Motivation for heuromorphic computing</h2>
+                    <div class="two-column">
+                        <div class="column fragment">
+                            <h3>Von Neumann Architecture</h3>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Von_Neumann_Architecture.svg/1920px-Von_Neumann_Architecture.svg.png"
+                                alt="Von Neumann Architecture" style="margin: 0 auto; display: block;" />
+                            <p class="credit">Wikipedia</p>
+                        </div>
+                        <div class="column">
+                            <h3 class="fragment">Pain points</h3><br />
+                            <ul>
+                                <li class="fragment">Memory bottleneck<br /><br /></li>
+                                <li class="fragment">Power consumption<br /><br /></li>
+                                <li class="fragment">Real-time processing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>A lot of room to improve</h3>
+                    <img src="../2510_defense/energy_limit.png" alt="Energy Limit"
+                        style="margin: 0 auto; display: block; height:600px;" />
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/10363573">Shankar, Energy Estimates,
+                            2023</a></p>
+                </section>
+
+                <section>
+                    <h2>If we can "lower" computation into physics...</h2>
+                    <p class="fragment">We achieve <span class="highlight">extreme energy gains</span></p>
+                    <p class="fragment">Up to <span class="highlight">27-35 orders of magnitude</span></p>
+                    <br/>
+                    <h3 class="fragment">So why aren't we doing that?</h3>
+                </section>
+            </section>
+
+            <!-- Part 2: The Problem - We Don't Know How -->
+            <section>
+                <section>
+                    <h1>Part II</h1>
+                    <h2>We don't bnow how to build neuromorphic networks</h2>
+                </section>
+
+                <section>
+                    <h2>The Challenge</h2>
+                    <p class="fragment">We <span class="highlight">lack theories</span> to guide efficient implementations</p>
+                    <ul>
+                        <li class="fragment">We can build the circuits...</li>
+                        <li class="fragment">...but we don't know how to combine them</li>
+                        <li class="fragment">Current neuromorphic models <span class="highlight">cannot compete</span> with deep learning</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>How do we program neuromorphic systems?</h2>
+                    <img src="../2510_defense/programming_nm.png" alt="Programming Neuromorphic Systems"
+                        style="margin: 0 auto; display: block; height: 500px;" />
+                    <p class="credit">Abreu & Pedersen, 2024</p>
+                </section>
+
+                <section>
+                    <h2>The co-design perspective</h2>
+                    <img src="codesign.png" alt="Co-design" style="margin: 0 auto; display: block;" />
+                    <p class="credit">Frenkel, Bol, & Indiveri, 2022</p>
+                </section>
+
+                <section>
+                    <h2>Letting physics do the compute</h2>
+                    <h3 class="fragment">Goal: align computation with physical primitives</h3>
+                    <img src="../2510_defense/nir.png" alt="Neuromorphic Primitives"
+                        style="margin: 0 auto; display: block; height: 400px;" />
+                    <div style="text-align: center;">
+                        <p class="fragment">Read more at <a href="https://neuroir.org">neuroir.org</a></p>
+                        </div>
+                    <p class="credit">Pedersen et al., 2024</p>
+                </section>
+            </section>
+
+            <!-- Part 3: Spatio-temporal Receptive Fields -->
+            <section>
+                <section>
+                    <h1>Part III</h1>
+                    <h2>Spatio-temporal receptive fields</h2>
+                </section>
+
+                <section>
+                    <h2>What the frog's eyes tell the frog's brain</h2>
+                    <div class="two-column">
+                        <div class="column" style="flex-grow: 1.5;">
+                            Frog eyes are "bug detectors"
+                            <br />
+                            <br />
+                            <ul>
+                                <li class="fragment" data-fragment-index="2">Sharp, dark, moving edges</li>
+                                <li class="fragment" data-fragment-index="3">Independent of luminosity</li>
+                            </ul>
+                            <br/><br/>
+                            <p class="fragment" data-fragment-index="4">Nature uses <span class="highlight">spatio-temporal receptive fields</span></p>
+                        </div>
+                        <div class="column fragment" data-fragment-index="1">
+                            <img src="../2510_defense/frog.png" alt="Frog brain"
+                                style="margin: 0 auto; display: block; height:400px;" />
+                        </div>
+                    </div>
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/4065609">Lettvin et al., 1959</a>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Event-based cameras</h2>
+                    <div class="r-stack">
+                        <img src="../2510_defense/event_sensor.png" alt="Event-Based Camera" style="margin: 0 auto; display: block;" />
+                        <video src="../2409_DIT/westmead_3d_small.mp4" autoplay loop muted controls
+                            style="margin: 0 auto; display: block;" class="fragment"></video>
+                    </div>
+                    <p class="credit" style="margin-top: -20px;">Alexandre Mariceau, 2023</p>
+                </section>
+
+                <section>
+                    <h2>Our contribution</h2>
+                    <p class="fragment">Principled computational model based on <span class="highlight">spatio-temporal covariance</span></p>
+                    <ul>
+                        <li class="fragment">Mathematical guarantees</li>
+                        <li class="fragment">Built on neuromorphic primitives (LI, LIF)</li>
+                        <li class="fragment">Immediate relevance for event-based vision and signal processing</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Spatial receptive fields</h2>
+                    <p>Convolution of input signal $f$ with Gaussian kernel $g$</p>
+                    <p>$$
+                    (g * f)(x) = \int_{u \in \mathbb{R}^n} g(u) \, f(x - u) \, du
+                    $$</p>
+                    <p class="fragment">Gaussian kernels are <span class="highlight">covariant to affine transformations</span></p>
+                </section>
+
+                <section>
+                    <h2>Spatial receptive field responses</h2>
+                    <div class="r-stack">
+                    <video src="spatial_gaussian_narrow.mp4" autoplay loop controls class="fragment fade-in-then-out">
+                    </video>
+                    <video src="spatial_gaussian_wide.mp4" autoplay loop controls class="fragment fade-in-then-out">
+                    </video>
+                    <img src="scale_covariance.png" alt="Spatial Covariance" style="margin: 0 auto; display: block;" class="fragment" />
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Temporal Receptive Fields</h2>
+                    <p class="fragment">Causality constraint: cannot integrate from $-\infty$ to $\infty$</p>
+                    <p class="fragment">$$
+                    (h * f) (t) = \int_{u = 0}^\infty h(u)\ f(t - u) du
+                    $$</p>
+                    <p class="fragment">Use exponentially truncated kernel:</p>
+                    <p class="fragment">$$
+                    h(t;\, \mu) = \begin{cases} \mu^{-1}\exp(-t/\mu) & t \gt 0 \\ 0 & t \leqslant 0 \end{cases}
+                    $$</p>
+                </section>
+
+                <section>
+                    <h2>Temporal receptive field responses</h2>
+                    <div class="r-stack">
+                        <video src="temporal_fast.mp4" autoplay loop controls class="fragment fade-in-then-out">
+                        </video>
+                        <video src="temporal_slow.mp4" autoplay loop controls class="fragment fade-in-then-out">
+                        </video>
+                    <img src="scale_covariance.png" alt="Spatial Covariance" style="margin: 0 auto; display: block;" class="fragment" />
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Spatio-temporal responses</h2>
+                    <img src="spatiotemporal_responses.png" alt="Spatio-Temporal Response"
+                    style="margin: 0 auto; display: block; height: 80vh;"/>
+                </section>
+
+                <section>
+                    <h2>Exploiting structure and symmetries</h2>
+                    <img src="../2510_defense/covariance.png" alt="Covariance" style="margin: 0 auto; display: block; height: 300px;" />
+                    <table>
+                        <tr>
+                            <td>Signal: $x$</td>
+                            <td class="fragment">Transformation: $g$</td>
+                            <td class="fragment">Operator: $\phi$</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td colspan="3" style="text-align: center;">$g \cdot \phi = \phi' \cdot g'$</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Exploiting structure and symmetries</h2>
+                    <img src="../2510_defense/covariance.png" alt="Covariance" style="margin: 0 auto; display: block; height: 300px;" />
+                    <table>
+                        <tr>
+                            <td>Signal: $x$</td>
+                            <td class="fragment">Sun rising: $g$</td>
+                            <td class="fragment">Bug detection: $x_\phi$</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td>Signal: $x$</td>
+                            <td class="fragment">Movement: $g$</td>
+                            <td class="fragment">Shape detection: $x_\phi$</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Example of spatio-temporal covariance</h2>
+                        <img src="spatiotemporal_covariance.png" alt="Spatio-Temporal Covariance"
+                        style="margin: 0 auto; display: block;" />
+                </section>
+
+                <section>
+                    <h2>The importance of covariance: adaptation</h2>
+                    <div class="two-column">
+                        <div class="column" style="flex-grow: 4;">
+                    <img src="invariance_vs_covariance.png" alt="Covariance" style="margin: 0 auto;" />
+                        </div>
+                        <div class="column fragment" data-fragment-index="1">
+                            <img src="../2510_defense/frog.png" alt="Frog brain"
+                                style="margin: 0 auto; display: block;" />
+                        </div>
+                    </div>
+                    </p>
+                    <p class="credit"><a href="https://ieeexplore.ieee.org/document/4065609">Lettvin et al., 1959</a>
+                    <br/>
+                    <p class="fragment">Lots of literature on this. Read more at <a href="https://jepedersen.dk">jepedersen.dk</a></p>
+                </section>
+            </section>
+
+            <!-- Part 4: Implementation -->
+            <section>
+                <section>
+                    <h1>Part IV</h1>
+                    <h2>Neuromorphic implementation</h2>
+                </section>
+
+                <section>
+                    <h2>Key insights</h2>
+
+                    <ul>
+                        <li class="fragment">Leaky integrators <b>are scale covariant</b></li>
+                        <li class="fragment">Leaky integrate-and-fire neurons are <b>approximately scale covariant</b></li>
+                        <li class="fragment">Leveraging covariance means we can precisely formulate computation
+                            <span class="fragment">(and lets us beat ANNs)</span>
+                        </li>
+                    </ul>
+                    <br/><br/>
+                    <h3 class="fragment">Result: High-performing spiking neural networks with covariance guarantees</h3>
+                </section>
+
+                <section>
+                    <h3>Covariant spiking neural network components</h3>
+
+                    <h4>Spatial</h4>
+                    <img src="../2510_defense/rfs.png" alt="Receptive Fields" style="margin: 0 auto; display: block;width: 80%;" />
+                    <br/>
+                    <h4 class="fragment">Temporal</h4>
+                    <img src="temporal_multiscale.png" alt="Temporal Multi-scale"
+                        style="margin: 0 auto; display: block; width:80%;" class="fragment"/>
+                </section>
+
+
+                <section>
+                    <h3>Covariant spiking neural networks</h3>
+                    <img src="../2510_defense/network_plot.png" style="margin: 0;" />
+                    <p>
+                        <span class="fragment">Leaky Integrator (LI)</span><br />
+                        <span class="fragment">vs. Leaky Integrate-and-Fire (LIF)</span><br />
+                        <span class="fragment">vs. Artificial Neural Network (ANN)</span><span class="fragment"> —
+                            with 8 frames</span>
+                    </p>
+                </section>
+
+            </section>
+
+            <!-- Part 5: Results and Outlook -->
+            <section>
+                <section>
+                    <h1>Part V</h1>
+                    <h2>Results and Outlook</h2>
+                </section>
+
+                <section>
+                    <h2>Experimental Setup</h2>
+                    <p>Generated event dataset with moving geometric shapes</p>
+                    <ul>
+                        <li class="fragment">Varying velocity (sparse to dense)</li>
+                        <li class="fragment">Sparse: 1‰ activations per timestep</li>
+                        <li class="fragment">~4 shape-related vs ~500 noise activations</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Tracking <span class="fragment" data-fragment-index="4">sparse</span> objects</h2>
+                    <div class="r-stack">
+                        <video src="../2510_defense/circle_dense_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out" data-fragment-index="1">
+                        </video>
+                        <video src="../2510_defense/circle_dense_cropped.mp4" autoplay loop class="fragment fade-in-then-out" data-fragment-index="2"> </video>
+                        <video src="../2510_defense/circle_dense_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out" data-fragment-index="3">
+                        </video>
+                        <video src="../2510_defense/circle_sparse_coo_cropped.mp4" autoplay loop class="fragment fade-in-then-out"  data-fragment-index="4">
+                        </video>
+                        <video src="../2510_defense/circle_sparse_cropped.mp4" autoplay loop class="fragment"> </video>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Performance Results</h2>
+                    <p>LI and LIF models <span class="highlight">outperform</span> ReLU networks</p>
+                    <ul>
+                        <li class="fragment">Even vs. multi-frame (8 frames) ReLU</li>
+                        <li class="fragment">Strong effect size with RF initialization</li>
+                        <li class="fragment">42.4% performance improvement</li>
+                    </ul>
+                    <img src="../2510_defense/rfs_result.png" alt="Results" style="margin: 0 auto; display: block; height: 400px;" />
+                </section>
+
+                <section>
+                    <h2>Why this matters</h2>
+                    <ul>
+                        <li class="fragment"><span class="highlight">Real-time processing</span></li>
+                        <li class="fragment"><span class="highlight">Purely neuromorphic</span> - supports NIR</li>
+                        <li class="fragment"><span class="highlight">Provably captures</span> signal transformations</li>
+                    </ul>
+                </section>
+
+
+                <section>
+                    <h3>But wait, why not just use gradient optimization?</h3>
+                    <p>If we randomly initialize weights, why not just let them learn from data?</p>
+                    <img src="time_constant_variance.png" alt="Time Constant Variance"
+                        style="margin: 0 auto; display: block; height: 400px;" class="fragment"/>
+                </section>
+
+                <section>
+                    <h2>Future Outlook</h2>
+                    <ul>
+                        <li class="fragment">Deploy on low-power neuromorphic hardware</li>
+                        <li class="fragment">Extend to other spatio-temporal tasks (memory, control)</li>
+                        <li class="fragment">Bridge theory and practice in neuromorphic computing</li>
+                        <li class="fragment">Enable principled design of neuromorphic systems</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Conclusion -->
+            <section>
+                <section>
+                    <h2>Summary</h2>
+                    <ol>
+                        <li class="fragment">
+                            <strong>The Problem:</strong> Energy constraints + lack of theory
+                        </li>
+                        <li class="fragment">
+                            <strong>The Solution:</strong> Principled spatio-temporal receptive fields
+                        </li>
+                        <li class="fragment">
+                            <strong>The Math:</strong> Covariance under geometric transformations
+                        </li>
+                        <li class="fragment">
+                            <strong>The Results:</strong> Neuromorphic primitives outperform ANNs
+                        </li>
+                        <li class="fragment">
+                            <strong>The Impact:</strong> Path to practical neuromorphic computing
+                        </li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Acknowledgements</h2>
+                    <ul>
+                        <li class="fragment">Co-authors: Jörg Conradt, Tony Lindeberg</li>
+                        <li class="fragment">Funding: EC Horizon 2020 (HBP), Swedish Research Council, Danish National Research Foundation</li>
+                        <li class="fragment">Published in Nature Communications (2025)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Resources</h2>
+                    <ul>
+                        <li>Paper: <a href="https://doi.org/10.1038/s41467-025-63493-0">doi.org/10.1038/s41467-025-63493-0</a></li>
+                        <li>Code: <a href="https://github.com/jegp/nrf">github.com/jegp/nrf</a></li>
+                        <li>Video: <a href="https://www.youtube.com/watch?v=qtHkrx4tYfI">YouTube</a></li>
+                        <li>Blog: <a href="https://jepedersen.dk">jepedersen.dk</a></li>
+                    </ul>
+                    <br/><br/>
+                    <p style="text-align: center;">Questions?</p>
+                </section>
+
+                <section class="title-slide" style="text-align: center">
+                    <h2>
+                        Spiking Neural Receptive Fields
+                    </h2>
+                    <h3>Covariant spatio-temporal processing for spiking neutral networks</h3>
+                    <br/>
+                    <strong>Jens Egholm Pedersen</strong><br />
+                    jegpe@dtu.dk | jepedersen.dk
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/math/math.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: "slide",
+            transitionSpeed: "default",
+            backgroundTransition: "fade",
+            margin: 0.01,
+            slideNumber: "c/t",
+            width: 1280,
+            height: 1024,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3],
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
