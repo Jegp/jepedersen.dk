@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Scientific software lifecycle</title>
+
+	<link rel="stylesheet" href="../2505_Tonik/dist/reset.css">
+	<link rel="stylesheet" href="../2505_Tonik/dist/reveal.css">
+	<link rel="stylesheet" href="../2505_Tonik/dist/theme/serif.css">
+	<link rel="stylesheet" href="../2505_Tonik/plugin/highlight/monokai.css">
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+
+	<style>
+		.container {
+			display: flex;
+			margin: 0 auto;
+		}
+
+		.col {
+			flex: 1 1 auto;
+			margin: 0 1em;
+		}
+
+		.reveal .full-size {
+			max-width: none;
+			max-height: none;
+			height: 100vh;
+			margin-top: -4vh;
+		}
+
+		.credit,
+		p.credit {
+			font-size: 50%;
+			text-align: right;
+		}
+
+		.credit,
+		.credit a {
+			color: gray;
+		}
+
+		.agenda {
+			list-style: none;
+			text-align: left;
+			display: inline-block;
+			margin: 0.5em auto;
+			padding: 0;
+		}
+
+		.agenda li {
+			padding: 0.25em 0.5em;
+			font-size: 1em;
+			opacity: 0.35;
+			transition: opacity 0.2s;
+		}
+
+		.agenda li.active {
+			opacity: 1;
+			font-weight: bold;
+			font-size: 1.2em;
+			border-left: 4px solid #2c3e50;
+			padding-left: 0.6em;
+		}
+
+		.agenda li.done {
+			opacity: 0.35;
+			text-decoration: line-through;
+			text-decoration-color: #aaa;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- ====== TITLE ====== -->
+			<section>
+				<section data-background-image="../../img/guorbivaggi.jpg" data-background-color="black" data-background-opacity="0.35">
+					<div class="container">
+						<div class="col" style="text-align: right;">
+							<h2>Scientific software lifecycle</h2>
+							<br />
+							<h3>From idea to paper</h3>
+							<br /><br />
+							<h4>Jens Egholm Pedersen
+								<p style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</p>
+								<p style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</p>
+								<p style="font-size: 80%;"><i class="fa fa-house"></i> jepedersen.dk</p>
+							</h4>
+						</div>
+						<div class="col">
+							<!-- TODO: add title image -->
+						</div>
+					</div>
+					<aside class="notes">
+						Welcome. I am going to argue that how we write software is a scientific question—
+						not a technical detail. And I will start somewhere unexpected.
+					</aside>
+				</section>
+			</section>
+
+
+			<!-- ====== AGENDA ====== -->
+			<section>
+				<section>
+					<h2>Today</h2>
+					<ul class="agenda">
+						<li>Why software matters</li>
+						<li>Version control</li>
+						<li>Reproducibility</li>
+						<li>Libraries &amp; dependencies</li>
+						<li>The lifecycle — from idea to paper</li>
+						<li>What can you do?</li>
+					</ul>
+					<aside class="notes">
+						Six topics. The first four are conceptual groundwork for a non-CS audience.
+						The lifecycle section pulls them together. We finish with practical steps.
+					</aside>
+				</section>
+			</section>
+
+
+			<!-- ====== SECTION 1: Knowledge and models ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>Why software matters</h2>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="active">Why software matters</li>
+								<li>Version control</li>
+								<li>Reproducibility</li>
+								<li>Libraries &amp; dependencies</li>
+								<li>The lifecycle — from idea to paper</li>
+								<li>What can you do?</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						Not a rhetorical question. I want to ground everything that follows in a clear answer.
+					</aside>
+				</section>
+
+				<section>
+					<blockquote>
+						"If the organism carries a 'small-scale model' of external reality and of its own possible
+						actions within its head, it is able to try out various alternatives, ... and in every way to
+						react in a much fuller, safer, and more competent manner to the emergencies which face it."
+					</blockquote>
+					<p class="credit">Kenneth Craik, <em>The Nature of Explanation</em>, 1943</p>
+					<aside class="notes">
+						Kenneth Craik, British psychologist, 1943. Writing before modern computers existed.
+						His claim: we reason by running small simulations in our heads.
+						Science is the systematic improvement of those simulations—shared across people.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Science = improving shared inner models</h2>
+					<ul>
+						<li class="fragment">A result is only science if it helps others <strong>predict</strong> the world better</li>
+						<li class="fragment">In computational science, the model <em>is</em> the software</li>
+						<li class="fragment">Software is <strong>executable knowledge</strong></li>
+					</ul>
+					<aside class="notes">
+						The goal is not the publication. It is whether someone else can absorb your model
+						and make better predictions than before.
+						When the model is a simulation or algorithm, the code IS the model.
+						Not an appendix. Not supplementary material. The thing itself.
+					</aside>
+				</section>
+
+				<section data-background-color="#c0392b">
+					<h2 style="color: white;">Knowledge <em>regression</em></h2>
+					<p class="fragment" style="color: white;">Bad software does not just fail to advance knowledge...</p>
+					<p class="fragment" style="color: white;">...it actively <strong>regresses</strong> it.</p>
+					<p class="fragment" style="color: white;">Others build on a broken model. Errors compound.</p>
+					<aside class="notes">
+						This is the central claim. If a bug in your code leads others to draw wrong conclusions,
+						those wrong conclusions get cited, extended, and taught.
+						The inner models of an entire field can move in the wrong direction.
+						This is not hypothetical—it has happened in genomics, economics, psychology.
+					</aside>
+				</section>
+
+				<section data-background-color="#16a085">
+					<h2 style="color: white">Always bet on
+						<span class="fragment strike" data-fragment-index="1">text</span><span class="fragment fade-in" data-fragment-index="1"> code</span>
+					</h2>
+					<div class="container" style="align-items: center; margin-top: 0.5em;">
+						<div class="col">
+							<blockquote>
+								Text is the oldest and most stable communication technology ... you can readily
+								inscribe it in granite that will likely outlast the human species.
+							</blockquote>
+							<p class="credit" style="color: white;">Graydon Hoare,
+								<a href="https://graydon2.dreamwidth.org/193447.html" style="color: #ccc; text-decoration: underline;">Always bet on text</a>
+							</p>
+						</div>
+						<div class="col" style="text-align: center;">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Rosetta_Stone.JPG/330px-Rosetta_Stone.JPG"
+								style="max-height: 55vh; width: auto;" />
+						</div>
+					</div>
+					<div class="fragment" data-fragment-index="1">
+						<blockquote>
+							code is the most insane information technology we've ever had
+						</blockquote>
+						<p class="credit" style="color: white;">Me</p>
+					</div>
+					<aside class="notes">
+						If you can put things into code you can *literally* codify physical systems. You can re-create a protocol, a research finding, a cure for cancer...
+					</aside>
+				</section>
+
+			</section>
+
+
+			<!-- ====== SECTION 2: Version control ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>Version control</h2>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="done">Why software matters</li>
+								<li class="active">Version control</li>
+								<li>Reproducibility</li>
+								<li>Libraries &amp; dependencies</li>
+								<li>The lifecycle — from idea to paper</li>
+								<li>What can you do?</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						Code is only as useful as our ability to track, share, and preserve it.
+						Version control is the foundation everything else builds on.
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is version control?</h2>
+					<p class="fragment">A complete, timestamped history of every change to your code</p>
+					<p class="fragment">Like track-changes in a Word document — but for software</p>
+					<p class="fragment">The standard tool is <strong>git</strong></p>
+					<aside class="notes">
+						Most scientists have used track-changes or "final_v2_FINAL_revised.docx".
+						Git is the principled version of that, designed for code.
+						It records who changed what, when, and why.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Why does it matter for science?</h2>
+					<div class="container">
+						<div class="col fragment">
+							<h3>Reproducibility</h3>
+							<p>Every result is tied to an exact snapshot of the code that produced it</p>
+						</div>
+						<div class="col fragment">
+							<h3>Collaboration</h3>
+							<p>Multiple people can work on the same code without overwriting each other</p>
+						</div>
+						<div class="col fragment">
+							<h3>Accountability</h3>
+							<p>If a bug is found, you can trace exactly when it was introduced</p>
+						</div>
+					</div>
+					<aside class="notes">
+						The reproducibility point is the key one here.
+						A published result should link to a specific git commit — a frozen snapshot
+						of the code as it was at the time of submission.
+						Without this, "see our GitHub" is not reproducibility.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Version control + dependencies = reproducibility</h2>
+					<div class="container" style="align-items: center; margin-top: 1em; font-size: 85%;">
+						<div class="col" style="text-align: center; fragment">
+							<p class="fragment">Git commit <code>a3f9c12</code></p>
+							<p class="fragment" style="font-size: 80%; color: gray;">exact snapshot of your code</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">+</div>
+						<div class="col" style="text-align: center;">
+							<p class="fragment">Locked environment</p>
+							<p class="fragment" style="font-size: 80%; color: gray;">exact snapshot of your stack</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">=</div>
+						<div class="col" style="text-align: center;">
+							<p class="fragment"><strong>Reproducible result</strong></p>
+							<p class="fragment" style="font-size: 80%; color: gray;">anyone, anywhere, anytime</p>
+						</div>
+					</div>
+					<aside class="notes">
+						Neither alone is sufficient. You need both the code and the environment frozen.
+						Together, they make a result that is genuinely reproducible in Craik's sense:
+						someone else can run your model and absorb it into their own understanding.
+						We will come back to the "locked environment" part when we talk about libraries.
+					</aside>
+				</section>
+
+			</section>
+
+
+			<!-- ====== SECTION 3: Reproducibility ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>Reproducibility</h2>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="done">Why software matters</li>
+								<li class="done">Version control</li>
+								<li class="active">Reproducibility</li>
+								<li>Libraries &amp; dependencies</li>
+								<li>The lifecycle — from idea to paper</li>
+								<li>What can you do?</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						A word people use. What does it actually mean—and why does it matter for the argument above?
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is reproducibility?</h2>
+					<div class="container">
+						<div class="col fragment">
+							<h3>Re-run</h3>
+							<p>Can you get the same numbers?</p>
+						</div>
+						<div class="col fragment">
+							<h3>Re-use</h3>
+							<p>Can you adapt the model for your own question?</p>
+						</div>
+						<div class="col fragment">
+							<h3>Re-build</h3>
+							<p>Can you extend, improve, or discard it?</p>
+						</div>
+					</div>
+					<aside class="notes">
+						Most people think of reproducibility as re-running and getting the same number.
+						That is necessary but not sufficient.
+						Re-use and re-build is what Craik's framework demands: can the reader absorb
+						your model into their own inner model and act on it?
+					</aside>
+				</section>
+
+				<section>
+					<h2>The mathematics analogy</h2>
+					<p class="fragment">Would you accept a physics paper that said:</p>
+					<blockquote class="fragment">
+						"Our equations predict X — but we won't show the math."
+					</blockquote>
+					<p class="fragment">Then why accept computational science that hides its code?</p>
+					<aside class="notes">
+						This is the simplest way to put it to a non-CS audience.
+						In physics or chemistry, equations are shown because they ARE the science.
+						In computational science, code plays the same role.
+					</aside>
+				</section>
+
+				<section>
+					<h2>The cost of irreproducibility</h2>
+					<p class="fragment">Software bugs have already caused numerous retractions</p>
+					<p class="fragment">Irreproducible results cannot be built upon</p>
+					<p class="fragment">Hidden code hides hidden assumptions</p>
+					<br />
+					<blockquote class="fragment">
+						"How many fields have been held back, and how many people have had their careers
+						disrupted, because of a buggy program?"
+					</blockquote>
+					<p class="credit fragment">Greg Wilson, <em>Nature</em>, 2010</p>
+					<aside class="notes">
+						TODO: fill in with examples relevant to your audience's field.
+						This is where you make it concrete and personal.
+					</aside>
+				</section>
+
+			</section>
+
+			<!-- ====== SECTION 3: Libraries and dependencies ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>Libraries &amp; dependencies</h2>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="done">Why software matters</li>
+								<li class="done">Version control</li>
+								<li class="done">Reproducibility</li>
+								<li class="active">Libraries &amp; dependencies</li>
+								<li>The lifecycle — from idea to paper</li>
+								<li>What can you do?</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						Before we talk about the lifecycle, the audience needs to understand what libraries
+						and dependencies are—and why they are a scientific problem, not just a technical one.
+					</aside>
+				</section>
+
+				<section>
+					<h2>What is a library?</h2>
+					<p class="fragment">Published, reusable pieces of software</p>
+					<p class="fragment">Like citing a paper — except the citation <em>runs</em></p>
+					<div class="container fragment">
+						<div class="col">
+							<h3>You write</h3>
+							<pre><code data-trim class="python">
+import numpy as np
+result = np.fft.fft(signal)
+							</code></pre>
+						</div>
+						<div class="col">
+							<h3>You rely on</h3>
+							<p>~500,000 lines of tested, optimised code</p>
+						</div>
+					</div>
+					<aside class="notes">
+						NumPy, SciPy, pandas, scikit-learn — your analysis rests on these.
+						They represent decades of engineering. The important point: you are responsible
+						for what they do even if you did not write them.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Runtime dependencies</h2>
+					<p class="fragment">Your code needs specific <em>versions</em> of libraries to run correctly</p>
+					<p class="fragment">Libraries change — sometimes silently</p>
+					<p class="fragment">A result from 2020 may not reproduce in 2026</p>
+					<aside class="notes">
+						"It worked on my machine" is not just an inconvenience.
+						It is a scientific reproducibility failure.
+						A result that can only be produced on one machine at one moment in time
+						is not a result anyone can build on.
+					</aside>
+				</section>
+
+				<section>
+					<h2>What actually runs when you run your code?</h2>
+					<div class="container" style="align-items: stretch; margin-top: 1em;">
+						<div class="col">
+							<pre><code data-trim class="python">
+# your_analysis.py
+import numpy as np
+import scipy.stats as st
+
+data = load("results.csv")
+p = st.ttest_ind(data.a, data.b).pvalue
+							</code></pre>
+						</div>
+						<div class="col" style="display: flex; flex-direction: column; gap: 0.4em; font-size: 75%;">
+							<div class="fragment" style="background: #2c3e50; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								<strong>your_analysis.py</strong>
+							</div>
+							<div class="fragment" style="background: #2980b9; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								numpy 1.26 &nbsp;·&nbsp; scipy 1.11 &nbsp;·&nbsp; pandas 2.1
+							</div>
+							<div class="fragment" style="background: #16a085; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								BLAS / LAPACK &nbsp;·&nbsp; libm &nbsp;·&nbsp; libstdc++
+							</div>
+							<div class="fragment" style="background: #7f8c8d; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								Python 3.11 &nbsp;·&nbsp; OS &nbsp;·&nbsp; hardware
+							</div>
+						</div>
+					</div>
+						<h3 class="fragment">
+							What if Numpy changes to v2?
+							<p class="fragment" style="color: #c0392b; font-size: 90%; margin-top: 0.5em;">
+								A change at <em>any</em> layer can change your results.
+							</p>
+						</h3>
+					<aside class="notes">
+						When you press "run", you are not just running your five lines of code.
+						You are running a stack: your script on top of scipy on top of numpy on top of
+						BLAS (a linear algebra library) on top of the OS.
+						Each layer has a version. Each version can differ between machines or over time.
+						A scipy update in 2024 changed the default behaviour of several statistical tests.
+						If you re-ran a 2022 analysis without noticing, your p-values changed silently.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Solving the dependency problem</h2>
+					<div class="container">
+						<div class="col fragment">
+							<h3>Ad hoc</h3>
+							<p>"See the README"</p>
+						</div>
+						<div class="col fragment">
+							<h3>Better</h3>
+							<p>Conda / pip requirements
+							<code class="fragment">numpy==2.1.0</code></p>
+							<p class="fragment">What if Python changes? Or your OS?</p>
+						</div>
+						<div class="col fragment">
+							<h3>Best</h3>
+							<p>Reproducible environments<br />(Docker, Nix)</p>
+						</div>
+						<div class="col" style="display: flex; flex-direction: column; gap: 0.4em; font-size: 75%;">
+							<div style="background: #2c3e50; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								<strong>your_analysis.py</strong>
+							</div>
+							<div style="background: #2980b9; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								numpy 1.26 &nbsp;·&nbsp; scipy 1.11 &nbsp;·&nbsp; pandas 2.1
+							</div>
+							<div style="background: #16a085; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								BLAS / LAPACK &nbsp;·&nbsp; libm &nbsp;·&nbsp; libstdc++
+							</div>
+							<div style="background: #7f8c8d; color: white; padding: 0.5em 1em; border-radius: 4px;">
+								Python 3.11 &nbsp;·&nbsp; OS &nbsp;·&nbsp; hardware
+							</div>
+						</div>
+					</div>
+					<aside class="notes">
+						Spectrum of solutions. NixOS gives the strongest guarantees—
+						the exact same environment, byte-for-byte, in perpetuity.
+						Even 100 years from now.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Nix: the environment <em>is</em> code</h2>
+					<div class="container" style="align-items: flex-start; margin-top: 0.5em;">
+						<div class="col">
+							<pre><code data-trim class="nix">
+# flake.nix
+{
+  outputs = { nixpkgs, ... }: {
+    devShell = pkgs.mkShell {
+      packages = [
+        pkgs.python311
+        pkgs.python311Packages.numpy   # 1.26.4
+        pkgs.python311Packages.scipy   # 1.11.4
+      ];
+    };
+  };
+}
+							</code></pre>
+						</div>
+						<div class="col">
+							<ul>
+								<li class="fragment">The entire stack — Python, libraries, system libs — described in one file</li>
+								<li class="fragment">Checked into version control alongside your code</li>
+								<li class="fragment">Anyone who runs <code>nix develop</code> gets a bit-for-bit identical environment</li>
+								<li class="fragment" style="color: #16a085;">Your environment becomes reproducible for the same reason your code does</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						The key insight: with Nix, the environment is not a side-effect of installation instructions
+						in a README. It is source code — versioned, reviewed, and reproducible.
+						Just as we version-control the analysis script, we version-control the entire stack it runs on.
+						Nix locks every dependency transitively, all the way down to system libraries.
+						Docker pins the application layer but not the OS; conda pins Python packages but not system libs.
+						Nix pins everything.
+						
+						I use this for my system at home. I have A CONFIGURATION FILE that IS my operating system.
+					</aside>
+				</section>
+
+			</section>
+
+
+			<!-- ====== SECTION 4: The lifecycle ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>The lifecycle</h2>
+							<h4>From idea to paper</h4>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="done">Why software matters</li>
+								<li class="done">Version control</li>
+								<li class="done">Reproducibility</li>
+								<li class="done">Libraries &amp; dependencies</li>
+								<li class="active">The lifecycle — from idea to paper</li>
+								<li>What can you do?</li>
+							</ul>
+						</div>
+					</div>
+					<aside class="notes">
+						Now everything comes together. What does a healthy software lifecycle look like?
+						And where does it typically go wrong?
+					</aside>
+				</section>
+
+				<section>
+					<h2>Stage 1: The idea</h2>
+					<p class="fragment">A hypothesis about the world</p>
+					<p class="fragment">Often expressed informally — a sketch, a conversation</p>
+					<p class="fragment">The inner model lives in your head</p>
+					<aside class="notes">
+						TODO: ground with an example from your own work or a familiar field.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Stage 2: First code</h2>
+					<p class="fragment">Scripts, notebooks — exploratory and messy</p>
+					<p class="fragment">The inner model starts to be externalised</p>
+					<p class="fragment">Version control from day one — even for messy code</p>
+					<aside class="notes">
+						The most common failure: people wait until the code is "clean" before version-controlling it.
+						By then, the history of decisions is lost.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Stage 3: A library</h2>
+					<p class="fragment">Shared, documented, tested code</p>
+					<p class="fragment">Others can build on your model</p>
+					<p class="fragment">The model enters the scientific commons <span class="fragment">- but start privately</span></p>
+					<aside class="notes">
+						This is where knowledge is truly transferred. Not at the paper stage.
+						A paper describes the library. The library IS the science.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Stage 4: Reproducible environment</h2>
+					<p class="fragment">Pin your dependencies</p>
+					<p class="fragment">The model is frozen in time — and preserved</p>
+					<p class="fragment">Results can be re-run in ten years</p>
+					<aside class="notes">
+						Docker, conda-lock, Nix flakes. At minimum: a locked requirements file.
+						Do this before submission, not after.
+					</aside>
+				</section>
+
+				<section>
+					<h2>Stage 5: The paper</h2>
+					<p class="fragment">The narrative around the model</p>
+					<p class="fragment">Points to the runnable, versioned code</p>
+					<p class="fragment">A paper without code is an <em>incomplete</em> model</p>
+					<aside class="notes">
+						The paper is the story. The code is the science.
+						Both are necessary. Neither alone is sufficient.
+					</aside>
+				</section>
+
+				<section>
+					<!-- TODO: replace with an actual lifecycle diagram -->
+					<h2>The lifecycle at a glance</h2>
+					<div class="container" style="align-items: center; font-size: 80%;">
+						<div class="col fragment" style="text-align: center;">
+							<p>💡 Idea</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">→</div>
+						<div class="col fragment" style="text-align: center;">
+							<p>📓 Script / notebook</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">→</div>
+						<div class="col fragment" style="text-align: center;">
+							<p>📦 Library</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">→</div>
+						<div class="col fragment" style="text-align: center;">
+							<p>🔒 Environment</p>
+						</div>
+						<div class="col fragment" style="text-align: center; font-size: 150%;">→</div>
+						<div class="col fragment" style="text-align: center;">
+							<p>📄 Paper</p>
+						</div>
+					</div>
+					<aside class="notes">
+						Each arrow is a place where knowledge can be lost — or preserved.
+					</aside>
+				</section>
+
+			</section>
+
+
+			<!-- ====== SECTION 5: What now? ====== -->
+			<section>
+
+				<section>
+					<div class="container" style="align-items: center;">
+						<div class="col">
+							<h2>What can you do?</h2>
+						</div>
+						<div class="col">
+							<ul class="agenda">
+								<li class="done">Why software matters</li>
+								<li class="done">Version control</li>
+								<li class="done">Reproducibility</li>
+								<li class="done">Libraries &amp; dependencies</li>
+								<li class="done">The lifecycle — from idea to paper</li>
+								<li class="active">What can you do?</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Practical steps</h2>
+					<ul>
+						<li class="fragment"><strong>Version control everything</strong> — git from day one, before it is clean</li>
+						<li class="fragment"><strong>Share your code</strong> — open source, always; code without access is not science
+						<br/>
+						<ul>
+							<li class="fragment">Please don't over-engineer.<span class="fragment"> Start simple.</span></li>
+						</ul>
+						</li>
+						<li class="fragment"><strong>Pin your dependencies</strong> — conda-lock, Nix, Docker before submission</li>
+						<li class="fragment"><strong>Build on existing libraries</strong> — don't reinvent, improve what exists</li>
+						<li class="fragment"><strong>Advocate</strong> — software contributions are scientific contributions</li>
+					</ul>
+					<aside class="notes">
+						These are not heroic acts. They are the minimum for science that can be built on.
+					</aside>
+				</section>
+
+			</section>
+
+
+			<!-- ====== CLOSING ====== -->
+			<section>
+				<section data-background-image="../../img/guorbivaggi.jpg" data-background-color="black" data-background-opacity="0.35">
+					<div class="container">
+						<div class="col" style="text-align: right;">
+							<h2>Scientific software lifecycle</h2>
+							<br />
+							<h3>Software is how we codify knowledge.</h3>
+							<h3>Make it open, reproducible, and lasting.</h3>
+							<br /><br />
+							<h4>Jens Egholm Pedersen
+								<p style="font-size: 80%;"><i class="fa fa-envelope"></i> jeped@kth.se</p>
+								<p style="font-size: 80%;"><i class="fa-brands fa-mastodon"></i> jegp@mastodon.social</p>
+								<p style="font-size: 80%;"><i class="fa fa-house"></i> jepedersen.dk</p>
+							</h4>
+						</div>
+						<div class="col">
+							<!-- TODO: add closing image -->
+						</div>
+					</div>
+				</section>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../2505_Tonik/dist/reveal.js"></script>
+	<script src="../2505_Tonik/plugin/math/math.js"></script>
+	<script src="../2505_Tonik/plugin/notes/notes.js"></script>
+	<script src="../2505_Tonik/plugin/markdown/markdown.js"></script>
+	<script src="../2505_Tonik/plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			width: 1920,
+			height: 1000,
+			margin: 0.02,
+			hash: true,
+			slideNumber: "c/t",
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
+			pdfSeparateFragments: false,
+		});
+	</script>
+</body>
+
+</html>
