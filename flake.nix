@@ -18,15 +18,15 @@
             '';
           };
           slidev = pkgs.mkShell {
-            buildInputs = [ pkgs.nodejs_22 ];
+            buildInputs = [ pkgs.nodejs_24 ];
             shellHook = ''
-              cd static/slides
+              cd static
               if [ ! -d node_modules ]; then
                 echo "Installing dependencies..."
                 npm install
               fi
               echo ""
-              echo "Slidev presentation shell (static/slides/)"
+              echo "Slidev presentation shell (static/)"
               echo "  Dev:   npx slidev <folder>/slides.md"
               echo "  Build: npx slidev build <folder>/slides.md"
               echo ""
