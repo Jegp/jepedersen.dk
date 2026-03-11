@@ -18,17 +18,11 @@ math: katex
 
 <br/>
 
-**Jens Egholm Pedersen**
+**Jens Egholm Pedersen** &middot; jegpe@dtu.dk &middot; jepedersen.dk
 
-jegpe@dtu.dk &middot; jepedersen.dk
-
-<br/>
+Advisor: **Peter Gerstoft** &middot; pegers@dtu.dk
 
 Advanced Topics in Hearing Research &mdash; March 2026
-
-<div class="abs-br m-6 text-sm opacity-50">
-  jepedersen.dk &middot; jegpe@dtu.dk
-</div>
 
 ---
 
@@ -36,7 +30,7 @@ Advanced Topics in Hearing Research &mdash; March 2026
 
 <div>
 
-- Postdoc at **DTU Electro**, Section for Electronics and Computer Engineering
+- Postdoc at **DTU Electro**
 - PhD in neurocomputing from **KTH Royal Institute of Technology**, Sweden
 - Background in **computer science**, interested in neuromorphic engineering
 - Co-founder of **Open Neuromorphic** (open-neuromorphic.org)
@@ -56,21 +50,26 @@ Research question:
 ### Roadmap
 
 1. **Why spikes?** &mdash; the case for event-driven processing
-2. **Covariant signal processing** &mdash; from receptive fields to spiking wavelets
-3. **Hardware deployment** &mdash; neuromorphic chips at hearing-aid power budgets
+2. **Brain-inspired signal processing** &mdash; from receptive fields to spiking wavelets
+3. **Brain-inspired hardware** &mdash; neuromorphic chips at hearing-aid power budgets
 
 </v-clicks>
 
 ---
+class: text-white
+---
 
 # Why am I here?
+
+<div class="absolute inset-0 bg-black -z-2"></div>
+<video src="/mouse_cortex.mp4" autoplay loop muted class="absolute inset-0 w-full h-full object-cover opacity-100 -z-1"/>
 
 Nervous systems are **masters at signal processing and cognition**:
 
 <v-clicks>
 
-- Sensory systems (e. g. cochlea) decompose sound into frequency bands &mdash; **wavelet transform**
-- Afferent and efferent information is encoded in discrete **spikes** to save time and energy
+- Sensory systems (e. g. cochlea) does intelligent processing
+- Input/output uses discrete **spikes** to save time and energy
 - Everything is plastic &mdash; adapts to changes and learns to improve
 - All of this on **micro-watts** budgets
 
@@ -86,6 +85,8 @@ My work: building **artificial systems** that follow the same principles
 
 </v-click>
 
+<p class="text-xs text-gray-100 absolute bottom-4 right-6">Background: Human Brain Project, 2023</p>
+
 ---
 layout: section
 ---
@@ -98,14 +99,14 @@ layout: section
 
 # The energy wall
 
-<div class="grid grid-cols-2 gap-8 items-center">
+<div class="grid grid-cols-[2fr_3fr] gap-8 items-center">
 <div>
 
 <v-clicks>
 
 - Conventional computing separates memory and computation &mdash; creating an **energy bottleneck**
-- Moving data costs **10,000&times;** more energy than computing it
-- AI training costs are **doubling every 6 months**
+- Moving data is **10,000&times;** more costly than computing
+- AI training costs **double every 6 months**
 - We are approaching fundamental physical limits
 
 </v-clicks>
@@ -113,17 +114,11 @@ layout: section
 </div>
 <div>
 
-<img src="/energy_limit.png" class="h-80 mx-auto"/>
+<img src="/energy_limit.png" class="h-100 mx-auto"/>
 <p class="text-xs text-gray-400 text-right">Shankar, Energy Estimates, 2023</p>
 
 </div>
 </div>
-
-<v-click>
-
-> There is room to improve &mdash; up to **27&ndash;35 orders of magnitude**
-
-</v-click>
 
 ---
 
@@ -136,7 +131,7 @@ layout: section
 
 **Digital transistors**
 
-$10^{-12}$ J/op
+$10^{-12}$ Joules/operation
 
 ~500 W (GPU)
 
@@ -147,7 +142,7 @@ $10^{-12}$ J/op
 
 **Biological neurons**
 
-$10^{-20}$ J/op
+$10^{-20}$ Jolues/operation
 
 ~20 W (brain)
 
@@ -156,7 +151,7 @@ $10^{-20}$ J/op
 
 <p class="text-center mt-4 text-xl font-bold" v-click>
 
-$10^{8}\times$ more efficient
+Biology is at least $10^{8}\times$ more efficient
 
 </p>
 
@@ -167,7 +162,7 @@ $10^{8}\times$ more efficient
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
 
-The cochlea doesn't sample at a fixed rate &mdash; it produces **events** when thresholds are crossed.
+Biological sensors don't sample at a fixed rate &mdash; they produce **events** when thresholds are crossed
 
 <v-clicks>
 
@@ -216,7 +211,7 @@ layout: section
 
 # What the frog's eye tells the frog's brain
 
-<div class="grid grid-cols-[1fr_auto] gap-8 items-center">
+<div class="grid grid-cols-[3fr_1fr] gap-8 items-center">
 <div>
 
 Frog eyes are **bug detectors**
@@ -225,15 +220,26 @@ Frog eyes are **bug detectors**
 
 - Sharp, dark, moving edges
 - Independent of luminosity
-- Nature uses **spatio-temporal receptive fields**
+- This is **not** invariance &mdash; the frog still knows *where* and *when*
 
 </v-clicks>
 
-<br/>
+<div v-click class="mt-2">
+<!-- 
+```mermaid {scale: 0.5}
+graph TD
+    subgraph S[" "]
+        direction LR
+        X["x"] -->|"g"| X2["x'"]
+    end
+    X -->|"φ"| Y["y"]
+    X2 -->|"φ'"| Y
+    style S fill:none,stroke:none
+``` -->
 
-<p v-click class="text-xl">
-The same principle applies to auditory processing. Can we build it with spiking neurons?
-</p>
+The frog **needs** to know size, position, speed... We need **covariance**
+
+</div>
 
 </div>
 <div>
@@ -251,7 +257,7 @@ The same principle applies to auditory processing. Can we build it with spiking 
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
 
-A representation is **covariant** if it transforms **predictably** under input transformations.
+A representation $\phi$ is **covariant** if it transforms **predictably** under input transformations $g$.
 
 <v-click>
 
@@ -401,7 +407,7 @@ Wavelets decompose a signal into **time and frequency** simultaneously
 
 ---
 
-# Homomorphic processing in the spike domain
+# Covariant processing in the spike domain
 
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
@@ -608,7 +614,7 @@ Event-driven processing: **microsecond** response times
 
 ### Scalability
 
-Same covariant primitives work across **modalities**: vision, audio, tactile
+Same covariant primitives work across **modalities** in space *and* time: vision, audio, tactile
 
 One framework for many applications
 
