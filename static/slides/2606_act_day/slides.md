@@ -13,15 +13,13 @@ math: katex
 ---
 
 <div class="absolute inset-0 bg-black z-0"></div>
-<video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60 z-0">
+<video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-80 z-0">
   <source src="/_assets/mouse_cortex.mp4" type="video/mp4"/>
 </video>
 
 <div class="relative z-10 text-white">
 
 # Brain-inspired sensing and computing
-
-### A neuromorphic pipeline &mdash; from spiking ADCs to physical AI
 
 <br/>
 
@@ -55,18 +53,17 @@ Today's topic:
 
 <v-clicks>
 
-1. **Why neuromorphic?** &mdash; the energy & time argument
-2. **Models** &mdash; spiking systems for signal processing
-3. **Pipeline** &mdash; spiking ADCs + fully neuromorphic compute
-4. **Applications** &mdash; ears, eyes, skin, edge logic, general compute
+1. **Why neuromorphic?** &mdash; the energy & time argument, and the pipeline we want
+2. **Mixed-signal computers** &mdash; spiking ADC, neuromorphic compute, deployment
+3. **Applications** &mdash; ears, eyes, skin, edge logic, general compute
 
 </v-clicks>
 
 </div>
 <div>
 
-<img src="/_assets/dvxplorer.jpg" class="h-40 mx-auto rounded shadow"/>
-<p class="text-xs text-gray-400 text-center">An event camera &mdash; a sensor inspired by the retina</p>
+<img src="/_assets/chiptobrain.png" class="h-50 mx-auto"/>
+<p class="text-xs text-gray-400 text-center">From chip to brain &mdash; and back</p>
 
 </div>
 </div>
@@ -77,7 +74,7 @@ layout: section
 
 # Part I
 ## Why neuromorphic?
-### The energy and time argument
+### The energy and time argument &mdash; and the pipeline we want
 
 ---
 
@@ -157,171 +154,7 @@ Two principles do most of the work: **co-locate memory and compute**, and **only
 
 ---
 
-# The time wall: event-driven sensing
-
-<div class="grid grid-cols-2 gap-8 items-center">
-<div>
-
-Frame-based sensors sample at fixed rates &mdash; biology doesn't
-
-<v-clicks>
-
-- Each "pixel" (or cochlear hair cell) reports **only when it changes**
-- **Microsecond** temporal resolution
-- **120 dB** dynamic range
-- Sparse, asynchronous, **no redundant data**
-
-</v-clicks>
-
-<v-click>
-
-<br/>
-
-The same principle in vision: **event cameras**.
-The same principle in hearing: **silicon cochleae** and spiking microphones.
-
-</v-click>
-
-</div>
-<div>
-
-<img src="/_assets/event_sensor.png" class="h-40 mx-auto mb-4"/>
-
-<v-click>
-
-<video src="/_assets/westmead_3d_small.mp4" autoplay loop muted controls class="h-50 mx-auto rounded shadow"/>
-<p class="text-xs text-gray-400 text-center">Event camera output &mdash; each dot is a brightness change (Marcireau, 2023)</p>
-
-</v-click>
-
-</div>
-</div>
-
----
-layout: section
----
-
-# Part II
-## Computational models
-### Spiking systems for signal processing
-
----
-
-# Neurons are both analog *and* digital
-
-<div class="grid grid-cols-2 gap-8 items-center">
-<div>
-
-Von Neumann (1958) already noticed: the nervous system uses **two kinds of signals**
-
-<v-clicks>
-
-- **Analog**: membrane voltages, synaptic currents &mdash; continuous, numerical, integrate over time
-- **Digital**: spikes are all-or-nothing &mdash; discrete, robust, cheap to transmit
-- Memory and computation are **co-located**
-
-</v-clicks>
-
-<v-click>
-
-<br/>
-
-$$\tau \frac{dv}{dt} = -v(t) + I(t), \quad v \geq \theta \Rightarrow \text{spike}$$
-
-The leaky integrator runs the **analog** ODE; the threshold emits the **digital** event.
-
-</v-click>
-
-</div>
-<div>
-
-<img src="/_assets/programming_nm.png" class="h-70 mx-auto"/>
-
-<v-click>
-
-<div class="mt-3 p-3 bg-green-50 rounded-lg text-sm">
-
-Neuromorphic systems **combines** continuous (analog) dynamics and discrete (digital) events
-
-</div>
-
-</v-click>
-
-<p class="text-xs text-right text-gray-400 mt-1">Abreu &amp; Pedersen, Neuromorphic Computing &amp; Engineering, 2024</p>
-
-</div>
-</div>
-
----
-
-# Spiking receptive fields work &mdash; even on sparse data
-
-<div class="grid grid-cols-2 gap-8 items-start">
-<div>
-
-LIF neurons are **naturally scale-covariant** &mdash; with mathematical guarantees on how they handle transformations in space and time.
-
-<v-clicks>
-
-- Applied to **event camera** data, dense and sparse
-- **42.4% improvement** over conventional ANN baselines on event-vision tasks
-- Built entirely from **neuromorphic primitives** &mdash; deployable today
-
-</v-clicks>
-
-</div>
-<div>
-
-<div class="grid grid-cols-1 gap-1">
-<v-clicks>
-<video src="/_assets/circle_dense_coo.mp4" autoplay loop muted class="rounded h-50"/>
-<video src="/_assets/circle_sparse_coo.mp4" autoplay loop muted class="rounded h-50"/>
-</v-clicks>
-</div>
-
-
-<p class="text-xs text-right text-gray-400 mt-2">Pedersen, Conradt, &amp; Lindeberg, Nature Communications, 2025</p>
-
-</div>
-</div>
-
----
-
-# Spiking wavelets: async and sparse signal processing
-
-<img src="/_assets/swavelet_hero.svg">
-
-<div class="grid grid-cols-2 gap-8 items-center">
-<div>
-
-Wavelets decompose a signal in **time and frequency** simultaneously &mdash; the same trick biological sensory systems use.
-
-
-<v-clicks>
-
-- **Perfect reconstruction** from wavelet theory
-- We can do **rigorous signal processing entirely on neuromorphic substrates** &mdash; not just classification.
-
-</v-clicks>
-</div>
-
-![](/_assets/swavelet_results.png)
-
-</div>
-
-<p class="text-xs text-right text-gray-400 mt-1">Pedersen, Lindeberg, &amp; Gerstoft, arXiv:2602.02020, 2026</p>
-
----
-layout: section
----
-
-# Part III
-## The pipeline
-### Spiking ADCs + fully neuromorphic compute
-
----
-
-# From a digital detour to a spike-domain pipeline
+# The pipeline we want
 
 <div class="grid grid-cols-[3fr_2fr] gap-6 items-start">
 
@@ -336,7 +169,7 @@ layout: section
 
 **Our pipeline &mdash; stay in the spike domain**
 
-- **Spiking ADC**: sparse, event-driven encode &mdash; wavelet front-end with reconstruction guarantees
+- **Spiking ADC**: sparse, event-driven encode
 - **Fully neuromorphic compute**: parallel, asynchronous &mdash; no clock, no global memory bus
 - **Spike-domain decode** only when an actuator needs it
 
@@ -390,107 +223,212 @@ End-to-end signal processing that is **sparse** and **asynchronous** &mdash; ope
 </div>
 
 ---
+layout: section
+---
 
-# One model, many chips: NIR
+# Part II
+## Building the pipeline
+### Spiking ADC &middot; neuromorphic compute &middot; deployment
+
+---
+
+# 1. Sensing &mdash; the event camera
 
 <div class="grid grid-cols-2 gap-8 items-center">
 <div>
 
-The problem: **14+ neuromorphic platforms**, each with its own programming model.
+Biological sensors don't sample at a fixed rate &mdash; they produce **events** when thresholds are crossed.
 
 <v-clicks>
 
-- **NIR**: Neuromorphic Intermediate Representation
+- Sparse, asynchronous, **no redundant data**
+- **Microsecond** temporal resolution
+- **120 dB** dynamic range
+
+</v-clicks>
+
+<v-click>
+
+<br/>
+
+Same principle, different modality:
+- Vision &rarr; **event cameras**
+- Hearing &rarr; **silicon cochleae**, spiking microphones
+- Touch &rarr; **event-driven skin** and accelerometers
+
+</v-click>
+
+</div>
+<div>
+
+<img src="/_assets/event_sensor.png" class="h-30 mx-auto mb-3"/>
+
+<v-click>
+
+<video src="/_assets/westmead_3d_small.mp4" autoplay loop muted controls class="h-45 mx-auto rounded shadow"/>
+<p class="text-xs text-gray-400 text-center">Event camera output (Marcireau, 2023)</p>
+
+</v-click>
+
+</div>
+</div>
+
+---
+
+# 2. Computing &mdash; what von Neumann saw
+
+<div class="grid grid-cols-2 gap-8 items-center">
+<div>
+
+Von Neumann (1958) already noticed: the nervous system uses **two kinds of signals**
+
+<v-clicks>
+
+- **Analog**: membrane voltages, synaptic currents &mdash; continuous, integrate over time
+- **Digital**: spikes are all-or-nothing &mdash; discrete, robust, cheap to transmit
+- Memory and computation are **co-located**
+
+</v-clicks>
+
+<v-click>
+
+<div class="mt-3 p-3 bg-green-50 rounded-lg text-sm">
+
+Neuromorphic systems **combine** continuous (analog) dynamics with discrete (digital) events &mdash; the substrate runs the ODE, the spike is the message.
+
+</div>
+
+</v-click>
+
+</div>
+<div>
+
+<img src="/_assets/programming_nm.png" class="h-60 mx-auto"/>
+
+<p class="text-xs text-right text-gray-400 mt-1">Abreu &amp; Pedersen, Neuromorphic Computing &amp; Engineering, 2024</p>
+
+</div>
+</div>
+
+---
+
+# 3. Deployment &mdash; let physics do the compute
+
+<div class="grid grid-cols-[3fr_2fr] gap-6 items-center">
+<div>
+
+**14+ neuromorphic platforms** &mdash; each with its own programming model.
+
+<v-clicks>
+
+- **NIR** &mdash; Neuromorphic Intermediate Representation
 - Primitives defined as **continuous-time ODEs**
 - Train anywhere &rarr; export to NIR &rarr; deploy anywhere
-- Vendors include Intel, BrainChip, SynSense, Innatera, SpiNNcloud, Heidelberg
+- Vendors: Intel, BrainChip, SynSense, Innatera, SpiNNcloud, Heidelberg
 
 </v-clicks>
 
 </div>
 <div>
 
-<img src="/_assets/nir_flow.png" class="h-40 mx-auto"/>
-
-<p class="text-xs text-right text-gray-400 mt-1">Pedersen et al., Nature Communications, 2024</p>
-
-</div>
-</div>
-
----
-
-# What does the hardware look like today?
-
-<div class="grid grid-cols-4 gap-3 mt-2 text-sm">
-<div class="text-center p-3 bg-blue-50 rounded-lg">
-
-**Intel Loihi 2**
-
-~1 W
-
-Digital, programmable
-
-</div>
-<div class="text-center p-3 bg-green-50 rounded-lg">
-
-**BrainChip Akida**
-
-~100 mW
-
-Edge inference
-
-</div>
-<div class="text-center p-3 bg-purple-50 rounded-lg">
-
-**SynSense Speck**
-
-~10 mW
-
-Integrated event sensor + SNN
-
-</div>
-<div class="text-center p-3 bg-orange-50 rounded-lg">
-
-**Innatera T1**
-
-~1 mW
-
-Mixed-signal, audio-focused
+<img src="/_assets/nir_flow.png" class="h-30 mx-auto"/>
+<p class="text-xs text-right text-gray-400">Pedersen et al., Nature Communications, 2024</p>
 
 </div>
 </div>
 
-<v-click>
+<div class="grid grid-cols-4 gap-3 mt-4 text-xs" v-click>
+<div class="text-center p-2 bg-blue-50 rounded-lg">
 
-<div class="mt-4 text-center text-sm text-gray-500">
-
-mixed-signal designs already push **below 1 mW** for always-on audio &mdash; a hearing-aid power budget
+**Intel Loihi 2** &middot; ~1 W
 
 </div>
+<div class="text-center p-2 bg-green-50 rounded-lg">
 
-</v-click>
+**BrainChip Akida** &middot; ~100 mW
 
-<img src="/_assets/nir_hw.png" class="h-50 mx-auto mt-4" v-click/>
+</div>
+<div class="text-center p-2 bg-purple-50 rounded-lg">
+
+**SynSense Speck** &middot; ~10 mW
+
+</div>
+<div class="text-center p-2 bg-orange-50 rounded-lg">
+
+**Innatera T1** &middot; ~1 mW
+
+</div>
+</div>
+
+<div v-click class="mt-4 p-3 bg-orange-50 rounded-lg text-center text-sm">
+
+The ODE **is** the chip &mdash; sub-mW for always-on audio
+
+</div>
 
 ---
 layout: section
 ---
 
-# Part IV
+# Part III
 ## Applications
-### Ears, eyes, skin, edge logic, general compute
+### Where this matters to you
 
 ---
 
-# Applications &mdash; one pipeline, many modalities
+# Sound &mdash; the ear
+
+The cochlea is **already** a spiking, multi-scale wavelet front-end &mdash; nature has done the engineering for us.
+
+<center>
+<img src="/_assets/swavelet_hero.svg" class="h-40">
+</center>
+
+<div class="grid grid-cols-[2fr_2fr] gap-8 items-center">
+<div>
+
 
 <v-clicks>
 
-- **Sound &mdash; the ear** &middot; spiking wavelet ADCs, silicon cochleae, always-on keyword detection, noise reduction & source separation, auditory scene analysis. *Hearing aids, hearables, condition monitoring, sonar.*
+- **Spiking ADC for audio** &mdash; silicon cochleae
+- **Always-on keyword and event detection** at $\mu$W
+- **Noise reduction & source separation** with spikes
+
+</v-clicks>
+
+<v-click>
+
+<div class="mt-3 p-3 bg-blue-50 rounded-lg text-sm">
+
+Concrete starting points: a **spiking wavelet ADC** benchmarked against conventional DSP for hearing-aid front-ends &middot; **on-chip auditory scene analysis** for hearables
+
+</div>
+
+</v-click>
+
+</div>
+<div>
+
+<v-click>
+
+<img src="/_assets/swavelet_results.png" class="h-50 mx-auto"/>
+<p class="text-xs text-center text-gray-400">Pedersen et al. 2026</p>
+
+</v-click>
+
+</div>
+</div>
+
+---
+
+# Beyond hearing &mdash; the same pipeline, other modalities
+
+<v-clicks>
+
 - **Video &mdash; the eyes** &middot; event cameras at 100&ndash;500 mW, $\mu$s latency, 120 dB dynamic range, native input to SNNs. *High-speed tracking, gesture, driver monitoring, drones.*
-- **Touch &mdash; tactile & vibration** &middot; event-driven skin and accelerometers, sparse activity ideal for spiking back-ends. *Prosthetics, robotics, predictive maintenance.*
+- **Touch &mdash; tactile & vibration** &middot; event-driven skin and accelerometers; sparse activity ideal for spiking back-ends. *Prosthetics, robotics, predictive maintenance.*
 - **Simple logic &mdash; routing / edge** &middot; always-on classifiers, wake-words, anomaly detection, packet routing. *Spiking logic beats clocked microcontrollers when most of the time nothing happens.*
-- **General compute** &middot; same covariant primitives across vision, audio, tactile, control &mdash; spiking wavelets give rigorous signal processing on the same substrate as classification.
+- **General compute** &middot; the same covariant primitives across vision, audio, tactile, control &mdash; one substrate for sensing, signal processing, and classification.
 
 </v-clicks>
 
@@ -507,7 +445,7 @@ layout: section
 
 ---
 
-# Where this fits in the computing continuum
+# Where we are on the computing continuum
 
 <div class="grid grid-cols-5 gap-2 mt-6 text-sm">
 <div class="p-2 bg-blue-50 rounded-lg text-center">
@@ -582,12 +520,12 @@ Speck, Innatera, DynapCNN
 </div>
 <div class="p-3 bg-green-50 rounded-lg text-left text-sm">
 
-**Models** &mdash; Neurons as spatio-temporal pattern matchers for mixed-signal processing
+**Components** &mdash; spiking ADC &rarr; analog+digital neuromorphic compute &rarr; deploy via NIR.
 
 </div>
 <div class="p-3 bg-purple-50 rounded-lg text-left text-sm">
 
-**Pipeline** &mdash; spiking ADC &rarr; parallel, async neuromorphic compute &rarr; embodied systems for hearing, seeing, sensing, and beyond.
+**Applications** &mdash; hearing first, but the same pipeline serves eyes, touch, edge, and general compute at $\mu$W&ndash;mW.
 
 </div>
 </div>
@@ -618,7 +556,5 @@ Speck, Innatera, DynapCNN
 </div>
 
 <br/>
-
-<p class="text-lg">Questions? 🙋</p>
 
 <p class="text-xs mt-4 opacity-50">Support from the Novo Nordisk Foundation (NNF24OC0089302)</p>
