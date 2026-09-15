@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="prose-wide">
+  {{ .Content }}
+</div>
+
+{{/* Recent writing, drawn from params.mainSections (blog) */}}
+{{ $recent := where site.RegularPages "Section" "in" site.Params.mainSections }}
+{{ with first 4 $recent }}
+  <section style="margin-block-start: var(--space-2xl)">
+    <h2>{{ site.Params.recent_copy | default "Recent posts" }}</h2>
+    <div class="card-grid">
+      {{ range . }}{{ partial "post-card.html" . }}{{ end }}
+    </div>
+    {{ with site.GetPage (printf "/%s" (index site.Params.mainSections 0)) }}
+      <p style="margin-block-start: var(--space-lg)">
+        <a href="{{ .RelPermalink }}">All posts &rarr;</a>
+      </p>
+    {{ end }}
+  </section>
+{{ end }}
+{{ end }}

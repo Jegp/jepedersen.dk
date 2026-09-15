@@ -9,70 +9,86 @@ menu:
     weight: 10
 ---
 
-<figure class="ma0 pa0">
+## Research agenda
 
-  <div class="rf-pair">
-    <video class="db mw-100" loop autoplay muted playsinline preload="metadata"
-           aria-label="A fast-decaying temporal receptive field">
-      <source src="/slides/_assets/temporal_fast.mp4" type="video/mp4">
-    </video>
-    <video class="db mw-100" loop autoplay muted playsinline preload="metadata"
-           aria-label="A slow-decaying temporal receptive field">
-      <source src="/slides/_assets/temporal_slow.mp4" type="video/mp4">
-    </video>
-  </div>
-  <figcaption class="f6 gray tc">Temporal: fast versus slow decay</figcaption>
-</figure>
+My goal is to understand and apply biologically-inspired intelligence.
+I work both theoretically to understand the fundamental principles of physical computing,
+and practically to build and solve problems with present-day neuromorphic platforms.
 
-<style>
-.rf-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-@media screen and (max-width: 30em) { .rf-pair { grid-template-columns: 1fr; } }
-</style>
+[More about me and my background](/about/)
 
-  The same impulse under fast and slow temporal receptive fields.
-  The spatial and temporal receptive fields provide fascinating geometric insights and can be fully implemented with neurons, providing a cheap and efficient way to process [event-based camera data](https://en.wikipedia.org/wiki/Event_camera).
-  Read more about spatio-temporal receptive fields on [our website](https://jegp.github.io/nrf/).
-  
+<!-- ======================================================================
+     RESEARCH THREADS — sketch derived from your 2025-26 talks.
 
-<div class="pa2 mt4" style="text-align: left">
-  
-  ## Research agenda
+     These three clusters recur across SDU, Stanford, DTU Hearing, ITU REAL
+     and the Open Neuromorphic student talk, using your own framing. The
+     headings and anchors are here; the paragraphs are deliberately left to
+     you. Uncomment and fill in, then delete this wrapper.
 
-  My goal is to understand and apply biologically-inspired intelligence.
-  I work both theoretically to understand the fundamental principles of physical computing, and practical to build and solve problems with present-day neuromorphic platforms.
+     ## Research threads
 
-<a href="/about/" class="link black dim db w-100 pa2 br2 ba bg-grey b--black-10 shadow-1 mt4">
-  <span class="db f4 pv2" style="text-align: center;">Read more about me →</span>
-</a>
+     ### Closing the representational gap
+       Cover: Horsman's (2014) representation relation; Yanofsky (2022) on
+       computational classes and structure-preserving maps; why classical CS
+       nomenclature and the physics that runs the computation have drifted
+       apart; what "physically faithful" would mean for a compiler.
+       Anchors: SDU 2026-06, Stanford EEC 2026-04.
+       Papers: NIR (Nat Comms 2024), Neuromorphic Programming (ICONS 2024).
+
+     ### Covariant signal processing with spiking neurons
+       Cover: why covariance guarantees are necessary rather than nice; what
+       spatio-temporal receptive fields buy you; the move from receptive
+       fields to wavelets; what remains open.
+       Anchors: ONM student talk 2025-12, DTU Hearing 2026-03, ITU REAL 2026-02.
+       Papers: Covariant STRFs (Nat Comms 2025), Scale-covariant spiking
+       wavelets (ICASSP 2026), Spiking bandpass wavelets (arXiv 2026).
+
+     ### Interoperability and deployment
+       Cover: NIR as a cross-platform compilation target; running at real
+       power budgets (the hearing-aid figure is a concrete hook); how you
+       benchmark embodied neuromorphic agents; the open-source stack as
+       research infrastructure rather than a side product.
+       Anchors: DTU Hearing 2026-03 (part 3), Stanford EEC 2026-04 (part 7).
+       Papers: NIR (Nat Comms 2024), Benchmarking framework (Nat MI 2026).
+
+     A fourth candidate, currently folded into the others: event-driven
+     sensing toward embodied physical AI (ITU REAL theme 3, the air-hockey
+     player, GERD). Worth splitting out if it is becoming its own direction.
+
+     If you want one figure on this page, the strongest informative options
+     already in the repo are (both vector, crisp at full width):
+       /img/25/covariance_spatiotemporal.svg
+       /img/25/scaling.svg
+     ====================================================================== -->
 
 ## Selected publications
 
 ### 2026
 
-* **[Encoding and decoding temporal signals with spiking bandpass wavelets](https://arxiv.org/abs/2605.09770)**
+* **[Encoding and decoding temporal signals with spiking bandpass wavelets](https://arxiv.org/abs/2605.09770)**  
   Jens Egholm Pedersen, Tony Lindeberg, Peter Gerstoft  
   *arXiv preprint, 2026*
 
-* **[A benchmarking framework for embodied neuromorphic agents](https://www.nature.com/articles/s42256-026-01197-w)**
+* **[A benchmarking framework for embodied neuromorphic agents](https://www.nature.com/articles/s42256-026-01197-w)**  
   Giulia D'Angelo, Jens Egholm Pedersen, Taimoor Hassan, et al.  
   *Nature Machine Intelligence, March 2026*
 
-* **[Scale-covariant spiking wavelets](https://arxiv.org/abs/2602.02020)**
+* **[Scale-covariant spiking wavelets](https://arxiv.org/abs/2602.02020)**  
   Jens Egholm Pedersen, Tony Lindeberg, Peter Gerstoft  
   *IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2026*
 
 ### 2025
 
-* **[Covariant spatio-temporal receptive fields for spiking neural networks](https://www.nature.com/articles/s41467-025-63493-0)**
+* **[Covariant spatio-temporal receptive fields for spiking neural networks](https://www.nature.com/articles/s41467-025-63493-0)**  
   Jens Egholm Pedersen, Jörg Conradt, Tony Lindeberg  
   *Nature Communications, September 2025*
 
-* **[GERD: Geometric event response data generation](http://arxiv.org/abs/2412.03259)**
+* **[GERD: Geometric event response data generation](http://arxiv.org/abs/2412.03259)**  
   Jens Egholm Pedersen, Dimitrios Korakovounis, Jörg Conradt  
   *arXiv preprint, in review, 2025*
 
-* **[Low-latency neuromorphic air hockey player](https://iopscience.iop.org/article/10.1088/2634-4386/addc15)**
-  Juan P. Romero B., Dimitrios Korakovounis, Jens E Pedersen, and Jorg Conradt
+* **[Low-latency neuromorphic air hockey player](https://iopscience.iop.org/article/10.1088/2634-4386/addc15)**  
+  Juan P. Romero B., Dimitrios Korakovounis, Jens E Pedersen, and Jorg Conradt  
   *Journal of Neuromorphic Computing and Engineering, 2025*
 
 ### 2024
@@ -123,4 +139,3 @@ menu:
 </a>
 
 
-</div>

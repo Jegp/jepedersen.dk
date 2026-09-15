@@ -1,0 +1,10 @@
+{{/* Resized, self-contained portrait. Usage:
+     {{< portrait src="img/2404_jens.jpg" alt="..." >}}  (path relative to assets/) */}}
+{{ with resources.Get (.Get "src") }}
+  {{ $small := .Resize "480x webp q82" }}
+  <figure class="portrait">
+    <img src="{{ $small.RelPermalink }}" width="{{ $small.Width }}" height="{{ $small.Height }}"
+         alt="{{ $.Get `alt` }}" loading="lazy" decoding="async">
+    {{ with $.Get "caption" }}<figcaption>{{ . }}</figcaption>{{ end }}
+  </figure>
+{{ end }}

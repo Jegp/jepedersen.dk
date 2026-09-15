@@ -1,0 +1,14 @@
+<article class="card">
+  <h2 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+
+  <p class="card__meta">
+    {{ with .Date }}{{ if not .IsZero }}
+      <time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2 Jan 2006" }}</time>
+    {{ end }}{{ end }}
+    {{ with .Params.tags }} &middot; {{ delimit (first 3 .) ", " }}{{ end }}
+  </p>
+
+  {{ with .Params.description | default (.Summary | plainify) }}
+    <p class="card__summary">{{ . | truncate 180 }}</p>
+  {{ end }}
+</article>

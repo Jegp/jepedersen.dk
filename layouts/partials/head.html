@@ -1,0 +1,73 @@
+{{/* --- Description & canonical ----------------------------------------- */}}
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary | plainify | truncate 160 }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
+{{ with .Params.author | default site.Params.author }}<meta name="author" content="{{ . | plainify }}">{{ end }}
+<link rel="canonical" href="{{ .Params.canonicalUrl | default .Permalink }}">
+
+{{ $production := eq (getenv "HUGO_ENV") "production" | or (eq site.Params.env "production") }}
+{{ if and $production (not .Params.private) }}
+  <meta name="robots" content="index, follow">
+{{ else }}
+  <meta name="robots" content="noindex, nofollow">
+{{ end }}
+
+{{/* --- Theme: set before first paint so there is no flash ---------------- */}}
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+
+{{/* --- Fonts: preload the two used above the fold ------------------------ */}}
+<link rel="preload" href="/fonts/self/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/self/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+{{/* --- Stylesheet -------------------------------------------------------- */}}
+{{ with resources.Get "css/main.css" }}
+  {{ $css := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{ end }}
+
+{{/* --- KaTeX: only on pages that actually contain math -------------------
+     Previously loaded site-wide, plus a duplicate CDN copy inside one post. */}}
+{{ $hasMath := false }}
+{{ if .Params.math }}
+  {{ $hasMath = true }}
+{{ else if .IsPage }}
+  {{ if findRE `(\$\$|\\\[|\\\(|\$[^$\s][^$]*\$)` .RawContent 1 }}{{ $hasMath = true }}{{ end }}
+{{ end }}
+{{ if $hasMath }}
+  <link rel="stylesheet" href="/css/katex.min.css" integrity="sha384-S7bfUyIcSgLX06WB6Q6eTV0TuT2i/HqrznOyFkCNF0zOu4axeM4o7u/tptUvn/yn" crossorigin="anonymous">
+  <script defer src="/js/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+  <script defer src="/js/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+{{ end }}
+
+{{/* --- Feeds, favicon, social cards -------------------------------------- */}}
+{{ with .OutputFormats.Get "RSS" }}
+  <link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{ end }}
+{{ with site.Params.favicon }}<link rel="icon" href="{{ . | relURL }}">{{ end }}
+
+{{- template "_internal/opengraph.html" . -}}
+{{- template "_internal/schema.html" . -}}
+{{- template "_internal/twitter_cards.html" . -}}
+
+{{/* --- Analytics --------------------------------------------------------- */}}
+{{ if $production }}
+  <script defer src="https://analytics.jepedersen.dk/script.js" data-website-id="83f6d161-f2bb-4472-b991-4664b6af2e5e"></script>
+{{ end }}

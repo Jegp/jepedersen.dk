@@ -40,8 +40,8 @@ menu:
               — A standard for bio-inspired computing
             </li>
             <li class="mb2">
-              <a href="https://github.com/norse/norse" class="link blue dim fw6">Norse</a> 
-              — Spiking neural networks in PyTorch
+              <a href="https://arxiv.org/abs/2602.02020" class="link blue dim fw6">Spiking wavelets</a> 
+              — Scale-covariant signal processing with spiking neurons
             </li>
             <li class="mb2">
               <a href="https://github.com/aestream/faery" class="link blue dim fw6">Faery</a> 

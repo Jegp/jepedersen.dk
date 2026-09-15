@@ -6,7 +6,7 @@ menu:
   main:
     weight: 50
 ---
-{{< figure src="/img/2404_jens.jpg" title="Portrait of Jens Egholm Pedersen." >}}
+{{< portrait src="img/2404_jens.jpg" alt="Portrait of Jens Egholm Pedersen" >}}
 
 Jens Egholm Pedersen is a postdoctoral researcher at the Technical University of Denmark (DTU) working to model and construct neuromorphic control systems. He defended his PhD at KTH Royal Institute of Technology in October 2025.
 His research explores the intersection of neuroscience and computer science, developing brain-inspired computing systems that process information with remarkable efficiency and adaptability.

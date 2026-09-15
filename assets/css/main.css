@@ -1,0 +1,486 @@
+/* ==========================================================================
+   jepedersen.dk — editorial/typographic design system
+   Token-driven. Colour via light-dark(), type and spacing via clamp().
+   ========================================================================== */
+
+/* --- Fonts ---------------------------------------------------------------
+   Self-hosted variable fonts, Latin subset. One file spans every weight.
+   Greek (e.g. the λ in "λ-calculus") falls back to the system serif.       */
+
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/fonts/self/source-serif-4-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  src: url('/fonts/self/source-serif-4-latin-wght-italic.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/self/inter-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/self/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Tokens -------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --font-serif: 'Source Serif 4', Charter, 'Bitstream Charter', Georgia, serif;
+  --font-sans:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Fluid type scale — no breakpoints needed */
+  --text-xs:   clamp(0.75rem, 0.73rem + 0.10vw, 0.81rem);
+  --text-sm:   clamp(0.88rem, 0.85rem + 0.12vw, 0.94rem);
+  --text-base: clamp(1.05rem, 1.00rem + 0.22vw, 1.19rem);
+  --text-lg:   clamp(1.25rem, 1.17rem + 0.36vw, 1.50rem);
+  --text-xl:   clamp(1.50rem, 1.35rem + 0.70vw, 2.00rem);
+  --text-2xl:  clamp(1.85rem, 1.58rem + 1.25vw, 2.75rem);
+  --text-3xl:  clamp(2.25rem, 1.80rem + 2.10vw, 3.75rem);
+
+  /* Fluid spacing */
+  --space-2xs: clamp(0.25rem, 0.24rem + 0.06vw, 0.31rem);
+  --space-xs:  clamp(0.50rem, 0.48rem + 0.11vw, 0.63rem);
+  --space-sm:  clamp(0.75rem, 0.71rem + 0.17vw, 0.94rem);
+  --space-md:  clamp(1.00rem, 0.95rem + 0.23vw, 1.25rem);
+  --space-lg:  clamp(1.50rem, 1.43rem + 0.34vw, 1.88rem);
+  --space-xl:  clamp(2.00rem, 1.80rem + 1.00vw, 3.00rem);
+  --space-2xl: clamp(3.00rem, 2.55rem + 2.25vw, 5.00rem);
+
+  /* Measure */
+  --measure: 68ch;
+  --measure-wide: 82ch;
+  --page-max: 78rem;
+
+  /* Colour — OKLCH, one accent, light and dark in a single declaration each */
+  --bg:        light-dark(oklch(98.6% 0.004 85),  oklch(17.5% 0.008 260));
+  --bg-subtle: light-dark(oklch(96.2% 0.006 85),  oklch(21.5% 0.010 260));
+  --bg-raised: light-dark(oklch(100%  0     0),   oklch(24.0% 0.011 260));
+  --fg:        light-dark(oklch(23.0% 0.010 260), oklch(92.0% 0.006 85));
+  --fg-muted:  light-dark(oklch(48.0% 0.012 260), oklch(69.0% 0.010 260));
+  --fg-faint:  light-dark(oklch(62.0% 0.010 260), oklch(56.0% 0.010 260));
+  --rule:      light-dark(oklch(89.0% 0.006 85),  oklch(30.0% 0.012 260));
+
+  /* Accent sampled from the diverging blue/red colormap in Jens's figures */
+  --accent:       light-dark(oklch(52.0% 0.170 252), oklch(74.0% 0.135 252));
+  --accent-hover: light-dark(oklch(42.0% 0.185 252), oklch(83.0% 0.120 252));
+  --accent-soft:  color-mix(in oklch, var(--accent) 12%, transparent);
+
+  --radius: 6px;
+}
+
+/* Explicit overrides so the toggle beats the OS preference in both directions */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark']  { color-scheme: dark; }
+
+/* --- Reset --------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video, svg, iframe { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+/* --- Layout -------------------------------------------------------------- */
+
+.wrap {
+  width: min(100% - 2 * var(--space-md), var(--page-max));
+  margin-inline: auto;
+}
+
+.prose { max-width: var(--measure); }
+.prose-wide { max-width: var(--measure-wide); }
+
+main { padding-block: var(--space-xl) var(--space-2xl); }
+
+/* --- Typography ---------------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+  margin-block: var(--space-xl) var(--space-sm);
+}
+h1 { font-size: var(--text-2xl); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+h4 { font-size: var(--text-base); font-weight: 700; }
+
+h1:first-child, h2:first-child, h3:first-child, h4:first-child { margin-block-start: 0; }
+
+p, ul, ol, blockquote, figure, table { margin-block: 0 var(--space-md); }
+p { text-wrap: pretty; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+  text-decoration-color: color-mix(in oklch, var(--accent) 40%, transparent);
+  transition: color 0.12s ease, text-decoration-color 0.12s ease;
+}
+a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
+
+strong { font-weight: 650; }
+
+blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--space-md);
+  border-inline-start: 2px solid var(--rule);
+  color: var(--fg-muted);
+  font-style: italic;
+}
+blockquote p:last-child { margin-block-end: 0; }
+
+code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  font-feature-settings: 'liga' 0;
+}
+:not(pre) > code {
+  background: var(--bg-subtle);
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+}
+pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+pre code { background: none; padding: 0; }
+
+hr { border: 0; border-block-start: 1px solid var(--rule); margin-block: var(--space-xl); }
+
+table { border-collapse: collapse; width: 100%; font-size: var(--text-sm); }
+th, td { text-align: start; padding: var(--space-xs) var(--space-sm); border-block-end: 1px solid var(--rule); }
+th { font-family: var(--font-sans); font-weight: 600; }
+
+figure { margin-inline: 0; }
+figcaption {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  margin-block-start: var(--space-xs);
+  text-align: center;
+}
+
+/* Portrait: sized down and set beside the text on wide screens */
+.portrait { max-width: 15rem; margin-block: 0 var(--space-md); }
+.portrait img { border-radius: var(--radius); display: block; }
+.portrait figcaption { text-align: start; }
+@media (min-width: 46rem) {
+  .portrait {
+    float: inline-end;
+    max-width: 13rem;
+    margin-inline-start: var(--space-lg);
+    margin-block-start: var(--space-2xs);
+  }
+}
+
+/* Wide content must scroll inside itself, never the page */
+.scroll-x { overflow-x: auto; }
+
+/* --- Site header --------------------------------------------------------- */
+
+.site-header {
+  border-block-end: 1px solid var(--rule);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm) var(--space-md);
+  padding-block: var(--space-sm);
+}
+.site-title {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  text-decoration: none;
+  margin-inline-end: auto;
+}
+.site-title:hover { color: var(--accent); }
+
+.site-nav { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: baseline; }
+.site-nav a {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+.site-nav a:hover { color: var(--fg); }
+.site-nav a[aria-current='page'] { color: var(--fg); font-weight: 600; }
+
+/* --- Page header (typographic, no photo scrim) --------------------------- */
+
+.page-header { margin-block-end: var(--space-xl); }
+.page-header h1 { font-size: var(--text-3xl); margin-block: 0 var(--space-xs); }
+.page-header__lede {
+  font-size: var(--text-lg);
+  color: var(--fg-muted);
+  max-width: var(--measure);
+  margin-block: 0;
+}
+.page-meta {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--fg-faint);
+  margin-block-start: var(--space-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+/* --- Post cards ---------------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
+  gap: var(--space-lg);
+  margin-block-start: var(--space-lg);
+}
+
+.card {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-block-end: var(--space-lg);
+  border-block-end: 1px solid var(--rule);
+}
+.card__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+.card__title a { color: var(--fg); text-decoration: none; }
+.card__title a:hover { color: var(--accent); }
+.card__meta {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--fg-faint);
+  letter-spacing: 0.01em;
+}
+.card__summary { color: var(--fg-muted); font-size: var(--text-sm); margin: 0; }
+
+/* Container query: a card wide enough gets a roomier title */
+@container (min-width: 30rem) {
+  .card__title { font-size: var(--text-xl); }
+}
+
+/* --- Compact index (talks, archives) ------------------------------------- */
+
+.index-list { list-style: none; margin: 0; padding: 0; }
+.index-list li {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: var(--space-sm);
+  align-items: baseline;
+  padding-block: var(--space-sm);
+  border-block-end: 1px solid var(--rule);
+}
+.index-list time {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+.index-list a { color: var(--fg); text-decoration: none; }
+.index-list a:hover { color: var(--accent); }
+@media (max-width: 34rem) {
+  .index-list li { grid-template-columns: 1fr; gap: var(--space-2xs); }
+}
+
+/* --- Year headings in lists ---------------------------------------------- */
+
+.year-heading {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-block: var(--space-xl) var(--space-sm);
+}
+
+/* --- Tags ---------------------------------------------------------------- */
+
+.tag-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); list-style: none; margin: 0; padding: 0; }
+.tag {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.15em 0.7em;
+  text-decoration: none;
+}
+.tag:hover { color: var(--accent); border-color: var(--accent); }
+
+/* --- Theme toggle -------------------------------------------------------- */
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  padding: 0.35rem;
+  line-height: 0;
+}
+.theme-toggle:hover { color: var(--fg); border-color: var(--fg-faint); }
+.theme-toggle svg { width: 1.05rem; height: 1.05rem; }
+
+/* The icon shows the theme you would switch TO.
+   Base = light, so show the moon; the two guarded blocks below flip it. */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .theme-toggle .icon-sun { display: block; }
+  :root:not([data-theme='light']) .theme-toggle .icon-moon { display: none; }
+}
+:root[data-theme='dark'] .theme-toggle .icon-sun { display: block; }
+:root[data-theme='dark'] .theme-toggle .icon-moon { display: none; }
+
+/* --- Footer -------------------------------------------------------------- */
+
+.site-footer {
+  border-block-start: 1px solid var(--rule);
+  padding-block: var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+}
+.socials { display: flex; gap: var(--space-sm); align-items: center; }
+.socials a { color: var(--fg-muted); display: inline-flex; }
+.socials a:hover { color: var(--accent); }
+.socials svg { width: 1.15rem; height: 1.15rem; fill: currentColor; }
+
+/* --- Skip link ----------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: -9999px;
+  background: var(--bg-raised);
+  color: var(--fg);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  z-index: 100;
+}
+.skip-link:focus { inset-inline-start: var(--space-md); top: var(--space-xs); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ==========================================================================
+   LEGACY — Tachyons compatibility shim.
+   Four content files still carry inline Tachyons classes from the old theme
+   (_index.md, research/_index.md, code/_index.md, about.md). This block keeps
+   them rendering until step 2 strips that markup out. DELETE IT THEN.
+   ========================================================================== */
+
+.mb2 { margin-block-end: var(--space-xs); }
+.mb3 { margin-block-end: var(--space-sm); }
+.mb4 { margin-block-end: var(--space-lg); }
+.mt4 { margin-block-start: var(--space-lg); }
+.mv4 { margin-block: var(--space-lg); }
+.pt4 { padding-block-start: var(--space-lg); }
+.pb4 { padding-block-end: var(--space-lg); }
+.pa2 { padding: var(--space-xs); }
+.pa3 { padding: var(--space-sm); }
+.pv2 { padding-block: var(--space-xs); }
+.pv3 { padding-block: var(--space-sm); }
+.ph3 { padding-inline: var(--space-sm); }
+.pl0 { padding-inline-start: 0; }
+.db  { display: block; }
+.dib { display: inline-block; }
+.tc  { text-align: center; }
+.w-100 { width: 100%; }
+.list { list-style: none; }
+.link, .no-underline { text-decoration: none; }
+.ba { border: 1px solid var(--rule); }
+.bt { border-block-start: 1px solid var(--rule); }
+.br2 { border-radius: var(--radius); }
+.b--light-gray, .b--black-10, .b--dark-blue { border-color: var(--rule); }
+.bg-white, .bg-light-gray, .bg-grey { background: var(--bg-subtle); }
+.bg-dark-blue { background: var(--accent); }
+.bg-dark-blue, .white { color: var(--bg-raised); }
+.bg-dark-blue a, a.bg-dark-blue { color: var(--bg-raised); }
+.gray, .dark-gray { color: var(--fg-muted); }
+.blue, .dark-blue { color: var(--accent); }
+.f2 { font-size: var(--text-xl); }
+.f4 { font-size: var(--text-base); }
+.f5 { font-size: var(--text-sm); }
+.f6, .f7, .f8 { font-size: var(--text-xs); }
+.fw6 { font-weight: 600; }
+.lh-copy { line-height: 1.65; }
+.measure-wide { max-width: var(--measure-wide); }
+.v-mid { vertical-align: middle; }
+.shadow-1 { box-shadow: none; }
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-auto { flex: 1 1 auto; }
+.justify-between { justify-content: space-between; }
+.items-start { align-items: flex-start; }
+.mr2 { margin-inline-end: var(--space-xs); }
+.center { margin-inline: auto; }
+.mw8 { max-width: var(--page-max); }
+.dim:hover { opacity: 0.75; }
+.w-50-l { width: 100%; }
+@media (min-width: 60em) { .w-50-l { width: calc(50% - var(--space-md)); } }
+.pr3-l, .pl3-l { }

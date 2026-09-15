@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="prose">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="page-header__lede">{{ . }}</p>{{ end }}
+
+    {{/* Dated pages (blog, talks) get metadata; standing pages like
+         About and Contact do not - a bio has no publication date or
+         meaningful reading time. */}}
+    {{ $dated := and .Date (not .Date.IsZero) }}
+    {{ if $dated }}
+      <div class="page-meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+        {{ if and site.Params.show_reading_time (gt .ReadingTime 1) }}
+          <span>{{ .ReadingTime }} min read</span>
+        {{ end }}
+        {{ with .Params.tags }}
+          <span class="tag-list">
+            {{ range . }}<a class="tag" href="{{ (printf "/tags/%s/" (. | urlize)) | relLangURL }}">{{ . }}</a>{{ end }}
+          </span>
+        {{ end }}
+      </div>
+    {{ end }}
+  </header>
+
+  {{ .Content }}
+</article>
+{{ end }}
