@@ -1,7 +1,7 @@
 {
   description = "Hugo with Sass Flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -13,8 +13,12 @@
           default = pkgs.mkShell {
             buildInputs = [ pkgs.git pkgs.go pkgs.hugo ];
             shellHook = ''
-              echo "Starting Hugo development server..."
-              hugo server -D
+              # Only auto-start the server for an interactive shell, so that
+              # `nix develop --command hugo ...` (CI, one-off builds) still works.
+              if [[ $- == *i* ]]; then
+                echo "Starting Hugo development server..."
+                hugo server -D
+              fi
             '';
           };
           slidev = pkgs.mkShell {

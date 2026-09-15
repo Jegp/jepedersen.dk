@@ -37,6 +37,10 @@ markup:
         enable: true
 
 params:
+  # Drives the homepage "recent" list and Ananke's section detection.
+  # Without this, Hugo auto-picks the largest section (talks), which hid the blog.
+  mainSections:
+    - blog
   toc: true
   math: true
   body_classes: "avenir bg-light-gray"
@@ -44,14 +48,18 @@ params:
   favicon: img/favicon.png
   show_reading_time: true
   read_more_copy: Read the full entry here
+  recent_copy: Recent posts
   ananke_socials:
-    - name: twitter
-      url: https://twitter.com/jensegholm
-      label: Follow me on Twitter
     - name: mastodon
       url: https://mastodon.social/@jensegholm
       label: Follow me on Mastodon
+      rel: me
     - name: github
       url: https://github.com/jegp
+      label: My code on GitHub
+    - name: orcid
+      url: https://orcid.org/0000-0001-6012-7415
+      label: My publications on ORCID
     - name: linkedin
       url: https://www.linkedin.com/in/jens-egholm-pedersen-69543117/
+      label: Connect on LinkedIn

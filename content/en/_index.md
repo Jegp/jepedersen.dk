@@ -25,7 +25,7 @@ menu:
 
   <div class="bt b--light-gray pt4 mt4">
     <section class="pb4">
-      <h2 class="f2 fw6 mb3">Research Focus</h2>
+      <h2 class="f2 fw6 mb3">Research focus</h2>
       <div class="measure-wide lh-copy f4">
         <p class="mb3">
           I develop <strong>spatiotemporal computation frameworks for brain-inspired systems</strong>, 
@@ -33,7 +33,7 @@ menu:
           tools and theoretical foundations for neuromorphic computing.
         </p>
         <div class="bg-light-gray pa3 br2 mb3">
-          <h3 class="f5 fw6 mb2">Key Projects</h3>
+          <h3 class="f5 fw6 mb2">Key projects</h3>
           <ul class="list pl0">
             <li class="mb2">
               <a href="https://neuroir.org" class="link blue dim fw6">Neuromorphic Intermediate Representation (NIR)</a> 
@@ -48,12 +48,12 @@ menu:
               — Event data processing
             </li>
             <li class="mb2">
-              <a href="https://arxiv.org/abs/2405.00318" class="link blue dim fw6">Geometric methods</a> 
+              <a href="https://www.nature.com/articles/s41467-025-63493-0" class="link blue dim fw6">Geometric methods</a> 
               — For neuromorphic receptive fields
             </li>
           </ul>
         </div>
-        <a href="/posts/" class="db w-100 tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
+        <a href="/research/" class="db w-100 tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
       {{<ico vendor=bootstrap name=arrow-right size=1em >}} Read more about my research
     </a>
       </div>
@@ -62,7 +62,7 @@ menu:
 
   <div class="bt b--light-gray pt4 mt4">
     <section class="pb4">
-      <h2 class="f2 fw6 mb3">Open Source Contributions</h2>
+      <h2 class="f2 fw6 mb3">Open source contributions</h2>
       <div class="measure-wide lh-copy f4">
         <p class="mb4">
           I maintain several core libraries for the neuromorphic computing community:
@@ -131,7 +131,7 @@ menu:
           </div>
         </div>
         <div class="flex flex-wrap gap2">
-          <a href="/posts/code/" class="flex-auto tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
+          <a href="/code/" class="flex-auto tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
             {{<ico vendor=bootstrap name=arrow-right size=1em >}} View all projects
           </a>
           <a href="https://github.com/sponsors/Jegp" class="flex-auto tc pv3 ph3 br2 ba b--dark-blue dark-blue hover-bg-light-blue no-underline f5 fw6">
@@ -144,13 +144,13 @@ menu:
 
   <div class="bt b--light-gray pt4 mt4">
     <section class="pb4">
-      <h2 class="f2 fw6 mb3">Speaking & Media {{<ico vendor=bootstrap name=megaphone size=1.2em >}}</h2>
+      <h2 class="f2 fw6 mb3">Speaking & media {{<ico vendor=bootstrap name=megaphone size=1.2em >}}</h2>
       <div class="measure-wide lh-copy f4">
         <p class="mb3">
           I work to increase visibility of neuromorphic computing in AI and broader scientific 
           communities through conference presentations, interviews, and public engagement.
         </p>
-        <a href="/posts/talks/" class="db w-100 tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
+        <a href="/talks/" class="db w-100 tc pv3 ph3 br2 bg-dark-blue white hover-bg-navy no-underline f5 fw6">
           {{<ico vendor=bootstrap name=play-btn size=1em >}} Watch talks and media appearances
         </a>
       </div>
