@@ -4,6 +4,7 @@ pubdate: 2024-09-16
 featured_image: img/2409_lederfokus.png
 aliases:
   - /posts/talks/202409_dit_lederfokus/
+venue: "Dansk IT Lederfokus"
 
 ---
 

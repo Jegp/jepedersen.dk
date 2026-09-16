@@ -1,0 +1,54 @@
+# Open-source libraries, rendered by the `projects` shortcode.
+# Single source of truth: previously this list was hand-written twice, as
+# inline HTML on both the front page and /code/.
+#
+# `tagline`     - short form, used on the front page
+# `description` - long form, used on /code/
+# `featured`    - shown on the front page; others only on /code/
+
+- name: NIR
+  full_name: Neuromorphic Intermediate Representation
+  url: https://neuroir.org
+  repo: https://github.com/neuromorphs/NIR
+  featured: true
+  tagline: Standard for bio-inspired computing
+  description: >-
+    A standard for bio-inspired computing that bridges the gap between
+    different neuromorphic platforms and programming models.
+
+- name: NIRTorch
+  url: https://github.com/neuromorphs/NIRTorch
+  repo: https://github.com/neuromorphs/NIRTorch
+  featured: false
+  tagline: The PyTorch bridge for NIR
+  description: >-
+    The PyTorch bridge for NIR: translates models to and from the
+    intermediate representation.
+
+- name: Norse
+  url: https://norse.github.io/norse
+  repo: https://github.com/norse/norse
+  featured: true
+  tagline: Spiking neural network library
+  description: >-
+    A PyTorch-based deep learning library for spiking neural networks,
+    enabling researchers to leverage gradient-based learning in
+    neuromorphic systems.
+
+- name: AEStream
+  url: https://aestream.github.io/aestream
+  repo: https://github.com/aestream/aestream
+  featured: true
+  tagline: Streams sparse event data
+  description: >-
+    An efficient streaming library for sparse event data, supporting
+    neuromorphic protocols and hardware interfaces.
+
+- name: Faery
+  url: https://github.com/aestream/faery
+  repo: https://github.com/aestream/faery
+  featured: true
+  tagline: Process event camera data
+  description: >-
+    A specialized tool for processing event camera data, essential for
+    neuromorphic vision applications.

@@ -4,6 +4,7 @@ pubdate: 2026-03-11
 featured_image: img/hearing_technology_0.jpg
 aliases:
   - /posts/talks/202603_dtu_hearing/
+venue: "DTU Health Technology"
 
 ---
 

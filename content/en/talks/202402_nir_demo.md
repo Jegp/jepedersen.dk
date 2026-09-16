@@ -4,6 +4,7 @@ date: 2024-02-05
 featured_image: img/2402_nir_youtube.png
 aliases:
   - /posts/talks/202402_nir_demo/
+venue: "YouTube"
 
 ---
 

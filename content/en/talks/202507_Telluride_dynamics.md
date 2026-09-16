@@ -4,6 +4,7 @@ pubdate: 2025-07-05
 featured_image: img/2507_Telluride.png
 aliases:
   - /posts/talks/202507_telluride_dynamics/
+venue: "Telluride workshop"
 
 ---
 

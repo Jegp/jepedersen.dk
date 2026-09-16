@@ -429,9 +429,9 @@ NIR lets you **move along this continuum** without rewriting your algorithm
 
 - [Horsman et al. (2014)](https://doi.org/10.1098/rspa.2014.0182) &mdash; When does a physical system compute?
 - [Yanofsky (2022)](https://doi.org/10.1017/9781108872348) &mdash; TCS for the Working Category Theorist
-- [Wolpert & Korbel (2026)](https://doi.org/10.48550/arXiv.2403.14280) &mdash; What does it mean for a system to compute?
+- [Wolpert & Korbel (2026)](https://doi.org/10.1088/2632-072X/ae3af8) &mdash; What does it mean for a system to compute?
 - [NIR (2024)](https://www.nature.com/articles/s41467-024-52259-9)
-- [Neuromorphic programming (2025)](https://doi.org/10.1038/s44287-025-00157-3)
+- [Neuromorphic programming (2024)](https://doi.org/10.1109/ICONS62911.2024.00061) &mdash; Emerging directions for brain-inspired hardware
 
 </v-click>
 

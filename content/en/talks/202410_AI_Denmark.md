@@ -4,6 +4,7 @@ pubdate: 2024-10-10
 featured_image: img/ai_denmark.png
 aliases:
   - /posts/talks/202410_ai_denmark/
+venue: "AI Denmark podcast"
 
 ---
 

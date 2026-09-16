@@ -11,55 +11,53 @@ menu:
 
 ## Research agenda
 
-My goal is to understand and apply biologically-inspired intelligence.
+My goal is to understand and apply brain-inspired intelligence that live in the real, physical world.
 I work both theoretically to understand the fundamental principles of physical computing,
 and practically to build and solve problems with present-day neuromorphic platforms.
 
 [More about me and my background](/about/)
 
-<!-- ======================================================================
-     RESEARCH THREADS — sketch derived from your 2025-26 talks.
+## Research threads
 
-     These three clusters recur across SDU, Stanford, DTU Hearing, ITU REAL
-     and the Open Neuromorphic student talk, using your own framing. The
-     headings and anchors are here; the paragraphs are deliberately left to
-     you. Uncomment and fill in, then delete this wrapper.
+### Closing the representational gap
 
-     ## Research threads
+Physical systems evolve, but only some of them compute. Building on [Horsman's
+*representation relation*](https://doi.org/10.1098/rspa.2014.0182) and
+[Yanofsky's structure-preserving maps](https://doi.org/10.1017/9781108872348), I ask what
+has to hold for a physical substrate to faithfully carry an abstract
+computation and what it costs when it does not. That cost is very real:
+up to 27–36 orders of magnitude separate what physics needs from what digital
+computers spend ([Shankar, 2023](https://arxiv.org/abs/2310.07516)). Closing the gap means aligning computation with the physics
+that runs it, and exploiting the sparsity of a signal rather than evaluating
+every path. The [Neuromorphic Intermediate
+Representation](https://www.nature.com/articles/s41467-024-52259-9)
+instantiates part of that today.
+A physically faithful compiler is the longer goal.
 
-     ### Closing the representational gap
-       Cover: Horsman's (2014) representation relation; Yanofsky (2022) on
-       computational classes and structure-preserving maps; why classical CS
-       nomenclature and the physics that runs the computation have drifted
-       apart; what "physically faithful" would mean for a compiler.
-       Anchors: SDU 2026-06, Stanford EEC 2026-04.
-       Papers: NIR (Nat Comms 2024), Neuromorphic Programming (ICONS 2024).
+### Covariant signal processing with spiking neurons
 
-     ### Covariant signal processing with spiking neurons
-       Cover: why covariance guarantees are necessary rather than nice; what
-       spatio-temporal receptive fields buy you; the move from receptive
-       fields to wavelets; what remains open.
-       Anchors: ONM student talk 2025-12, DTU Hearing 2026-03, ITU REAL 2026-02.
-       Papers: Covariant STRFs (Nat Comms 2025), Scale-covariant spiking
-       wavelets (ICASSP 2026), Spiking bandpass wavelets (arXiv 2026).
+Biological sensing does not merely tolerate transformations and noise, it tracks
+them ([Lettvin et al., 1959](https://doi.org/10.1109/JRPROC.1959.287207)). I
+work on giving spiking neural networks the same property: *covariance* rather
+than invariance. Meaning, a change of scale or velocity in the input produces a
+predictable change in the response.
+The construction runs from spatial and temporal receptive fields to full
+[spatio-temporal
+covariance](https://www.nature.com/articles/s41467-025-63493-0), and from
+there to [scale-covariant spiking wavelets](https://arxiv.org/abs/2602.02020).
+What makes this a thread rather than a paper is that the guarantee is not
+specific to vision: the same machinery carries to audio and other signals.
 
-     ### Interoperability and deployment
-       Cover: NIR as a cross-platform compilation target; running at real
-       power budgets (the hearing-aid figure is a concrete hook); how you
-       benchmark embodied neuromorphic agents; the open-source stack as
-       research infrastructure rather than a side product.
-       Anchors: DTU Hearing 2026-03 (part 3), Stanford EEC 2026-04 (part 7).
-       Papers: NIR (Nat Comms 2024), Benchmarking framework (Nat MI 2026).
+### Interoperability and deployment
 
-     A fourth candidate, currently folded into the others: event-driven
-     sensing toward embodied physical AI (ITU REAL theme 3, the air-hockey
-     player, GERD). Worth splitting out if it is becoming its own direction.
-
-     If you want one figure on this page, the strongest informative options
-     already in the repo are (both vector, crisp at full width):
-       /img/25/covariance_spatiotemporal.svg
-       /img/25/scaling.svg
-     ====================================================================== -->
+[Theory that cannot be run is not yet science](/blog/202505_research/).
+NIR gives neuromorphic models a common compilation target so they can move between platforms; it is now
+supported widely in the neuromorphic software and hardware communities.
+Beyond portability, the question is whether these systems survive real constraints: power,
+latency and scalability at, say, hearing-aid budgets rather than articifically constructed benchmark conditions.
+That needs [benchmarks measuring embodied behaviour](https://www.nature.com/articles/s42256-026-01197-w) rather than
+accuracy alone, and [maintained libraries](/code/) rather than code written
+once for one paper.
 
 ## Selected publications
 
@@ -134,8 +132,4 @@ and practically to build and solve problems with present-day neuromorphic platfo
   *2018*
 
 
-<a href="https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252" class="link black dim db w-100 pa2 br2 ba bg-grey b--black-10 shadow-1 mt4">
-  <span class="db f4 pv2" style="text-align: center;">Find more publications on Semantic Scholar →</span>
-</a>
-
-
+{{< cta href="https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252" variant="secondary" >}}Find more publications on Semantic Scholar{{< /cta >}}

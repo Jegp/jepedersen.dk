@@ -1,0 +1,11 @@
+{{/* An editorial photograph, placed wherever you put it in the Markdown:
+       {{< banner src="img/guorbivaggi.jpg" alt="..." caption="..." >}}
+     No scrim and no text over it - it is a picture, not a header. */}}
+{{ with resources.Get (.Get "src") }}
+  {{ $img := .Resize "1200x webp q82" }}
+  <figure class="banner">
+    <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}"
+         alt="{{ $.Get `alt` }}" loading="lazy" decoding="async">
+    {{ with $.Get "caption" }}<figcaption>{{ . }}</figcaption>{{ end }}
+  </figure>
+{{ end }}

@@ -4,6 +4,7 @@ pubdate: 2025-10-17
 featured_image: /img/kth.png
 aliases:
   - /posts/talks/202510_defense/
+venue: "KTH"
 
 ---
 

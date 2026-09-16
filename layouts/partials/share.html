@@ -1,0 +1,42 @@
+{{/* Share row. No third-party widgets: plain links plus the native share
+     sheet where the browser offers one, clipboard copy where it does not. */}}
+{{ $url := .Permalink }}
+{{ $title := .Title }}
+<div class="share" data-share data-url="{{ $url }}" data-title="{{ $title }}">
+  <span class="share__label">Share</span>
+  <button class="share__btn" type="button" data-share-primary>Copy link</button>
+  <a class="share__link" rel="noopener"
+     href="https://bsky.app/intent/compose?text={{ printf "%s %s" $title $url | urlquery }}">Bluesky</a>
+  <a class="share__link" rel="noopener"
+     href="https://www.linkedin.com/sharing/share-offsite/?url={{ $url | urlquery }}">LinkedIn</a>
+</div>
+
+<script>
+  (function () {
+    var canShare = typeof navigator.share === 'function';
+
+    document.querySelectorAll('[data-share]').forEach(function (root) {
+    var btn = root.querySelector('[data-share-primary]');
+    if (!btn) return;
+    var url = root.dataset.url, title = root.dataset.title;
+
+    if (canShare) btn.textContent = 'Share';
+
+    btn.addEventListener('click', function () {
+      if (canShare) {
+        navigator.share({ title: title, url: url }).catch(function () {});
+        return;
+      }
+      var done = function (ok) {
+        btn.textContent = ok ? 'Copied' : 'Press Ctrl+C';
+        setTimeout(function () { btn.textContent = 'Copy link'; }, 2000);
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { done(true); }, function () { done(false); });
+      } else {
+        done(false);
+      }
+    });
+    });
+  })();
+</script>

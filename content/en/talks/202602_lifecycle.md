@@ -4,6 +4,7 @@ pubdate: 2026-02-11
 featured_image: img/library.jpg
 aliases:
   - /posts/talks/202602_lifecycle/
+venue: ""  # TODO(jens): no venue named in the post
 
 ---
 

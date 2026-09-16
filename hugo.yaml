@@ -4,10 +4,6 @@ title: Jens Egholm Pedersen
 theme: ananke
 enableRobotsTXT: true
 
-module:
-  imports:
-    - path: github.com/hugomods/icons/vendors/bootstrap
-
 languages:
   en:
     title: Jens Egholm Pedersen
@@ -51,8 +47,12 @@ params:
   recent_copy: Recent posts
   ananke_socials:
     - name: mastodon
-      url: https://mastodon.social/@jensegholm
+      url: https://mastodon.social/@jegp
       label: Follow me on Mastodon
+      rel: me
+    - name: bluesky
+      url: https://bsky.app/profile/jegp.bsky.social
+      label: Follow me on Bluesky
       rel: me
     - name: github
       url: https://github.com/jegp

@@ -17,7 +17,8 @@ menu:
 ## Elsewhere
 
 * [GitHub](https://github.com/jegp)
-* [Mastodon](https://mastodon.social/@jensegholm)
+* [Mastodon](https://mastodon.social/@jegp)
+* [Bluesky](https://bsky.app/profile/jegp.bsky.social)
 * [ORCID](https://orcid.org/0000-0001-6012-7415)
 * [Semantic Scholar](https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252)
 * [LinkedIn](https://www.linkedin.com/in/jens-egholm-pedersen-69543117/)

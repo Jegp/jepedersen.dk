@@ -4,6 +4,7 @@ date: 2020-04-16
 featured_image: img/hbp.png
 aliases:
   - /posts/talks/202005_hbp_slides/
+venue: "Human Brain Project"
 
 ---
 

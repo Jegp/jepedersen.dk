@@ -13,7 +13,7 @@ His research explores the intersection of neuroscience and computer science, dev
 
 ## Research focus
 Jens's research centers on a fundamental question: What is intelligence, and how can we replicate it in computational systems? His work in neuromorphic computing seeks to understand and mimic the brain's extraordinary ability to process information, learn, and adapt in real-time.
-His journey began with modeling learning systems using both spiking and artificial neural networks. This early fascination with neural mechanisms led to his current focus on developing computational frameworks for brain-inspired computing. A key contribution is "The Neuromorphic Intermediate Representation," which provides a common language bridging neuroscience and artificial intelligence. This framework is now used across more than 12 neuromorphic software and hardware projects.
+His journey began with modeling learning systems using both spiking and artificial neural networks. This early fascination with neural mechanisms led to his current focus on developing computational frameworks for brain-inspired computing. A key contribution is "The Neuromorphic Intermediate Representation," which provides a common language bridging neuroscience and artificial intelligence. This framework is now supported by nine simulators and five hardware platforms.
 Jens has developed several influential tools in the field, including "AEStream," and the successor "Faery", both high-performance libraries for streaming event-based data processing, and "Norse," a deep learning library specifically designed for spiking neural networks.
 These tools enable more efficient AI systems that closely mimic human cognitive functions.
 
@@ -27,24 +27,7 @@ By simulating, analyzing, and understanding neural circuits involved in vision, 
 
 [View full CV](https://github.com/Jegp/cv/blob/master/CV_en.pdf)
 
-<div class="tc mt4">
-  <a href="/research/" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
-    Read More About My Research →
-  </a>
-  <br/>
-  <a href="mailto:jens@jepedersen.dk" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
-    Write me an email {{< ico bs envelope-fill >}}
-  </a>
-  <br/>
-  <a href="https://www.semanticscholar.org/author/Jens-Egholm-Pedersen/2146807252" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
-    Find me on Semantic Scholar 
-    {{< ico bs mortarboard-fill >}}
-  </a>
-  <br/>
-  <a href="https://github.com/jegp" class="f8 link dim br2 ba ph3 pv2 mb2 dib dark-gray hover-bg-light-gray">
-    Find me on GitHub 
-    {{< ico bs github >}}
-  </a>
-</div>
-
-
+{{< cta-group >}}
+{{< cta href="/research/" >}}Read more about my research{{< /cta >}}
+{{< cta href="/contact/" variant="secondary" >}}Get in touch{{< /cta >}}
+{{< /cta-group >}}

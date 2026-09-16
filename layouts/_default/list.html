@@ -22,6 +22,7 @@
           <li>
             <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            {{ with .Params.venue }}<span class="index-list__venue">{{ . }}</span>{{ end }}
           </li>
         {{ end }}
       </ul>

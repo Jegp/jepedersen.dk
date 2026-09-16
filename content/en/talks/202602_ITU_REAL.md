@@ -4,6 +4,7 @@ pubdate: 2026-02-27
 featured_image: img/ONM-logo.svg
 aliases:
   - /posts/talks/202602_itu_real/
+venue: "IT University of Copenhagen"
 
 ---
 

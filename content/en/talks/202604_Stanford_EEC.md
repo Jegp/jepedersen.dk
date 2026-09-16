@@ -4,6 +4,7 @@ pubdate: 2026-04-22
 featured_image: img/stanford_logo.svg
 aliases:
   - /posts/talks/202604_stanford_eec/
+venue: "Stanford University"
 
 ---
 

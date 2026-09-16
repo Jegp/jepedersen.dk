@@ -4,6 +4,7 @@ date: 2022-12-13
 featured_image: img/ONM-logo.svg
 aliases:
   - /posts/talks/202212_open_neuromorphic/
+venue: "Open Neuromorphic"
 
 ---
 

@@ -4,6 +4,7 @@ date: 2023-10-21
 featured_image: slides/2310_norn_intro/paper.png
 aliases:
   - /posts/talks/202310_norn_intro/
+venue: "Nordic Neuromorphs"
 
 ---
 

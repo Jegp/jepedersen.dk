@@ -1,0 +1,18 @@
+{{/* Renders site.Data.projects.
+     {{< projects >}}            all projects, long descriptions
+     {{< projects featured="true" >}}   front-page subset, short taglines */}}
+{{ $featured := eq (.Get "featured") "true" }}
+{{ $items := site.Data.projects }}
+{{ if $featured }}{{ $items = where $items "featured" true }}{{ end }}
+
+<ul class="project-grid">
+  {{ range $items }}
+    <li class="project">
+      <h3 class="project__name"><a href="{{ .url }}">{{ .name }}</a></h3>
+      <p class="project__desc">{{ if $featured }}{{ .tagline }}{{ else }}{{ .description }}{{ end }}</p>
+      {{ if not $featured }}
+        <p class="project__link"><a href="{{ .repo }}">Source on GitHub &rarr;</a></p>
+      {{ end }}
+    </li>
+  {{ end }}
+</ul>

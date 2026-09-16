@@ -4,6 +4,7 @@ pubdate: 2024-06-14
 featured_image: img/Brains-Machines.png
 aliases:
   - /posts/talks/202406_brains_machines/
+venue: "Brains and Machines podcast"
 
 ---
 

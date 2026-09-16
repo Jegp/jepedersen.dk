@@ -1,0 +1,4 @@
+{{/* A call-to-action link. {{< cta href="/research/" >}}Label{{< /cta >}}
+     Add variant="secondary" for the outlined version. */}}
+<a class="cta{{ if eq (.Get "variant") "secondary" }} cta--secondary{{ end }}"
+   href="{{ .Get "href" }}">{{ .Inner | .Page.RenderString }}</a>

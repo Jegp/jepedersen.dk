@@ -4,6 +4,7 @@ date: 2023-11-07
 featured_image: img/nir_logo.png
 aliases:
   - /posts/talks/202311_snufa_nir/
+venue: "SNUFA workshop"
 
 ---
 

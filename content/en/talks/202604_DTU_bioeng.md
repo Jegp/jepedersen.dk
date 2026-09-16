@@ -4,6 +4,7 @@ pubdate: 2026-03-23
 featured_image: img/dtu_logo.svg
 aliases:
   - /posts/talks/202604_dtu_bioeng/
+venue: "DTU"
 
 ---
 

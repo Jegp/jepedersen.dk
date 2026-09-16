@@ -6,6 +6,7 @@ description: "An interactive simulation of a Leaky Integrate-and-Fire (LIF) neur
 full_width: true
 aliases:
   - /posts/talks/202604_dtu_bioeng_exercise/
+venue: "DTU"
 
 ---
 
