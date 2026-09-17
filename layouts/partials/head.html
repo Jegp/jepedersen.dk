@@ -3,7 +3,8 @@
 {{ with .Params.author | default site.Params.author }}<meta name="author" content="{{ . | plainify }}">{{ end }}
 <link rel="canonical" href="{{ .Params.canonicalUrl | default .Permalink }}">
 
-{{ $production := eq (getenv "HUGO_ENV") "production" | or (eq site.Params.env "production") }}
+{{/* hugo.IsProduction reads HUGO_ENVIRONMENT (what CI sets); false under `hugo server` */}}
+{{ $production := hugo.IsProduction }}
 {{ if and $production (not .Params.private) }}
   <meta name="robots" content="index, follow">
 {{ else }}
